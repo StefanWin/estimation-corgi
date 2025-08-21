@@ -1,0 +1,9 @@
+.image {
+    object-fit: contain;
+    max-width: 150%;
+    height: 50vh;
+}
+
+.suggestedBy {
+    color: darkgray;
+}

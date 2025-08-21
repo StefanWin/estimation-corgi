@@ -1,0 +1,18 @@
+export const messages: string[] = [
+    'just play Factorio',
+    'just commit working time fraud',
+    'just take a nap',
+    'nobody cares anyway',
+    'customers are always wrong',
+    'your employer does not deserve you',
+    'how will anybody know',
+    'nobody knows and nobody cares',
+    'commit tax fraud',
+    'taxation is theft',
+    'asbestos cures covid',
+    'as long as you\'re not burning your own money',
+    'you have to rebuild it 3 months anyways',
+    'your 25 users really appreciate your k8s clusters',
+    'multiply by 5 if your customers want "AI"',
+    'Microsoft Teams is a crime against humanity'
+]
