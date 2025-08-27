@@ -21,5 +21,6 @@ export const env = createEnv({
         TURNSTILE_SECRET_KEY: process.env.TURNSTILE_SECRET_KEY,
         // client
         NEXT_PUBLIC_TURNSTILE_SITE_KEY: process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY,
-    }
+    },
+    skipValidation: process.env.SKIP_ENV_VAR_VALIDATION === 'true',
 });
