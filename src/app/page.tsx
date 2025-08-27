@@ -3,6 +3,8 @@ import {connection} from 'next/server';
 import {MessageContainer} from "@/components/message-container";
 import {getApprovedMessages} from "@/db";
 
+const linkStyles = {marginBottom: '0.25rem'};
+
 export default async function Home() {
     await connection();
     const messages = await getApprovedMessages();
@@ -12,9 +14,9 @@ export default async function Home() {
                 <h1>estimation corgi</h1>
             </NextLink>
             <MessageContainer approvedMessages={messages}/>
-            <NextLink style={{marginBottom: '0.25rem'}} href={'/suggest'}>suggest a message</NextLink>
-            <NextLink href={'/meta'}>show available messages</NextLink>
-            <NextLink href={'/api-docs'}>checkout the API</NextLink>
+            <NextLink style={linkStyles} href={'/suggest'}>suggest a message</NextLink>
+            <NextLink style={linkStyles} href={'/meta'}>show available messages &amp; images</NextLink>
+            <NextLink style={linkStyles} href={'/api-docs'}>checkout the API</NextLink>
         </>
     );
 }
