@@ -33,6 +33,7 @@
   ],
   "vars": {
     "NEXT_PUBLIC_TURNSTILE_SITE_KEY": "0x4AAAAAABm9bcFjEcRLc5uh",
-    "ON_SUGGEST_EMAIL": "wintergerst.stefan@googlemail.com"
+    "ON_SUGGEST_EMAIL": "wintergerst.stefan@googlemail.com",
+    "CF_TURNSTILE_VERIFY_ENDPOINT": "https://challenges.cloudflare.com/turnstile/v0/siteverify"
   }
 }
