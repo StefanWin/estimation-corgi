@@ -2,6 +2,9 @@ import NextImage from "next/image";
 import {connection} from 'next/server';
 import fatAssCorgi from "../../../public/phatasscorgi.png";
 import chillaxCorgi from "../../../public/ChillaxCorgi.png";
+import runningCorgi from "../../../public/running-corgi.png";
+import cuteCorgi from "../../../public/cute-corgi.png";
+import blepCorgi from "../../../public/blep-corgi.png";
 import NextLink from "next/link";
 import styles from './meta.module.css';
 import {getApprovedMessages} from "@/db";
@@ -34,7 +37,28 @@ export default async function Meta() {
             <NextImage
                 src={chillaxCorgi}
                 style={{objectFit: 'contain'}}
-                alt="corgi"
+                alt="chillaxed corgi"
+                priority
+                sizes="(max-width: 768px) 50vw, (max-width: 1200px) 50vw, 33vw"
+            />
+            <NextImage
+                src={runningCorgi}
+                style={{objectFit: 'contain'}}
+                alt="running corgi"
+                priority
+                sizes="(max-width: 768px) 50vw, (max-width: 1200px) 50vw, 33vw"
+            />
+            <NextImage
+                src={cuteCorgi}
+                style={{objectFit: 'contain'}}
+                alt="cute corgi"
+                priority
+                sizes="(max-width: 768px) 50vw, (max-width: 1200px) 50vw, 33vw"
+            />
+            <NextImage
+                src={blepCorgi}
+                style={{objectFit: 'contain'}}
+                alt="blep corgi"
                 priority
                 sizes="(max-width: 768px) 50vw, (max-width: 1200px) 50vw, 33vw"
             />
