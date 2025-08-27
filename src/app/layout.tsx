@@ -33,7 +33,8 @@ export const metadata: Metadata = {
         images: [
             'https://estimation-corgi.swinte.dev/phatasscorgi.png'
         ]
-    }
+    },
+    metadataBase: new URL('https://swinte.dev'),
 };
 
 export default function RootLayout({
