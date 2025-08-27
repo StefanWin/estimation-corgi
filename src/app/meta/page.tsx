@@ -90,7 +90,6 @@ export default async function Meta() {
             >
                 Image Attribution: Cute Corgi Dog, Joyful Pet, Friendly Breed, Fluffy Companion, Charming Pup PNG
             </Link>
-            <NextLink href={'/'}>home</NextLink>
         </>
     )
 }
