@@ -60,7 +60,7 @@ function Suggest() {
     const turnStileKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
 
     if (!turnStileKey) {
-        console.error(`turnstile site key is missing`);
+        setError('turnstile is not properly configured, blame the developer');
     }
 
     return (
