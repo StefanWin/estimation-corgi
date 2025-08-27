@@ -23,7 +23,7 @@ export async function suggestMessage(formData: FormData) {
 
     try {
         const fd = z.instanceof(FormData).parse(formData);
-        const fdObj = Object.entries(fd.entries());
+        const fdObj = Object.fromEntries(fd.entries());
 
         const {
             message,
