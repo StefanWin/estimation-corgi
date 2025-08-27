@@ -12,16 +12,27 @@ const isNotUrl = z
         "String must not be a URL",
     );
 
+const inputSchema = z.object({
+    message: isNotUrl,
+    suggestedBy: isNotUrl.optional().nullable(),
+})
+
 export async function suggestMessage(formData: FormData) {
-    const message = formData.get('message');
-    const suggestedBy = formData.get('suggestedBy');
 
     let result = 'success';
 
     try {
+        const fd = z.instanceof(FormData).parse(formData);
+        const fdObj = Object.entries(fd.entries());
+
+        const {
+            message,
+            suggestedBy
+        } = inputSchema.parse(fdObj);
+
         await suggestMessageDB(
-            isNotUrl.parse(message),
-            suggestedBy ? isNotUrl.parse(suggestedBy) : null,
+            message,
+            suggestedBy ?? null,
         );
     } catch (err: unknown) {
         result = 'error';
