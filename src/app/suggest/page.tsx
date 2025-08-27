@@ -8,6 +8,7 @@ import NextLink from "next/link";
 import {Turnstile} from '@marsidev/react-turnstile'
 import {Suspense, useState} from "react";
 import {z} from 'zod';
+import {env} from "@/env";
 
 const verifySchema = z.object({
     success: z.boolean(),
@@ -57,11 +58,7 @@ function Suggest() {
     }
 
 
-    const turnStileKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
-
-    if (!turnStileKey) {
-        setError('turnstile is not properly configured, blame the developer');
-    }
+    const turnStileKey = env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
 
     return (
         <div className={styles.container}>

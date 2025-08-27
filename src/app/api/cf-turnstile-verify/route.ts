@@ -1,4 +1,5 @@
 import {z} from 'zod';
+import {env} from "@/env";
 
 const inputSchema = z.object({token: z.string()})
 
@@ -28,9 +29,9 @@ const cfResponseSchema = z.object({
 export async function POST(request: Request) {
 
     const {
-        CF_TURNSTILE_VERIFY_ENDPOINT = 'https://challenges.cloudflare.com/turnstile/v0/siteverify',
+        CF_TURNSTILE_VERIFY_ENDPOINT,
         TURNSTILE_SECRET_KEY
-    } = process.env;
+    } = env;
 
     if (!TURNSTILE_SECRET_KEY) {
         return new Response('turnstile secret key not set', {

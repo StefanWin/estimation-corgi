@@ -2,6 +2,7 @@ import {getCloudflareContext} from "@opennextjs/cloudflare";
 import {PrismaD1} from "@prisma/adapter-d1";
 import {PrismaClient} from "@prisma/client";
 import {Resend} from 'resend';
+import {env} from "@/env";
 
 const getPrismaClient = async () => {
     const ctx = await getCloudflareContext({async: true});
@@ -28,13 +29,8 @@ export const suggestMessage = async (message: string, suggestedBy: string | null
         }
     });
 
-    const resendApiKey = process.env.RESEND_API_KEY;
-    const targetEmail = process.env.ON_SUGGEST_EMAIL;
-
-    if (!resendApiKey || !targetEmail) {
-        console.error("no RESEND_API_KEY or ON_SUGGEST_EMAIL env vars found");
-        return;
-    }
+    const resendApiKey = env.RESEND_API_KEY;
+    const targetEmail = env.ON_SUGGEST_EMAIL;
 
     const resend = new Resend(resendApiKey);
 
