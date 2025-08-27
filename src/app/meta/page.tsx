@@ -8,6 +8,7 @@ import blepCorgi from "../../../public/blep-corgi.png";
 import NextLink from "next/link";
 import styles from './meta.module.css';
 import {getApprovedMessages} from "@/db";
+import Link from "next/link";
 
 
 export default async function Meta() {
@@ -48,6 +49,15 @@ export default async function Meta() {
                 priority
                 sizes="(max-width: 768px) 50vw, (max-width: 1200px) 50vw, 33vw"
             />
+            <Link
+                prefetch={false}
+                href="https://www.pngmart.com/image/169777/png/169776"
+                target="_blank"
+                title="running corgi"
+                rel="noopener noreferrer"
+            >
+                Image Attribution: Corgi, Canine, Breed, Furry, Puppy PNG
+            </Link>
             <NextImage
                 src={cuteCorgi}
                 style={{objectFit: 'contain'}}
@@ -55,6 +65,15 @@ export default async function Meta() {
                 priority
                 sizes="(max-width: 768px) 50vw, (max-width: 1200px) 50vw, 33vw"
             />
+            <Link
+                prefetch={false}
+                href="https://www.pngmart.com/image/169825/png/169824"
+                target="_blank"
+                title="running corgi"
+                rel="noopener noreferrer"
+            >
+                Image Attribution: Cute Corgi Dog, Friendly Companion, Fluffy Tail, Playful Pet, Loyal Breed PNG
+            </Link>
             <NextImage
                 src={blepCorgi}
                 style={{objectFit: 'contain'}}
@@ -62,6 +81,15 @@ export default async function Meta() {
                 priority
                 sizes="(max-width: 768px) 50vw, (max-width: 1200px) 50vw, 33vw"
             />
+            <Link
+                prefetch={false}
+                href="https://www.pngmart.com/image/169829/png/169828"
+                target="_blank"
+                title="running corgi"
+                rel="noopener noreferrer"
+            >
+                Image Attribution: Cute Corgi Dog, Joyful Pet, Friendly Breed, Fluffy Companion, Charming Pup PNG
+            </Link>
             <NextLink href={'/'}>home</NextLink>
         </>
     )
