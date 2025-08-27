@@ -6,13 +6,22 @@ import Image from "next/image";
 import styles from "./message-container.module.css";
 import fatAssCorgi from "../../../public/phatasscorgi.png";
 import chillaxCorgi from "../../../public/ChillaxCorgi.png";
+import runningCorgi from "../../../public/running-corgi.png";
+import cuteCorgi from "../../../public/cute-corgi.png";
+import blepCorgi from "../../../public/blep-corgi.png";
 import {getRandomArrayElement} from "@/util";
 
 interface MessageContainerProps {
     approvedMessages: CorgiMessage[];
 }
 
-const images = [fatAssCorgi, chillaxCorgi];
+const images = [
+    fatAssCorgi,
+    chillaxCorgi,
+    runningCorgi,
+    cuteCorgi,
+    blepCorgi,
+];
 
 export const MessageContainer: FC<MessageContainerProps> = ({approvedMessages}) => {
     const [message, setMessage] = useState<CorgiMessage | undefined>(getRandomArrayElement(approvedMessages));
