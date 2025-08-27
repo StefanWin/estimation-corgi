@@ -51,7 +51,7 @@ function Suggest() {
                 <NextLink href={`/`}>
                     <h1>estimation corgi</h1>
                 </NextLink>
-                <p>{result === 'success' ? 'successfully added your suggestion' : 'there was an error adding your suggestion'}</p>
+                <p>{result === 'success' ? 'successfully added your suggestion ✅' : 'there was an error adding your suggestion ❌'}</p>
                 <NextLink href={'/'}>home</NextLink>
             </div>
         )
