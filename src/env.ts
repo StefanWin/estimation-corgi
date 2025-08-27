@@ -3,7 +3,7 @@ import {z} from 'zod';
 
 export const env = createEnv({
     server: {
-        DATABASE_URL: z.string(),
+        // DATABASE_URL: z.string(),
         RESEND_API_KEY: z.string(),
         ON_SUGGEST_EMAIL: z.email(),
         CF_TURNSTILE_VERIFY_ENDPOINT: z.url(),
@@ -14,7 +14,7 @@ export const env = createEnv({
     },
     runtimeEnv: {
         // server
-        DATABASE_URL: process.env.DATABASE_URL,
+        // DATABASE_URL: process.env.DATABASE_URL,
         RESEND_API_KEY: process.env.RESEND_API_KEY,
         ON_SUGGEST_EMAIL: process.env.ON_SUGGEST_EMAIL,
         CF_TURNSTILE_VERIFY_ENDPOINT: process.env.CF_TURNSTILE_VERIFY_ENDPOINT,
