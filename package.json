@@ -4,15 +4,9 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build",
+    "build": "next build --turbopack",
     "start": "next start",
-    "opennext-build": "opennextjs-cloudflare build",
-    "opennext-deploy": "pnpm run apply-migrations && opennextjs-cloudflare deploy",
-    "opennext-preview": "opennextjs-cloudflare preview",
-    "cf-typegen": "wrangler types --env-interface CloudflareEnv cloudflare-env.d.ts",
-    "lint": "next lint",
-    "prepare": "prisma generate",
-    "apply-migrations": "wrangler d1 migrations apply estimation-corgi --remote"
+    "lint": "next lint"
   },
   "dependencies": {
     "@marsidev/react-turnstile": "1.3.0",
