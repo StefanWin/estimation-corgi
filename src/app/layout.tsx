@@ -4,6 +4,7 @@ import {Geist, Geist_Mono} from "next/font/google";
 import "./globals.css";
 import styles from "./page.module.css";
 import {Footer} from "@/components/footer";
+import {ConvexClientProvider} from "@/components/convex-provider";
 
 const geistSans = Geist({
     variable: "--font-geist-sans",
@@ -45,12 +46,14 @@ export default function RootLayout({
     return (
         <html lang="en">
         <body className={`${geistSans.variable} ${geistMono.variable}`}>
+        <ConvexClientProvider>
         <div className={styles.page}>
             <main className={styles.main}>
                 {children}
             </main>
             <Footer/>
         </div>
+        </ConvexClientProvider>
         </body>
         </html>
     );

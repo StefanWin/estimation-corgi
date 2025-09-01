@@ -10,9 +10,12 @@ import runningCorgi from "../../../public/running-corgi.png";
 import cuteCorgi from "../../../public/cute-corgi.png";
 import blepCorgi from "../../../public/blep-corgi.png";
 import {getRandomArrayElement} from "@/util";
+import {Preloaded, usePreloadedQuery} from "convex/react";
+import {api} from "../../../convex/_generated/api";
+
 
 interface MessageContainerProps {
-    approvedMessages: CorgiMessage[];
+    approvedMessages: Preloaded<typeof api.messages.getApprovedMessages>;
 }
 
 const images = [
@@ -24,8 +27,10 @@ const images = [
 ];
 
 export const MessageContainer: FC<MessageContainerProps> = ({approvedMessages}) => {
-    const [message, setMessage] = useState<CorgiMessage | undefined>(getRandomArrayElement(approvedMessages));
+    const messages = usePreloadedQuery(approvedMessages)
     const [image, setImage] = useState(getRandomArrayElement(images));
+
+    const [message, setMessage] = useState(getRandomArrayElement(messages));
 
     const [isClient, setIsClient] = useState(false)
 
@@ -63,7 +68,7 @@ export const MessageContainer: FC<MessageContainerProps> = ({approvedMessages}) 
             <Button
                 label={'get another estimate'}
                 onClick={() => {
-                    setMessage(getRandomArrayElement(approvedMessages));
+                    setMessage(getRandomArrayElement(messages));
                     setImage(getRandomArrayElement(images))
                 }}
             />

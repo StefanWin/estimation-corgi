@@ -1,3 +1,5 @@
+'use client';
+
 import NextImage from "next/image";
 import {connection} from 'next/server';
 import fatAssCorgi from "../../../public/phatasscorgi.png";
@@ -7,13 +9,14 @@ import cuteCorgi from "../../../public/cute-corgi.png";
 import blepCorgi from "../../../public/blep-corgi.png";
 import NextLink from "next/link";
 import styles from './meta.module.css';
-import {getApprovedMessages} from "@/db";
 import Link from "next/link";
+import {preloadQuery} from "convex/nextjs";
+import {api} from "../../../convex/_generated/api";
+import {useQuery} from "convex/react";
 
 
-export default async function Meta() {
-    await connection();
-    const messages = await getApprovedMessages();
+export default function Meta() {
+    const messages = useQuery(api.messages.getApprovedMessages);
     return (
         <>
             <NextLink href={`/`}>
@@ -22,8 +25,8 @@ export default async function Meta() {
             <h2 className={styles.header}>available messages:</h2>
             <ul className={styles.list}>
                 {
-                    messages.map(m => (
-                        <li key={m.id}>{m.message}</li>
+                    messages?.map(m => (
+                        <li key={m._id}>{m.message}</li>
                     ))
                 }
             </ul>
