@@ -4,6 +4,7 @@ import {Geist, Geist_Mono} from "next/font/google";
 import "./globals.css";
 import styles from "./page.module.css";
 import {Footer} from "@/components/footer";
+import { Analytics } from "@vercel/analytics/next";
 import {ConvexClientProvider} from "@/components/convex-provider";
 
 const geistSans = Geist({
@@ -50,6 +51,7 @@ export default function RootLayout({
         <div className={styles.page}>
             <main className={styles.main}>
                 {children}
+                <Analytics/>
             </main>
             <Footer/>
         </div>
