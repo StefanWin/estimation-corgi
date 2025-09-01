@@ -56,7 +56,7 @@ export const MessageContainer: FC<MessageContainerProps> = ({approvedMessages}) 
             {
                 isClient && message && (
                     <>
-                        <Message message={message}/>
+                        <Message message={message.message}/>
                         {
                             message.suggestedBy && (
                                 <p className={styles.suggestedBy}>suggested by {message.suggestedBy}</p>
