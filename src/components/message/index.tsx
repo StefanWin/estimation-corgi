@@ -1,14 +1,14 @@
-import React, {FC} from "react";
-import styles from './message.module.css'
-import {getRandomNumber} from "@/util";
+import React, { FC } from 'react';
+import styles from './message.module.css';
+import { getRandomNumber } from '@/util';
 
 interface MessageProps {
-    message: string;
+	message: string;
 }
 
-export const Message: FC<MessageProps> = ({message}) => (
-    <>
-        <p className={styles.duration}>{`${getRandomNumber(1, 40)} hours`}</p>
-        <p className={styles.text}>{message}</p>
-    </>
-)
+export const Message: FC<MessageProps> = ({ message }) => (
+	<>
+		<p className={styles.duration}>{`${getRandomNumber(1, 40)} hours`}</p>
+		<p className={styles.text}>{message}</p>
+	</>
+);
