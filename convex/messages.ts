@@ -1,5 +1,5 @@
-import { mutation, query } from './_generated/server';
 import { v } from 'convex/values';
+import { mutation, query } from './_generated/server';
 
 export const createMessage = mutation({
 	args: {
@@ -18,6 +18,10 @@ export const createMessage = mutation({
 export const getApprovedMessages = query({
 	args: {},
 	handler: async (ctx) => {
-		return ctx.db.query('messages').order('desc').collect();
+		return ctx.db
+			.query('messages')
+			.withIndex('by_is_approved', (q) => q.eq('isApproved', true))
+			.order('desc')
+			.collect();
 	},
 });

@@ -1,7 +1,7 @@
+import { preloadQuery } from 'convex/nextjs';
 import NextLink from 'next/link';
 import { connection } from 'next/server';
 import { MessageContainer } from '@/components/message-container';
-import { preloadQuery } from 'convex/nextjs';
 import { api } from '../../convex/_generated/api';
 
 const linkStyles = { marginBottom: '0.25rem' };

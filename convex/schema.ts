@@ -6,5 +6,5 @@ export default defineSchema({
 		message: v.string(),
 		suggestedBy: v.optional(v.string()),
 		isApproved: v.boolean(),
-	}),
+	}).index('by_is_approved', ['isApproved']),
 });

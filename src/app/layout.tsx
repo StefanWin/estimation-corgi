@@ -1,11 +1,11 @@
-import React from 'react';
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
+import type React from 'react';
 import './globals.css';
-import styles from './page.module.css';
-import { Footer } from '@/components/footer';
 import { Analytics } from '@vercel/analytics/next';
 import { ConvexClientProvider } from '@/components/convex-provider';
+import { Footer } from '@/components/footer';
+import styles from './page.module.css';
 
 const geistSans = Geist({
 	variable: '--font-geist-sans',

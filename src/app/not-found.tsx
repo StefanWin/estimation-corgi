@@ -1,7 +1,7 @@
-import NextLink from 'next/link';
 import Image from 'next/image';
-import styles from './not-found.module.css';
+import NextLink from 'next/link';
 import notFoundImage from '../../public/404.jpg';
+import styles from './not-found.module.css';
 
 export default function NotFound() {
 	return (

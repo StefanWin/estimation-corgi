@@ -1,15 +1,15 @@
 'use client';
 
-import styles from './suggest.module.css';
-import { Button } from '@/components/button';
-import NextLink from 'next/link';
 import { Turnstile } from '@marsidev/react-turnstile';
-import { Suspense, useState } from 'react';
-import { env } from '@/env';
 import { useMutation } from 'convex/react';
-import { api } from '../../../convex/_generated/api';
-import { verifyTurnstile } from '@/captcha';
+import NextLink from 'next/link';
 import { useRouter } from 'next/navigation';
+import { Suspense, useState } from 'react';
+import { verifyTurnstile } from '@/captcha';
+import { Button } from '@/components/button';
+import { env } from '@/env';
+import { api } from '../../../convex/_generated/api';
+import styles from './suggest.module.css';
 
 function Suggest() {
 	const router = useRouter();

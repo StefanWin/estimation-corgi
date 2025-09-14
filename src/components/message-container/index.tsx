@@ -31,12 +31,16 @@ export const MessageContainer: FC<MessageContainerProps> = ({
 
 	const onNewMessage = useCallback(() => {
 		setMessage((prev) => {
-			return getRandomArrayElement(messages.filter((m) => m._id !== prev?._id));
+			const newElement = getRandomArrayElement(
+				messages.filter((m) => m._id !== prev?._id),
+			);
+			return newElement ?? prev;
 		});
 		setImage((prev) => {
-			return getRandomArrayElement(
+			const newImage = getRandomArrayElement(
 				images.filter((img) => img.src !== prev?.src),
 			);
+			return newImage ?? prev;
 		});
 	}, [messages]);
 

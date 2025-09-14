@@ -1,6 +1,6 @@
 'use client';
 
-import { FC } from 'react';
+import type { FC } from 'react';
 import styles from './button.module.css';
 
 interface ButtonProps {
@@ -17,7 +17,6 @@ export const Button: FC<ButtonProps> = ({
 	return (
 		<button
 			className={styles.button}
-			role="button"
 			type={type}
 			onClick={() => {
 				if (onClick) {

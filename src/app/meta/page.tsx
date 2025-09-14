@@ -1,18 +1,16 @@
 'use client';
 
-import NextImage from 'next/image';
-import { connection } from 'next/server';
-import fatAssCorgi from '../../../public/phatasscorgi.png';
-import chillaxCorgi from '../../../public/ChillaxCorgi.png';
-import runningCorgi from '../../../public/running-corgi.png';
-import cuteCorgi from '../../../public/cute-corgi.png';
-import blepCorgi from '../../../public/blep-corgi.png';
-import NextLink from 'next/link';
-import styles from './meta.module.css';
-import Link from 'next/link';
-import { preloadQuery } from 'convex/nextjs';
-import { api } from '../../../convex/_generated/api';
 import { useQuery } from 'convex/react';
+import NextImage from 'next/image';
+import NextLink from 'next/link';
+import Link from 'next/link';
+import { api } from '../../../convex/_generated/api';
+import blepCorgi from '../../../public/blep-corgi.png';
+import chillaxCorgi from '../../../public/ChillaxCorgi.png';
+import cuteCorgi from '../../../public/cute-corgi.png';
+import fatAssCorgi from '../../../public/phatasscorgi.png';
+import runningCorgi from '../../../public/running-corgi.png';
+import styles from './meta.module.css';
 
 export default function Meta() {
 	const messages = useQuery(api.messages.getApprovedMessages);

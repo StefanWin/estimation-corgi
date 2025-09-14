@@ -1,6 +1,6 @@
-import React, { FC } from 'react';
-import styles from './message.module.css';
+import type { FC } from 'react';
 import { getRandomNumber } from '@/util';
+import styles from './message.module.css';
 
 interface MessageProps {
 	message: string;
