@@ -5,8 +5,9 @@ import type { NextConfig } from 'next';
 // import "@/env";
 
 const nextConfig: NextConfig = {
-	eslint: {
-		ignoreDuringBuilds: true,
+	reactCompiler: true,
+	experimental: {
+		turbopackFileSystemCacheForDev: true,
 	},
 };
 
