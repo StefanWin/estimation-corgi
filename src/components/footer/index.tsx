@@ -48,6 +48,7 @@ export const Footer: FC = () => {
 			>
 				made by swinte.dev
 			</Link>
+			<Link href="/privacy">data privacy</Link>
 			{consentGiven === 'pending' && (
 				<CookieConsent
 					onAccept={handleAcceptCookies}
