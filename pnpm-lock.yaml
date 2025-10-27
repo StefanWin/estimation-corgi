@@ -27,7 +27,7 @@ importers:
         specifier: 19.2.0
         version: 19.2.0
       react-cookie-consent:
-        specifier: ^9.0.0
+        specifier: 9.0.0
         version: 9.0.0(react@19.2.0)
       react-dom:
         specifier: 19.2.0
