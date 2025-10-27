@@ -1,6 +1,8 @@
 'use client';
+
 import { type Preloaded, usePreloadedQuery } from 'convex/react';
 import Image from 'next/image';
+import posthog from 'posthog-js';
 import { type FC, useCallback, useEffect, useState } from 'react';
 import { Message } from '@/components/message';
 import { getRandomArrayElement } from '@/util';
@@ -42,6 +44,8 @@ export const MessageContainer: FC<MessageContainerProps> = ({
 			);
 			return newImage ?? prev;
 		});
+
+		posthog.capture('suggestion');
 	}, [messages]);
 
 	useEffect(() => {

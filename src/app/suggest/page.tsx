@@ -4,6 +4,7 @@ import { Turnstile } from '@marsidev/react-turnstile';
 import { useMutation } from 'convex/react';
 import NextLink from 'next/link';
 import { useRouter } from 'next/navigation';
+import posthog from 'posthog-js';
 import { Suspense, useState } from 'react';
 import { verifyTurnstile } from '@/captcha';
 import { Button } from '@/components/button';
@@ -32,8 +33,10 @@ function Suggest() {
 			setSuggestedBy('');
 			setError(null);
 			setIsVerified(false);
+			posthog.capture('new_suggestion');
 			router.push('/');
 		} catch (_error) {
+			posthog.captureException(_error);
 			console.error(_error);
 			setError('failed to suggest a message');
 		}

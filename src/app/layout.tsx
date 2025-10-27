@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import type React from 'react';
 import './globals.css';
-import { Analytics } from '@vercel/analytics/next';
 import { ConvexClientProvider } from '@/components/convex-provider';
 import { Footer } from '@/components/footer';
 import styles from './page.module.css';
@@ -25,7 +24,7 @@ export const metadata: Metadata = {
 		type: 'website',
 		images: [
 			{
-				url: 'https://estimation-corgi.swinte.dev/phatasscorgi.png',
+				url: 'https://estimation-corgi.com/phatasscorgi.png',
 				width: 500,
 				height: 479,
 			},
@@ -34,7 +33,7 @@ export const metadata: Metadata = {
 	twitter: {
 		title: 'estimation corgi',
 		description: 'properly estimate your tasks',
-		images: ['https://estimation-corgi.swinte.dev/phatasscorgi.png'],
+		images: ['https://estimation-corgi.com/phatasscorgi.png'],
 	},
 	metadataBase: new URL('https://swinte.dev'),
 };
@@ -49,10 +48,7 @@ export default function RootLayout({
 			<body className={`${geistSans.variable} ${geistMono.variable}`}>
 				<ConvexClientProvider>
 					<div className={styles.page}>
-						<main className={styles.main}>
-							{children}
-							<Analytics />
-						</main>
+						<main className={styles.main}>{children}</main>
 						<Footer />
 					</div>
 				</ConvexClientProvider>
