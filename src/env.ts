@@ -9,8 +9,6 @@ export const env = createEnv({
 	client: {
 		NEXT_PUBLIC_TURNSTILE_SITE_KEY: z.string(),
 		NEXT_PUBLIC_CONVEX_URL: z.url(),
-		NEXT_PUBLIC_POSTHOG_KEY: z.string(),
-		NEXT_PUBLIC_POSTHOG_HOST: z.url(),
 	},
 	runtimeEnv: {
 		// server
@@ -19,8 +17,6 @@ export const env = createEnv({
 		// client
 		NEXT_PUBLIC_TURNSTILE_SITE_KEY: process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY,
 		NEXT_PUBLIC_CONVEX_URL: process.env.NEXT_PUBLIC_CONVEX_URL,
-		NEXT_PUBLIC_POSTHOG_KEY: process.env.NEXT_PUBLIC_POSTHOG_KEY,
-		NEXT_PUBLIC_POSTHOG_HOST: process.env.NEXT_PUBLIC_POSTHOG_HOST,
 	},
 	skipValidation: process.env.SKIP_ENV_VAR_VALIDATION === 'true',
 });

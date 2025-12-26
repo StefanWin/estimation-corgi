@@ -1,26 +1,10 @@
 'use client';
 
 import Link from 'next/link';
-import { usePostHog } from 'posthog-js/react';
-import { type FC, useState } from 'react';
-import CookieConsent from 'react-cookie-consent';
+import { type FC } from 'react';
 import styles from './footer.module.css';
 
 export const Footer: FC = () => {
-	const posthog = usePostHog();
-	const [consentGiven, setConsentGiven] = useState(
-		posthog.get_explicit_consent_status(),
-	);
-
-	const handleAcceptCookies = () => {
-		posthog.opt_in_capturing();
-		setConsentGiven('granted');
-	};
-
-	const handleDeclineCookies = () => {
-		posthog.opt_out_capturing();
-		setConsentGiven('denied');
-	};
 	return (
 		<footer className={styles.footer}>
 			<Link
@@ -49,16 +33,6 @@ export const Footer: FC = () => {
 				made by swinte.dev
 			</Link>
 			<Link href="/privacy">data privacy</Link>
-			{consentGiven === 'pending' && (
-				<CookieConsent
-					onAccept={handleAcceptCookies}
-					onDecline={handleDeclineCookies}
-					enableDeclineButton
-				>
-					We use tracking cookies to understand how you use the product and help
-					us improve it. Please accept cookies to help us improve.
-				</CookieConsent>
-			)}
 		</footer>
 	);
 };

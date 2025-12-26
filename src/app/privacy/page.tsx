@@ -4,7 +4,7 @@ import s from './privacy.module.css';
 
 export const metadata: Metadata = {
 	title: 'Privacy Policy',
-	description: 'Privacy Policy for swinte.dev',
+	description: 'Privacy Policy for estimation-corgi.com, estimation-corgi.swinte.dev',
 };
 
 export default function PrivacyPage() {
@@ -20,7 +20,7 @@ export default function PrivacyPage() {
 						<br />
 						<strong>Email:</strong> wintergerst.stefan@googlemail.com
 						<br />
-						<strong>Website:</strong> estimation-corgi.com,
+						<strong>Website:</strong> e,
 						estimation-corgi.swinte.dev
 					</p>
 				</section>
@@ -43,26 +43,7 @@ export default function PrivacyPage() {
 				</section>
 
 				<section>
-					<h2>3. Analytics (PostHog)</h2>
-					<p>
-						This website uses PostHog, operated by PostHog Inc., 965 Mission
-						Street, San Francisco, CA 94103, USA, with EU data hosting in
-						Frankfurt, Germany.
-					</p>
-					<p>
-						Data is processed anonymously to analyze visitor interactions and
-						improve the site. No personal tracking or cross‑site profiling
-						occurs without explicit consent.
-					</p>
-					<p>
-						<strong>Legal basis:</strong> Article 6(1)(a) GDPR (consent).
-						<br />
-						<strong>Data storage:</strong> EU region (Frankfurt) PostHog Cloud.
-					</p>
-				</section>
-
-				<section>
-					<h2>4. Cookies</h2>
+					<h2>3. Cookies</h2>
 					<p>
 						Cookies are used for essential functionality and analytics if you
 						consent. You can delete or block cookies through your browser
@@ -75,7 +56,7 @@ export default function PrivacyPage() {
 				</section>
 
 				<section>
-					<h2>5. Your Rights</h2>
+					<h2>4. Your Rights</h2>
 					<p>
 						You have the right to request access, correction, deletion,
 						restriction of processing, data portability, and to object to
@@ -87,7 +68,7 @@ export default function PrivacyPage() {
 				</section>
 
 				<section>
-					<h2>6. Updates</h2>
+					<h2>5. Updates</h2>
 					<p>
 						This policy may be updated to reflect legal or technical changes.
 						Please review this page periodically for the latest version.
