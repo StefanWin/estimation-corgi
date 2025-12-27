@@ -4,7 +4,8 @@ import s from './privacy.module.css';
 
 export const metadata: Metadata = {
 	title: 'Privacy Policy',
-	description: 'Privacy Policy for estimation-corgi.com, estimation-corgi.swinte.dev',
+	description:
+		'Privacy Policy for estimation-corgi.com, estimation-corgi.swinte.dev',
 };
 
 export default function PrivacyPage() {
@@ -74,10 +75,8 @@ export default function PrivacyPage() {
 						Please review this page periodically for the latest version.
 					</p>
 				</section>
-				<NextLink className="underline transition-colors" href="/">
-					go back
-				</NextLink>
 			</div>
+			<NextLink href="/">go back</NextLink>
 		</main>
 	);
 }

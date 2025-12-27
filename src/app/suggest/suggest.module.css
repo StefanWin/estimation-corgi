@@ -1,25 +1,49 @@
 .container {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    row-gap: 2rem;
+    gap: 2rem;
+    width: 100%;
+    max-width: 600px;
 }
 
 .form {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    row-gap: 2rem;
+    gap: 1.5rem;
+    width: 100%;
+}
+
+.inputGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
     width: 100%;
 }
 
 .input {
-    padding: 1rem;
+    padding: 0.8rem 1rem;
     width: 100%;
+    border-radius: 8px;
+    border: 1px solid var(--gray-alpha-200);
+    background-color: var(--gray-alpha-100);
+    color: var(--foreground);
+    font-size: 1rem;
+    font-family: inherit;
+    transition: border-color 0.2s;
+}
+
+.input:focus {
+    outline: none;
+    border-color: var(--foreground);
 }
 
 .error {
-    color: red;
+    color: #ff4444;
+    font-size: 0.9rem;
+    text-align: center;
+}
+
+.backLink {
+    margin-top: 1rem;
 }

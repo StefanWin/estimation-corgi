@@ -17,14 +17,17 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-	title: 'estimation-corgi',
-	description: 'properly estimate your tasks',
+	title: {
+		default: 'estimation corgi',
+		template: '%s | estimation corgi',
+	},
+	description: 'properly estimate your tasks with the help of a corgi',
 	creator: 'swinte.dev',
 	openGraph: {
 		type: 'website',
 		images: [
 			{
-				url: 'https://estimation-corgi.com/phatasscorgi.png',
+				url: '/phatasscorgi.png',
 				width: 500,
 				height: 479,
 			},
@@ -32,10 +35,10 @@ export const metadata: Metadata = {
 	},
 	twitter: {
 		title: 'estimation corgi',
-		description: 'properly estimate your tasks',
-		images: ['https://estimation-corgi.com/phatasscorgi.png'],
+		description: 'properly estimate your tasks with the help of a corgi',
+		images: ['/phatasscorgi.png'],
 	},
-	metadataBase: new URL('https://swinte.dev'),
+	metadataBase: new URL('https://estimation-corgi.com'),
 };
 
 export default function RootLayout({

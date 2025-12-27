@@ -6,13 +6,15 @@ import styles from './button.module.css';
 interface ButtonProps {
 	label: string;
 	onClick?: () => void;
-	type?: 'button' | 'submit' | 'reset' | undefined;
+	type?: 'button' | 'submit' | 'reset';
+	isDisabled?: boolean;
 }
 
 export const Button: FC<ButtonProps> = ({
 	label,
 	onClick,
 	type = 'button',
+	isDisabled = false,
 }) => {
 	return (
 		<button
@@ -23,6 +25,7 @@ export const Button: FC<ButtonProps> = ({
 					onClick();
 				}
 			}}
+			disabled={isDisabled}
 		>
 			{label}
 		</button>

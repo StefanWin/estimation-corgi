@@ -4,13 +4,9 @@ import { type Preloaded, usePreloadedQuery } from 'convex/react';
 import Image from 'next/image';
 import { type FC, useCallback, useEffect, useState } from 'react';
 import { Message } from '@/components/message';
+import { CORGI_IMAGES } from '@/constants';
 import { getRandomArrayElement } from '@/util';
 import type { api } from '../../../convex/_generated/api';
-import blepCorgi from '../../../public/blep-corgi.png';
-import chillaxCorgi from '../../../public/ChillaxCorgi.png';
-import cuteCorgi from '../../../public/cute-corgi.png';
-import fatAssCorgi from '../../../public/phatasscorgi.png';
-import runningCorgi from '../../../public/running-corgi.png';
 import { Button } from '../button';
 import styles from './message-container.module.css';
 
@@ -18,13 +14,11 @@ interface MessageContainerProps {
 	approvedMessages: Preloaded<typeof api.messages.getApprovedMessages>;
 }
 
-const images = [fatAssCorgi, chillaxCorgi, runningCorgi, cuteCorgi, blepCorgi];
-
 export const MessageContainer: FC<MessageContainerProps> = ({
 	approvedMessages,
 }) => {
 	const messages = usePreloadedQuery(approvedMessages);
-	const [image, setImage] = useState(getRandomArrayElement(images));
+	const [image, setImage] = useState(getRandomArrayElement(CORGI_IMAGES));
 
 	const [message, setMessage] = useState(getRandomArrayElement(messages));
 
@@ -39,11 +33,10 @@ export const MessageContainer: FC<MessageContainerProps> = ({
 		});
 		setImage((prev) => {
 			const newImage = getRandomArrayElement(
-				images.filter((img) => img.src !== prev?.src),
+				CORGI_IMAGES.filter((img) => img.src.src !== prev?.src.src),
 			);
 			return newImage ?? prev;
 		});
-
 	}, [messages]);
 
 	useEffect(() => {
@@ -59,8 +52,8 @@ export const MessageContainer: FC<MessageContainerProps> = ({
 			<Image
 				suppressHydrationWarning
 				className={styles.image}
-				src={image}
-				alt="corgi"
+				src={image.src}
+				alt={image.alt}
 				loading="lazy"
 				sizes="(max-width: 768px) 50vw, (max-width: 1200px) 50vw, 33vw"
 			/>

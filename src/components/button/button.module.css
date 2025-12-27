@@ -8,3 +8,9 @@
     color: #ffffff;
     padding: 0.5rem 1rem;
 }
+
+.button:disabled {
+    background-color: #cccccc;
+    border-color: #999999;
+    cursor: not-allowed;
+}
