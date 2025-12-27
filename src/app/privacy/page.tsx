@@ -20,7 +20,7 @@ export default function PrivacyPage() {
 						<br />
 						<strong>Email:</strong> wintergerst.stefan@googlemail.com
 						<br />
-						<strong>Website:</strong> e,
+						<strong>Website:</strong> estimation-corgi.com,
 						estimation-corgi.swinte.dev
 					</p>
 				</section>
@@ -74,7 +74,7 @@ export default function PrivacyPage() {
 						Please review this page periodically for the latest version.
 					</p>
 				</section>
-				<NextLink className="underlinetransition-colors" href="/">
+				<NextLink className="underline transition-colors" href="/">
 					go back
 				</NextLink>
 			</div>
