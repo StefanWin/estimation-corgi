@@ -33,7 +33,7 @@ A fun web app that provides random time estimates for your tasks, accompanied by
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/estimation-corgi.git
+git clone https://github.com/StefanWin/estimation-corgi.git
 cd estimation-corgi
 ```
 

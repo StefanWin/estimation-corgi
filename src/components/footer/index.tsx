@@ -15,6 +15,14 @@ export const Footer: FC = () => {
 			>
 				made by swinte.dev
 			</Link>
+			<Link
+				prefetch={false}
+				href="https://github.com/StefanWin/estimation-corgi"
+				target="_blank"
+				rel="noopener noreferrer"
+			>
+				github
+			</Link>
 			<Link href="/privacy">data privacy</Link>
 		</footer>
 	);
