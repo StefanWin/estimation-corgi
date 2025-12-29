@@ -4,6 +4,7 @@ import type React from 'react';
 import './globals.css';
 import { ConvexClientProvider } from '@/components/convex-provider';
 import { Footer } from '@/components/footer';
+import { ThemeToggle } from '@/components/theme-toggle';
 import styles from './page.module.css';
 
 const geistSans = Geist({
@@ -50,6 +51,7 @@ export default function RootLayout({
 		<html lang="en">
 			<body className={`${geistSans.variable} ${geistMono.variable}`}>
 				<ConvexClientProvider>
+					<ThemeToggle />
 					<div className={styles.page}>
 						<main className={styles.main}>{children}</main>
 						<Footer />

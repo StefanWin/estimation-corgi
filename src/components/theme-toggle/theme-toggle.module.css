@@ -1,0 +1,33 @@
+.toggle {
+    position: fixed;
+    top: 1.5rem;
+    right: 1.5rem;
+    background: var(--card-bg);
+    border: 1px solid var(--border-subtle);
+    border-radius: 50%;
+    width: 3rem;
+    height: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: var(--card-shadow);
+    transition: all 0.3s ease;
+    z-index: 100;
+}
+
+.toggle:hover {
+    transform: scale(1.1) rotate(15deg);
+    box-shadow: var(--card-shadow-hover);
+}
+
+.toggle:active {
+    transform: scale(0.95) rotate(0deg);
+}
+
+.icon {
+    font-size: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
