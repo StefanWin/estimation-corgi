@@ -7,12 +7,13 @@
     --button-secondary-hover: #f2f2f2;
 
     min-height: 100svh;
-    padding: 3vh;
+    padding: 3vh 1.5rem;
     font-family: var(--font-geist-sans);
 
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -30,30 +31,46 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1rem;
-    width: 100%;
-    max-width: 600px;
+    gap: 1.5rem;
+    width: 500px;
+    max-width: calc(100% - 2rem);
+    background: var(--card-bg);
+    padding: 2.5rem 2rem;
+    border-radius: 24px;
+    box-shadow: var(--card-shadow);
+    transition: box-shadow 0.3s ease;
+}
+
+.container:hover {
+    box-shadow: var(--card-shadow-hover);
 }
 
 .links {
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
     align-items: center;
     gap: 0.75rem;
-    margin-top: 1rem;
+    margin-top: 0.5rem;
 }
 
 .link {
-    font-size: 1rem;
+    font-size: 0.9rem;
+    font-weight: 500;
     color: var(--foreground);
     text-decoration: none;
-    padding: 0.5rem 1rem;
-    border-radius: 20px;
+    padding: 0.6rem 1.2rem;
+    border-radius: 50px;
     background-color: var(--gray-alpha-100);
-    transition: background-color 0.2s;
+    border: 1px solid var(--border-subtle);
+    transition: all 0.2s ease;
 }
 
 .link:hover {
-    background-color: var(--gray-alpha-200);
+    background-color: var(--secondary);
+    color: white;
+    border-color: var(--secondary);
+    transform: translateY(-2px);
 }
 

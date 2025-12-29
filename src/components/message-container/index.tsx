@@ -49,22 +49,22 @@ export const MessageContainer: FC<MessageContainerProps> = ({
 
 	return (
 		<>
-			<Image
-				suppressHydrationWarning
-				className={styles.image}
-				src={image.src}
-				alt={image.alt}
-				loading="lazy"
-				sizes="(max-width: 768px) 50vw, (max-width: 1200px) 50vw, 33vw"
-			/>
+			<div className={styles.imageWrapper}>
+				<Image
+					suppressHydrationWarning
+					className={styles.image}
+					src={image.src}
+					alt={image.alt}
+					loading="lazy"
+					sizes="(max-width: 768px) 50vw, (max-width: 1200px) 50vw, 33vw"
+				/>
+			</div>
 			{isClient && message && (
 				<>
 					<Message message={message.message} />
-					{message.suggestedBy && (
-						<p className={styles.suggestedBy}>
-							suggested by {message.suggestedBy}
-						</p>
-					)}
+					<p className={styles.suggestedBy}>
+						{message.suggestedBy ? `suggested by ${message.suggestedBy}` : '\u00A0'}
+					</p>
 				</>
 			)}
 			<Button label={'get another estimate'} onClick={onNewMessage} />

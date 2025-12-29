@@ -1,12 +1,32 @@
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #fafbfc;
+  --foreground: #1a1a2e;
+  --accent: #ff6b35;
+  --accent-light: #ff8c5a;
+  --accent-dark: #e55a2b;
+  --secondary: #6c5ce7;
+  --secondary-light: #a29bfe;
+  --success: #00b894;
+  --card-bg: #ffffff;
+  --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+  --card-shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.12);
+  --border-subtle: rgba(0, 0, 0, 0.06);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #0f0f1a;
+    --foreground: #f0f0f5;
+    --accent: #ff7b4a;
+    --accent-light: #ff9a70;
+    --accent-dark: #e56a3a;
+    --secondary: #8b7cf7;
+    --secondary-light: #b8b0ff;
+    --success: #00d9a5;
+    --card-bg: #1a1a2e;
+    --card-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    --card-shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.4);
+    --border-subtle: rgba(255, 255, 255, 0.08);
   }
 }
 

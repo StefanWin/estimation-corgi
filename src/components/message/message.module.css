@@ -1,18 +1,27 @@
 .text {
-    margin-top: 0.5rem;
+    margin-top: 0.75rem;
     text-align: center;
-    font-weight: bold;
-    font-size: 1.5rem;
-    min-height: 4rem;
-    max-width: 33vw;
+    font-weight: 600;
+    font-size: 1.25rem;
+    line-height: 1.5;
+    height: 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    color: var(--foreground);
 
     @media only screen and (max-width: 768px) {
-        max-width: 90vw;
+        font-size: 1.1rem;
     }
 }
 
 .duration {
-    font-size: 2rem;
-    font-weight: bold;
-    text-decoration: underline;
+    font-size: 2.5rem;
+    font-weight: 800;
+    background: linear-gradient(135deg, var(--accent), var(--secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    display: inline-block;
 }
