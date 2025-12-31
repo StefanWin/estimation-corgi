@@ -10,7 +10,7 @@
     "lint": "biome check --write",
     "format": "biome check --write",
     "convex:migrate": "convex run convex/migrations.ts:runAll",
-    "deploy:vercel": "convex deploy --cmd 'pnpm run build' && pnpm run convex:migrate"
+    "deploy:vercel": "convex deploy --cmd 'pnpm run build'"
   },
   "dependencies": {
     "@convex-dev/migrations": "0.3.1",
