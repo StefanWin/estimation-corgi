@@ -11,7 +11,7 @@
     "format": "biome check --write"
   },
   "dependencies": {
-    "@marsidev/react-turnstile": "1.4.0",
+    "@marsidev/react-turnstile": "1.4.1",
     "@t3-oss/env-nextjs": "0.13.10",
     "convex": "1.31.2",
     "next": "16.1.1",
