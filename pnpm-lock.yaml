@@ -8,6 +8,9 @@ importers:
 
   .:
     dependencies:
+      '@convex-dev/migrations':
+        specifier: 0.3.1
+        version: 0.3.1(convex@1.31.2(react@19.2.3))
       '@marsidev/react-turnstile':
         specifier: 1.4.1
         version: 1.4.1(react-dom@19.2.3(react@19.2.3))(react@19.2.3)
@@ -112,6 +115,11 @@ packages:
     engines: {node: '>=14.21.3'}
     cpu: [x64]
     os: [win32]
+
+  '@convex-dev/migrations@0.3.1':
+    resolution: {integrity: sha512-dGiN82vWMN415/AGMcVooDOJk8iTousZahBBs27uA03pL74Uo3ksucUW3CiCfPx75rv+x9UnenEakimQYYNIrA==}
+    peerDependencies:
+      convex: ^1.24.8
 
   '@emnapi/runtime@1.6.0':
     resolution: {integrity: sha512-obtUmAHTMjll499P+D9A3axeJFlhdjOWdKUNs/U6QIGT7V5RjcUW1xToAzjvmgTSQhDbYn/NwfTRoJcQ2rNBxA==}
@@ -676,6 +684,10 @@ snapshots:
 
   '@biomejs/cli-win32-x64@2.3.10':
     optional: true
+
+  '@convex-dev/migrations@0.3.1(convex@1.31.2(react@19.2.3))':
+    dependencies:
+      convex: 1.31.2(react@19.2.3)
 
   '@emnapi/runtime@1.6.0':
     dependencies:

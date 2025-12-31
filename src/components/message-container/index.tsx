@@ -80,12 +80,7 @@ export const MessageContainer: FC<MessageContainerProps> = ({
 				/>
 			</div>
 			{isClient && message && (
-				<>
-					<Message message={message.message} estimationUnit={selectedUnit} />
-					<p className={styles.suggestedBy}>
-						{message.suggestedBy ? `suggested by ${message.suggestedBy}` : '\u00A0'}
-					</p>
-				</>
+				<Message message={message.message} estimationUnit={selectedUnit} />
 			)}
 			<Button label={'get another estimate'} onClick={onNewMessage} />
 		</>

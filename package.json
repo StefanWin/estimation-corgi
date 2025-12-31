@@ -8,9 +8,12 @@
     "start": "next start",
     "types": "next typegen && tsc --noEmit",
     "lint": "biome check --write",
-    "format": "biome check --write"
+    "format": "biome check --write",
+    "convex:migrate": "convex run convex/migrations.ts:runAll",
+    "deploy:vercel": "convex deploy --cmd 'pnpm run build' && pnpm run convex:migrate"
   },
   "dependencies": {
+    "@convex-dev/migrations": "0.3.1",
     "@marsidev/react-turnstile": "1.4.1",
     "@t3-oss/env-nextjs": "0.13.10",
     "convex": "1.31.2",

@@ -16,7 +16,6 @@ export function SuggestForm() {
 	const createMessage = useMutation(api.messages.createMessage);
 
 	const [input, setInput] = useState('');
-	const [suggestedBy, setSuggestedBy] = useState('');
 	const [error, setError] = useState<string | null>(null);
 	const [isVerified, setIsVerified] = useState<boolean>(false);
 	const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
@@ -29,10 +28,8 @@ export function SuggestForm() {
 		try {
 			await createMessage({
 				message: input,
-				suggestedBy: suggestedBy === '' ? undefined : suggestedBy,
 			});
 			setInput('');
-			setSuggestedBy('');
 			setError(null);
 			setIsVerified(false);
 			router.push('/');
@@ -58,15 +55,6 @@ export function SuggestForm() {
 						placeholder="message (max 72 characters)"
 						required
 						onChange={(e) => setInput(e.target.value)}
-					/>
-				</div>
-				<div className={styles.inputGroup}>
-					<input
-						className={styles.input}
-						type="text"
-						name="suggestedBy"
-						placeholder="your name (optional)"
-						onChange={(e) => setSuggestedBy(e.target.value)}
 					/>
 				</div>
 				{turnStileKey && (
