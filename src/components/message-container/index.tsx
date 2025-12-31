@@ -4,7 +4,7 @@ import { type Preloaded, usePreloadedQuery } from 'convex/react';
 import Image from 'next/image';
 import { type FC, useCallback, useEffect, useState } from 'react';
 import { Message } from '@/components/message';
-import { CORGI_IMAGES } from '@/constants';
+import { CORGI_IMAGES, ESTIMATION_UNITS } from '@/constants';
 import { getRandomArrayElement } from '@/util';
 import type { api } from '../../../convex/_generated/api';
 import { Button } from '../button';
@@ -23,6 +23,8 @@ export const MessageContainer: FC<MessageContainerProps> = ({
 	const [message, setMessage] = useState(getRandomArrayElement(messages));
 
 	const [isClient, setIsClient] = useState(false);
+
+	const [selectedUnit, setSelectedUnit] = useState(ESTIMATION_UNITS[0]);
 
 	const onNewMessage = useCallback(() => {
 		setMessage((prev) => {
@@ -49,6 +51,24 @@ export const MessageContainer: FC<MessageContainerProps> = ({
 
 	return (
 		<>
+			<div className={styles.unitSelector}>
+				<label htmlFor="unit-select">Estimation Unit:</label>
+				<select
+					id="unit-select"
+					value={selectedUnit.id}
+					onChange={(e) => {
+						const unit = ESTIMATION_UNITS.find((u) => u.id === e.target.value);
+						if (unit) setSelectedUnit(unit);
+					}}
+					className={styles.select}
+				>
+					{ESTIMATION_UNITS.map((unit) => (
+						<option key={unit.id} value={unit.id}>
+							{unit.name}
+						</option>
+					))}
+				</select>
+			</div>
 			<div className={styles.imageWrapper}>
 				<Image
 					suppressHydrationWarning
@@ -61,7 +81,7 @@ export const MessageContainer: FC<MessageContainerProps> = ({
 			</div>
 			{isClient && message && (
 				<>
-					<Message message={message.message} />
+					<Message message={message.message} estimationUnit={selectedUnit} />
 					<p className={styles.suggestedBy}>
 						{message.suggestedBy ? `suggested by ${message.suggestedBy}` : '\u00A0'}
 					</p>
