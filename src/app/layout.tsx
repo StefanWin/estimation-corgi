@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import type React from 'react';
 import './globals.css';
+import { Analytics } from '@vercel/analytics/react';
 import { ConvexClientProvider } from '@/components/convex-provider';
 import { Footer } from '@/components/footer';
 import { ThemeToggle } from '@/components/theme-toggle';
@@ -91,6 +92,7 @@ export default function RootLayout({
 						<Footer />
 					</div>
 				</ConvexClientProvider>
+				<Analytics />
 			</body>
 		</html>
 	);
