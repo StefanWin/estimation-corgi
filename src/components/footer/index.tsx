@@ -9,11 +9,11 @@ export const Footer: FC = () => {
 		<footer className={styles.footer}>
 			<Link
 				prefetch={false}
-				href="https://swinte.dev"
+				href="https://swintergerst.com"
 				target="_blank"
 				rel="noopener noreferrer"
 			>
-				made by swinte.dev
+				made by swintergerst.com
 			</Link>
 			<Link
 				prefetch={false}

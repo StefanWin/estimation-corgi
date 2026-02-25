@@ -24,7 +24,7 @@ export const metadata: Metadata = {
 		template: '%s | estimation corgi',
 	},
 	description: 'properly estimate your tasks with the help of a corgi',
-	creator: 'swinte.dev',
+	creator: 'swintergerst.com',
 	keywords: [
 		'estimation',
 		'task estimation',
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
 		'scrum',
 		'planning',
 	],
-	authors: [{ name: 'swinte.dev', url: 'https://swinte.dev' }],
+	authors: [{ name: 'swintergerst.com', url: 'https://swintergerst.com' }],
 	applicationName: 'estimation corgi',
 	category: 'Developer Tools',
 	robots: {

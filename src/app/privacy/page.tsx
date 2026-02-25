@@ -5,7 +5,7 @@ import s from './privacy.module.css';
 export const metadata: Metadata = {
 	title: 'Privacy Policy',
 	description:
-		'Privacy Policy for estimation-corgi.com, estimation-corgi.swinte.dev',
+		'Privacy Policy for estimation-corgi.com',
 };
 
 export default function PrivacyPage() {
@@ -24,8 +24,7 @@ export default function PrivacyPage() {
 						<br />
 						<strong>Email:</strong> wintergerst.stefan@googlemail.com
 						<br />
-						<strong>Website:</strong> estimation-corgi.com,
-						estimation-corgi.swinte.dev
+						<strong>Website:</strong> estimation-corgi.com
 					</p>
 				</section>
 

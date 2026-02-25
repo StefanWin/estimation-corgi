@@ -92,7 +92,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## Credits
 
 - Corgi images sourced from various contributors (see attributions on the /meta page)
-- Built with love by [swinte.dev](https://swinte.dev)
+- Built with love by [swintergerst.com](https://swintergert.com)
 
 ## Links
 
