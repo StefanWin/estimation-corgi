@@ -4,8 +4,7 @@ import s from './privacy.module.css';
 
 export const metadata: Metadata = {
 	title: 'Privacy Policy',
-	description:
-		'Privacy Policy for estimation-corgi.com',
+	description: 'Privacy Policy for estimation-corgi.com',
 };
 
 export default function PrivacyPage() {
@@ -144,7 +143,9 @@ export default function PrivacyPage() {
 						<li>
 							<strong>Right to lodge a complaint (Art. 77 GDPR):</strong> File a
 							complaint with your local data protection authority, such as the{' '}
-							<em>Landesbeauftragte für Datenschutz und Informationsfreiheit</em>
+							<em>
+								Landesbeauftragte für Datenschutz und Informationsfreiheit
+							</em>
 							.
 						</li>
 					</ul>
