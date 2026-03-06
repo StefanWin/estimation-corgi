@@ -2,11 +2,11 @@
 
 import { Turnstile } from '@marsidev/react-turnstile';
 import { useMutation } from 'convex/react';
-import NextLink from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { verifyTurnstile } from '@/captcha';
 import { Button } from '@/components/button';
+import { Link as NextLink } from '@/components/link';
 import { env } from '@/env';
 import { api } from '../../../convex/_generated/api';
 import styles from './suggest.module.css';

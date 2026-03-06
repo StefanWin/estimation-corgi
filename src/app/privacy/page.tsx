@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import NextLink from 'next/link';
+import { Link as NextLink } from '@/components/link';
 import s from './privacy.module.css';
 
 export const metadata: Metadata = {

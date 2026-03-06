@@ -35,7 +35,9 @@ export const metadata: Metadata = {
 		'scrum',
 		'planning',
 	],
-	authors: [{ name: 'stefanwintergerst.com', url: 'https://stefanwintergerst.com' }],
+	authors: [
+		{ name: 'stefanwintergerst.com', url: 'https://stefanwintergerst.com' },
+	],
 	applicationName: 'estimation corgi',
 	category: 'Developer Tools',
 	robots: {

@@ -1,6 +1,6 @@
 import { preloadQuery } from 'convex/nextjs';
-import NextLink from 'next/link';
 import { connection } from 'next/server';
+import { Link as NextLink } from '@/components/link';
 import { MessageContainer } from '@/components/message-container';
 import { api } from '../../convex/_generated/api';
 import styles from './page.module.css';

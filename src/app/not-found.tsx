@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import NextLink from 'next/link';
+import { Link as NextLink } from '@/components/link';
 import notFoundImage from '../../public/404.jpg';
 import styles from './not-found.module.css';
 

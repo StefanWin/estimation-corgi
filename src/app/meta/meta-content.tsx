@@ -2,7 +2,7 @@
 
 import { useQuery } from 'convex/react';
 import NextImage from 'next/image';
-import Link from 'next/link';
+import { Link } from '@/components/link';
 import { CORGI_IMAGES } from '@/constants';
 import { api } from '../../../convex/_generated/api';
 import styles from './meta.module.css';
