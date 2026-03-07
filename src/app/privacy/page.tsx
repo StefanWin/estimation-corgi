@@ -172,7 +172,9 @@ export default function PrivacyPage() {
 					</p>
 				</section>
 			</div>
-			<NextLink href="/">go back</NextLink>
+			<NextLink href="/" className={s.backLink}>
+				go back
+			</NextLink>
 		</main>
 	);
 }
