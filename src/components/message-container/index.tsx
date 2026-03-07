@@ -18,13 +18,17 @@ export const MessageContainer: FC<MessageContainerProps> = ({
 	approvedMessages,
 }) => {
 	const messages = usePreloadedQuery(approvedMessages);
-	const [image, setImage] = useState(getRandomArrayElement(CORGI_IMAGES));
+	const [imageIndex, setImageIndex] = useState(() =>
+		Math.floor(Math.random() * CORGI_IMAGES.length),
+	);
 
 	const [message, setMessage] = useState(getRandomArrayElement(messages));
 
 	const [isClient, setIsClient] = useState(false);
 
 	const [selectedUnit, setSelectedUnit] = useState(ESTIMATION_UNITS[0]);
+
+	const image = CORGI_IMAGES[imageIndex];
 
 	const onNewMessage = useCallback(() => {
 		setMessage((prev) => {
@@ -33,11 +37,17 @@ export const MessageContainer: FC<MessageContainerProps> = ({
 			);
 			return newElement ?? prev;
 		});
-		setImage((prev) => {
-			const newImage = getRandomArrayElement(
-				CORGI_IMAGES.filter((img) => img.src.src !== prev?.src.src),
-			);
-			return newImage ?? prev;
+		setImageIndex((prevIndex) => {
+			if (CORGI_IMAGES.length <= 1) {
+				return prevIndex;
+			}
+
+			let nextIndex = prevIndex;
+			while (nextIndex === prevIndex) {
+				nextIndex = Math.floor(Math.random() * CORGI_IMAGES.length);
+			}
+
+			return nextIndex;
 		});
 	}, [messages]);
 
