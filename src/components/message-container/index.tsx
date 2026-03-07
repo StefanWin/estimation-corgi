@@ -45,6 +45,13 @@ export const MessageContainer: FC<MessageContainerProps> = ({
 		setIsClient(true);
 	}, []);
 
+	useEffect(() => {
+		for (const corgiImage of CORGI_IMAGES) {
+			const preloadImage = new window.Image();
+			preloadImage.src = corgiImage.src.src;
+		}
+	}, []);
+
 	if (!image) {
 		return null;
 	}
@@ -75,7 +82,8 @@ export const MessageContainer: FC<MessageContainerProps> = ({
 					className={styles.image}
 					src={image.src}
 					alt={image.alt}
-					loading="lazy"
+					priority
+					placeholder="blur"
 					sizes="(max-width: 768px) 50vw, (max-width: 1200px) 50vw, 33vw"
 				/>
 			</div>
