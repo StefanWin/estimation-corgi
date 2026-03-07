@@ -35,8 +35,3 @@ jobs:
 
       - name: Run typechecks
         run: pnpm types
-
-      - name: 'Notify Vercel'
-        uses: 'vercel/repository-dispatch/actions/status@v1'
-        with:
-          name: 'Vercel - estimation-corgi: Quality / Checks'
