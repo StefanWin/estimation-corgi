@@ -504,45 +504,51 @@ export const MessageContainer: FC<MessageContainerProps> = ({
 	}
 
 	return (
-		<>
-			<div className={styles.controls}>
-				<div className={styles.unitSelector}>
-					<label htmlFor="unit-select">Estimation Unit:</label>
-					<select
-						id="unit-select"
-						value={selectedUnit.id}
-						onChange={(event) => selectUnit(event.target.value)}
-						className={styles.select}
-					>
-						{ESTIMATION_UNITS.map((unit, index) => (
-							<option key={unit.id} value={unit.id}>
-								{index + 1}. {unit.name}
-							</option>
-						))}
-					</select>
+		<div className={styles.stage}>
+			<div className={styles.visualPane}>
+				<div className={styles.imageWrapper}>
+					<Image
+						key={image.id}
+						suppressHydrationWarning
+						className={`${styles.image} ${isImageLoaded ? styles.imageLoaded : ''}`}
+						src={image.src}
+						alt={image.alt}
+						priority
+						placeholder="blur"
+						sizes="(max-width: 960px) 60vw, 34vw"
+						onLoad={() => {
+							setIsImageLoaded(true);
+						}}
+					/>
 				</div>
 			</div>
-			<p className={styles.shortcutHint}>
-				Space = next estimate, 1-5 = switch unit
-			</p>
-			<div className={styles.imageWrapper}>
-				<Image
-					key={image.id}
-					suppressHydrationWarning
-					className={`${styles.image} ${isImageLoaded ? styles.imageLoaded : ''}`}
-					src={image.src}
-					alt={image.alt}
-					priority
-					placeholder="blur"
-					sizes="(max-width: 768px) 50vw, (max-width: 1200px) 50vw, 33vw"
-					onLoad={() => {
-						setIsImageLoaded(true);
-					}}
-				/>
-			</div>
-			{message && (
-				<>
-					<Message message={message.message} displayValue={displayValue} />
+			<div className={styles.infoPane}>
+				<div className={styles.controls}>
+					<div className={styles.unitSelector}>
+						<label htmlFor="unit-select">Estimation Unit:</label>
+						<select
+							id="unit-select"
+							value={selectedUnit.id}
+							onChange={(event) => selectUnit(event.target.value)}
+							className={styles.select}
+						>
+							{ESTIMATION_UNITS.map((unit, index) => (
+								<option key={unit.id} value={unit.id}>
+									{index + 1}. {unit.name}
+								</option>
+							))}
+						</select>
+					</div>
+				</div>
+				<p className={styles.shortcutHint}>
+					Space = next estimate, 1-5 = switch unit
+				</p>
+				{message && (
+					<div className={styles.messagePane}>
+						<Message message={message.message} displayValue={displayValue} />
+					</div>
+				)}
+				{message && (
 					<div className={styles.actions}>
 						<button
 							type="button"
@@ -591,9 +597,11 @@ export const MessageContainer: FC<MessageContainerProps> = ({
 							<ShareIcon feedback={shareFeedback} />
 						</button>
 					</div>
-				</>
-			)}
-			<Button label={'get another estimate'} onClick={onNewMessage} />
-		</>
+				)}
+				<div className={styles.primaryAction}>
+					<Button label={'get another estimate'} onClick={onNewMessage} />
+				</div>
+			</div>
+		</div>
 	);
 };

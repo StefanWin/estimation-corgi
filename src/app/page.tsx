@@ -59,8 +59,8 @@ export default async function Home({
 
 	return (
 		<div className={styles.container}>
-			<NextLink href={`/`}>
-				<h1>estimation corgi</h1>
+			<NextLink href={`/`} className={styles.titleLink}>
+				<h1 className={styles.title}>estimation corgi</h1>
 			</NextLink>
 			<MessageContainer
 				approvedMessages={preloadedMessages}
@@ -83,26 +83,28 @@ export default async function Home({
 					),
 				}}
 			/>
-			<div className={styles.links}>
-				<NextLink className={styles.link} href={'/suggest'}>
-					suggest a message
-				</NextLink>
-				<NextLink className={styles.link} href={'/meta'}>
-					show available messages &amp; images
-				</NextLink>
-			</div>
-			<div className={styles.stats}>
-				<div className={styles.statCard}>
-					<span className={styles.statLabel}>approved messages</span>
-					<strong className={styles.statValue}>
-						{messageStats.approvedCount}
-					</strong>
+			<div className={styles.metaRow}>
+				<div className={styles.links}>
+					<NextLink className={styles.link} href={'/suggest'}>
+						suggest a message
+					</NextLink>
+					<NextLink className={styles.link} href={'/meta'}>
+						show available messages &amp; images
+					</NextLink>
 				</div>
-				<div className={styles.statCard}>
-					<span className={styles.statLabel}>community submissions</span>
-					<strong className={styles.statValue}>
-						{messageStats.submissionCount}
-					</strong>
+				<div className={styles.stats}>
+					<div className={styles.statCard}>
+						<span className={styles.statLabel}>approved messages</span>
+						<strong className={styles.statValue}>
+							{messageStats.approvedCount}
+						</strong>
+					</div>
+					<div className={styles.statCard}>
+						<span className={styles.statLabel}>community submissions</span>
+						<strong className={styles.statValue}>
+							{messageStats.submissionCount}
+						</strong>
+					</div>
 				</div>
 			</div>
 		</div>

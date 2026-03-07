@@ -7,12 +7,19 @@
     --button-secondary-hover: #f2f2f2;
 
     min-height: 100svh;
-    padding: 3vh 1.5rem;
+    padding: clamp(0.75rem, 1.8vh, 1.5rem) 1.25rem;
     font-family: var(--font-geist-sans);
 
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
+    gap: clamp(0.5rem, 1.2vh, 0.9rem);
+}
+
+.main {
+    width: 100%;
+    display: flex;
     justify-content: center;
 }
 
@@ -31,28 +38,49 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 1.5rem;
-    width: 500px;
-    max-width: calc(100% - 2rem);
+    gap: clamp(0.9rem, 1.8vh, 1.25rem);
+    width: min(1040px, calc(100vw - 2.5rem));
     background: var(--card-bg);
-    padding: 2.5rem 2rem;
+    padding: clamp(1.1rem, 2.1vh, 1.75rem) clamp(1.1rem, 2vw, 1.75rem);
     border-radius: 24px;
     box-shadow: var(--card-shadow);
     transition: box-shadow 0.3s ease;
+}
+
+.titleLink {
+    text-decoration: none;
+}
+
+.title {
+    margin: 0;
+    font-size: clamp(1.8rem, 2vw, 2.4rem);
+    line-height: 1;
+    letter-spacing: -0.04em;
+    text-align: center;
 }
 
 .container:hover {
     box-shadow: var(--card-shadow-hover);
 }
 
+.metaRow {
+    width: 100%;
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
+    gap: 0.85rem;
+    align-items: stretch;
+}
+
 .links {
     display: flex;
-    flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
     gap: 0.75rem;
-    margin-top: 0.5rem;
+    padding: 0.75rem;
+    border-radius: 18px;
+    background: var(--background);
+    border: 1px solid var(--border-subtle);
 }
 
 .link {
@@ -107,6 +135,19 @@
 }
 
 @media (max-width: 640px) {
+    .page {
+        padding-inline: 1rem;
+    }
+
+    .container {
+        width: min(100%, 560px);
+    }
+
+    .metaRow {
+        grid-template-columns: 1fr;
+    }
+
+    .links,
     .stats {
         grid-template-columns: 1fr;
     }

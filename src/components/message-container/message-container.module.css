@@ -1,3 +1,27 @@
+.stage {
+    width: 100%;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(19rem, 1fr);
+    gap: clamp(1rem, 2vw, 1.75rem);
+    align-items: center;
+}
+
+.visualPane {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+    min-height: 0;
+}
+
+.infoPane {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.7rem;
+    min-width: 0;
+}
+
 .controls {
     width: 100%;
     display: flex;
@@ -52,7 +76,14 @@
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: 35vh;
+    height: clamp(13rem, 31vh, 19rem);
+    padding: 0.75rem;
+    border-radius: 24px;
+    background: linear-gradient(
+        180deg,
+        color-mix(in srgb, var(--accent) 9%, transparent),
+        color-mix(in srgb, var(--secondary) 10%, transparent)
+    );
 }
 
 .image {
@@ -120,7 +151,30 @@
     height: 1.15rem;
 }
 
+.messagePane {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.primaryAction {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+@media (max-width: 960px) {
+    .stage {
+        grid-template-columns: 1fr;
+    }
+}
+
 @media (max-width: 640px) {
+    .shortcutHint {
+        display: none;
+    }
+
     .unitSelector {
         width: 100%;
         justify-content: center;
