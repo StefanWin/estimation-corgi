@@ -3,11 +3,11 @@ import { z } from 'zod';
 
 export const env = createEnv({
 	server: {
-		CF_TURNSTILE_VERIFY_ENDPOINT: z.url(),
-		TURNSTILE_SECRET_KEY: z.string(),
+		CF_TURNSTILE_VERIFY_ENDPOINT: z.url().optional(),
+		TURNSTILE_SECRET_KEY: z.string().optional(),
 	},
 	client: {
-		NEXT_PUBLIC_TURNSTILE_SITE_KEY: z.string(),
+		NEXT_PUBLIC_TURNSTILE_SITE_KEY: z.string().optional(),
 		NEXT_PUBLIC_CONVEX_URL: z.url(),
 	},
 	runtimeEnv: {

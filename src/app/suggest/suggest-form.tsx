@@ -21,21 +21,25 @@ export function SuggestForm() {
 	const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
 	const turnStileKey = env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
+	const requiresCaptcha = Boolean(turnStileKey);
+	const normalizedInput = input.trim().replace(/\s+/g, ' ');
 
 	const onSubmit = async () => {
 		if (isSubmitting) return;
 		setIsSubmitting(true);
 		try {
 			await createMessage({
-				message: input,
+				message: normalizedInput,
 			});
 			setInput('');
 			setError(null);
 			setIsVerified(false);
 			router.push('/');
-		} catch (_error) {
-			console.error(_error);
-			setError('failed to suggest a message');
+		} catch (error) {
+			console.error(error);
+			setError(
+				error instanceof Error ? error.message : 'failed to suggest a message',
+			);
 		} finally {
 			setIsSubmitting(false);
 		}
@@ -54,15 +58,19 @@ export function SuggestForm() {
 						name="message"
 						placeholder="message (max 72 characters)"
 						required
+						value={input}
 						onChange={(e) => setInput(e.target.value)}
 					/>
 				</div>
-				{turnStileKey && (
+				<p className={styles.helperText}>
+					{normalizedInput.length}/72 characters
+				</p>
+				{requiresCaptcha && (
 					<div
 						style={{ display: 'flex', justifyContent: 'center', width: '100%' }}
 					>
 						<Turnstile
-							siteKey={turnStileKey}
+							siteKey={turnStileKey ?? ''}
 							onSuccess={(token) => {
 								verifyTurnstile(token)
 									.then((_) => {
@@ -79,9 +87,9 @@ export function SuggestForm() {
 				{error && <p className={styles.error}>{error}</p>}
 				<Button
 					isDisabled={
-						!isVerified ||
-						input.length === 0 ||
-						input.length > 72 ||
+						(requiresCaptcha && !isVerified) ||
+						normalizedInput.length === 0 ||
+						normalizedInput.length > 72 ||
 						isSubmitting
 					}
 					type="button"

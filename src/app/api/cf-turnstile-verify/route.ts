@@ -29,9 +29,9 @@ const cfResponseSchema = z.object({
 export async function POST(request: Request) {
 	const { CF_TURNSTILE_VERIFY_ENDPOINT, TURNSTILE_SECRET_KEY } = env;
 
-	if (!TURNSTILE_SECRET_KEY) {
-		return new Response('turnstile secret key not set', {
-			status: 500,
+	if (!TURNSTILE_SECRET_KEY || !CF_TURNSTILE_VERIFY_ENDPOINT) {
+		return new Response('turnstile verification is not configured', {
+			status: 503,
 		});
 	}
 

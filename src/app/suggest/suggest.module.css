@@ -64,6 +64,13 @@
     border-radius: 8px;
 }
 
+.helperText {
+    text-align: right;
+    font-size: 0.8rem;
+    color: var(--foreground);
+    opacity: 0.65;
+}
+
 .backLink {
     margin-top: 0.5rem;
     display: inline-flex;
