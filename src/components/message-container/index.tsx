@@ -26,6 +26,8 @@ type RotationState = {
 	queue: number[];
 };
 
+const UNIT_STORAGE_KEY = 'estimation-unit';
+
 const createRotationState = (
 	length: number,
 	initialIndex = getRandomIndex(length),
@@ -102,6 +104,17 @@ export const MessageContainer: FC<MessageContainerProps> = ({
 	}, [messages.length, selectedUnit.values.length]);
 
 	useEffect(() => {
+		const savedUnitId = localStorage.getItem(UNIT_STORAGE_KEY);
+
+		if (savedUnitId) {
+			const savedUnit = ESTIMATION_UNITS.find(
+				(unit) => unit.id === savedUnitId,
+			);
+			if (savedUnit) {
+				setSelectedUnit(savedUnit);
+			}
+		}
+
 		setHasMounted(true);
 	}, []);
 
@@ -161,6 +174,7 @@ export const MessageContainer: FC<MessageContainerProps> = ({
 						const unit = ESTIMATION_UNITS.find((u) => u.id === e.target.value);
 						if (unit) {
 							setSelectedUnit(unit);
+							localStorage.setItem(UNIT_STORAGE_KEY, unit.id);
 							setEstimateValueIndex(getRandomIndex(unit.values.length));
 						}
 					}}
