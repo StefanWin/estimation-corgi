@@ -1,19 +1,12 @@
 import type { FC } from 'react';
-import type { EstimationUnit } from '@/constants';
-import { getRandomArrayElement } from '@/util';
 import styles from './message.module.css';
 
 interface MessageProps {
 	message: string;
-	estimationUnit: EstimationUnit;
+	displayValue: string | number;
 }
 
-export const Message: FC<MessageProps> = ({ message, estimationUnit }) => {
-	const value = getRandomArrayElement(estimationUnit.values);
-	const displayValue = estimationUnit.suffix
-		? `${value} ${estimationUnit.suffix}`
-		: value;
-
+export const Message: FC<MessageProps> = ({ message, displayValue }) => {
 	return (
 		<>
 			<p className={styles.duration}>{displayValue}</p>
