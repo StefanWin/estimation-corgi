@@ -38,17 +38,64 @@
 }
 
 .listItem {
+    list-style: none;
+}
+
+.copyButton {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.85rem 1rem;
     background-color: var(--background);
-    padding: 0.6rem 1.2rem;
+    color: var(--foreground);
     border-radius: 16px;
-    font-size: 0.85rem;
+    font-size: 0.9rem;
+    font-family: inherit;
+    text-align: left;
     border: 1px solid var(--border-subtle);
+    cursor: pointer;
     transition: all 0.2s ease;
 }
 
-.listItem:hover {
+.copyButton:hover {
     border-color: var(--secondary-light);
     transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+.copyButton:focus-visible {
+    outline: 3px solid color-mix(in srgb, var(--secondary) 55%, transparent);
+    outline-offset: 3px;
+}
+
+.messageText {
+    flex: 1;
+}
+
+.copyMeta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    color: var(--secondary);
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.copyIcon {
+    width: 1rem;
+    height: 1rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.copyIcon svg {
+    width: 100%;
+    height: 100%;
 }
 
 .grid {
