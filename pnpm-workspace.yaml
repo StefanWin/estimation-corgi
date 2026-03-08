@@ -1,8 +1,0 @@
-packages:
-  - .
-
-savePrefix: ''
-
-updateConfig:
-  ignoreDependencies:
-    - '@types/node'
