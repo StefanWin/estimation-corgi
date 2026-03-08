@@ -28,4 +28,4 @@ jobs:
         run: bun run lint
 
       - name: Run typecheck
-        run: bun run typecheck
+        run: bun run types
