@@ -26,8 +26,7 @@ A fun web app that provides random time estimates for your tasks, accompanied by
 
 ### Prerequisites
 
-- Node.js 18+
-- pnpm
+- bun
 
 ### Installation
 
@@ -39,25 +38,15 @@ cd estimation-corgi
 
 2. Install dependencies:
 ```bash
-pnpm install
+bun run install
 ```
 
-3. Set up Convex:
+3. Copy `env.example` to `.env`
+Convex will setup its own env variables after you authenticate.
+
+4. Start Convex and Next dev servers:
 ```bash
-pnpm convex dev
-```
-
-4. Set up environment variables:
-Create a `.env.local` file with:
-```env
-NEXT_PUBLIC_CONVEX_URL=your_convex_url
-NEXT_PUBLIC_TURNSTILE_SITE_KEY=your_turnstile_key
-TURNSTILE_SECRET_KEY=your_turnstile_secret
-```
-
-5. Run the development server:
-```bash
-pnpm dev
+bun run dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) to see the app.
