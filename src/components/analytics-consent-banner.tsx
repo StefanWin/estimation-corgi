@@ -11,7 +11,7 @@ export function AnalyticsConsentBanner() {
 
 	useEffect(() => {
 		setConsentGiven(posthog.get_explicit_consent_status());
-	}, [posthog.get_explicit_consent_status]);
+	}, [posthog]);
 
 	const handleAcceptCookies = () => {
 		posthog.opt_in_capturing();

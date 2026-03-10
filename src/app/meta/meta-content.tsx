@@ -2,33 +2,21 @@
 
 import { useQuery } from 'convex/react';
 import NextImage from 'next/image';
-import { useRef, useState } from 'react';
 import { Link } from '@/components/link';
 import { CORGI_IMAGES } from '@/constants';
 import { api } from '../../../convex/_generated/api';
 import styles from './meta.module.css';
 
+async function copyMessage(message: string) {
+	try {
+		await navigator.clipboard.writeText(message);
+	} catch {
+		console.error('failed to copy message');
+	}
+}
+
 export function MetaContent() {
 	const messages = useQuery(api.messages.getApprovedMessages);
-	const [copiedMessageId, setCopiedMessageId] = useState<string | null>(null);
-	const resetTimeoutRef = useRef<number | null>(null);
-
-	const copyMessage = async (messageId: string, message: string) => {
-		try {
-			await navigator.clipboard.writeText(message);
-			setCopiedMessageId(messageId);
-
-			if (resetTimeoutRef.current) {
-				window.clearTimeout(resetTimeoutRef.current);
-			}
-
-			resetTimeoutRef.current = window.setTimeout(() => {
-				setCopiedMessageId(null);
-			}, 1800);
-		} catch (_error) {
-			setCopiedMessageId(null);
-		}
-	};
 
 	return (
 		<div className={styles.container}>
@@ -44,29 +32,12 @@ export function MetaContent() {
 							<button
 								type="button"
 								className={styles.copyButton}
-								onClick={() => copyMessage(m._id, m.message)}
+								onClick={() => copyMessage(m.message)}
 								aria-label={`Copy message: ${m.message}`}
 							>
 								<span className={styles.messageText}>{m.message}</span>
-								<span className={styles.copyMeta} aria-hidden="true">
-									<span className={styles.copyIcon}>
-										<svg
-											viewBox="0 0 24 24"
-											fill="none"
-											stroke="currentColor"
-											strokeWidth="2"
-											strokeLinecap="round"
-											strokeLinejoin="round"
-										>
-											<title>Copy</title>
-											<rect x="9" y="9" width="11" height="11" rx="2" />
-											<path d="M5 15V6a2 2 0 0 1 2-2h9" />
-										</svg>
-									</span>
-									<span className={styles.copyLabel}>
-										{copiedMessageId === m._id ? 'copied' : 'copy'}
-									</span>
-								</span>
+								{''}
+								copy
 							</button>
 						</li>
 					))}

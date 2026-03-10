@@ -20,11 +20,6 @@
     line-height: 1;
 }
 
-.container p {
-    font-size: 1.1rem;
-    opacity: 0.8;
-}
-
 .image {
     object-fit: contain;
     max-width: 100%;

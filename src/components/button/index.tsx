@@ -1,33 +1,23 @@
 'use client';
 
-import type { FC } from 'react';
+import type { ButtonHTMLAttributes } from 'react';
 import styles from './button.module.css';
 
-interface ButtonProps {
-	label: string;
-	onClick?: () => void;
-	type?: 'button' | 'submit' | 'reset';
-	isDisabled?: boolean;
-}
+type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement>;
 
-export const Button: FC<ButtonProps> = ({
-	label,
-	onClick,
+export function Button({
+	children,
+	className,
 	type = 'button',
-	isDisabled = false,
-}) => {
+	...props
+}: Readonly<ButtonProps>) {
 	return (
 		<button
-			className={styles.button}
+			className={className ? `${styles.button} ${className}` : styles.button}
 			type={type}
-			onClick={() => {
-				if (onClick) {
-					onClick();
-				}
-			}}
-			disabled={isDisabled}
+			{...props}
 		>
-			{label}
+			{children}
 		</button>
 	);
-};
+}

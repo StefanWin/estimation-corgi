@@ -1,5 +1,4 @@
 import type { Metadata } from 'next';
-import { Suspense } from 'react';
 import { SuggestForm } from './suggest-form';
 
 export const metadata: Metadata = {
@@ -8,9 +7,5 @@ export const metadata: Metadata = {
 };
 
 export default function SuggestPage() {
-	return (
-		<Suspense>
-			<SuggestForm />
-		</Suspense>
-	);
+	return <SuggestForm />;
 }

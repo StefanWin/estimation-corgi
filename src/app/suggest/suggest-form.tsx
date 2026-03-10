@@ -4,13 +4,15 @@ import { Turnstile } from '@marsidev/react-turnstile';
 import { useMutation } from 'convex/react';
 import { useRouter } from 'next/navigation';
 import { usePostHog } from 'posthog-js/react';
-import { useState } from 'react';
+import { type FormEvent, useState } from 'react';
 import { verifyTurnstile } from '@/captcha';
 import { Button } from '@/components/button';
 import { Link as NextLink } from '@/components/link';
 import { env } from '@/env';
 import { api } from '../../../convex/_generated/api';
 import styles from './suggest.module.css';
+
+const MAX_MESSAGE_LENGTH = 72;
 
 export function SuggestForm() {
 	const router = useRouter();
@@ -25,10 +27,32 @@ export function SuggestForm() {
 	const turnStileKey = env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
 	const requiresCaptcha = Boolean(turnStileKey);
 	const normalizedInput = input.trim().replaceAll(/\s+/g, ' ');
+	const canSubmit =
+		normalizedInput.length > 0 &&
+		normalizedInput.length <= MAX_MESSAGE_LENGTH &&
+		(!requiresCaptcha || isVerified) &&
+		!isSubmitting;
 
-	const onSubmit = async () => {
-		if (isSubmitting) return;
+	const handleCaptchaSuccess = async (token: string) => {
+		try {
+			const verification = await verifyTurnstile(token);
+			setIsVerified(verification.success);
+			setError(verification.success ? null : 'failed to verify captcha');
+		} catch {
+			setIsVerified(false);
+			setError('failed to verify captcha');
+		}
+	};
+
+	const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
+		event.preventDefault();
+
+		if (!canSubmit) {
+			return;
+		}
+
 		setIsSubmitting(true);
+
 		try {
 			await createMessage({
 				message: normalizedInput,
@@ -57,53 +81,35 @@ export function SuggestForm() {
 			<NextLink href={`/`}>
 				<h1>estimation corgi</h1>
 			</NextLink>
-			<div className={styles.form}>
+			<form className={styles.form} onSubmit={onSubmit}>
 				<div className={styles.inputGroup}>
 					<input
 						className={styles.input}
 						type="text"
 						name="message"
-						placeholder="message (max 72 characters)"
+						placeholder={`message (max ${MAX_MESSAGE_LENGTH} characters)`}
 						required
+						maxLength={MAX_MESSAGE_LENGTH}
 						value={input}
 						onChange={(e) => setInput(e.target.value)}
 					/>
 				</div>
 				<p className={styles.helperText}>
-					{normalizedInput.length}/72 characters
+					{normalizedInput.length}/{MAX_MESSAGE_LENGTH} characters
 				</p>
 				{requiresCaptcha && (
-					<div
-						style={{ display: 'flex', justifyContent: 'center', width: '100%' }}
-					>
+					<div className={styles.captcha}>
 						<Turnstile
 							siteKey={turnStileKey ?? ''}
-							onSuccess={(token) => {
-								verifyTurnstile(token)
-									.then((_) => {
-										setIsVerified(true);
-									})
-									.catch((_) => {
-										setIsVerified(false);
-										setError('failed to verify captcha');
-									});
-							}}
+							onSuccess={handleCaptchaSuccess}
 						/>
 					</div>
 				)}
 				{error && <p className={styles.error}>{error}</p>}
-				<Button
-					isDisabled={
-						(requiresCaptcha && !isVerified) ||
-						normalizedInput.length === 0 ||
-						normalizedInput.length > 72 ||
-						isSubmitting
-					}
-					type="button"
-					label={isSubmitting ? 'suggesting...' : 'suggest'}
-					onClick={onSubmit}
-				/>
-			</div>
+				<Button disabled={!canSubmit} type="submit">
+					{isSubmitting ? 'suggesting...' : 'suggest'}
+				</Button>
+			</form>
 			<NextLink href="/" className={styles.backLink}>
 				go back
 			</NextLink>

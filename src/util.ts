@@ -1,13 +1,3 @@
-export const getRandomNumber = (min: number, max: number): number => {
-	return Math.floor(Math.random() * (max - min + 1)) + min;
-};
-
-export const getRandomArrayElement = <T>(array: T[]): T | undefined => {
-	if (array.length === 0) return undefined;
-	const randomIndex = Math.floor(Math.random() * array.length);
-	return array[randomIndex];
-};
-
 export const getRandomIndex = (length: number): number => {
 	if (length <= 0) {
 		return -1;
@@ -16,56 +6,19 @@ export const getRandomIndex = (length: number): number => {
 	return Math.floor(Math.random() * length);
 };
 
-export const createUpcomingIndexQueue = (
+export const getRandomIndexExcluding = (
 	length: number,
 	currentIndex: number,
-): number[] => {
+): number => {
 	if (length <= 1) {
-		return [];
+		return currentIndex;
 	}
 
-	const queue = Array.from({ length }, (_, index) => index).filter(
-		(index) => index !== currentIndex,
-	);
+	let nextIndex = getRandomIndex(length);
 
-	for (let index = queue.length - 1; index > 0; index -= 1) {
-		const swapIndex = Math.floor(Math.random() * (index + 1));
-		[queue[index], queue[swapIndex]] = [queue[swapIndex], queue[index]];
+	while (nextIndex === currentIndex) {
+		nextIndex = getRandomIndex(length);
 	}
 
-	return queue;
-};
-
-export const getNextQueuedIndex = (
-	length: number,
-	currentIndex: number,
-	queue: number[],
-): { nextIndex: number; nextQueue: number[] } => {
-	if (length <= 1) {
-		return {
-			nextIndex: currentIndex,
-			nextQueue: [],
-		};
-	}
-
-	const availableQueue =
-		queue.length > 0
-			? [...queue]
-			: createUpcomingIndexQueue(length, currentIndex);
-	const nextIndex = availableQueue.shift();
-
-	if (nextIndex === undefined) {
-		return {
-			nextIndex: currentIndex,
-			nextQueue: [],
-		};
-	}
-
-	return {
-		nextIndex,
-		nextQueue:
-			availableQueue.length > 0
-				? availableQueue
-				: createUpcomingIndexQueue(length, nextIndex),
-	};
+	return nextIndex;
 };

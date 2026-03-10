@@ -44,14 +44,22 @@ export const Footer: FC = () => {
 			</Link>
 			<Link href="/privacy">data privacy</Link>
 			{consentStatus === 'granted' && (
-				<Link href="#" onClick={onOptOut}>
+				<button
+					className={styles.preferencesButton}
+					type="button"
+					onClick={onOptOut}
+				>
 					opt-out
-				</Link>
+				</button>
 			)}
 			{consentStatus === 'denied' && (
-				<Link href="#" onClick={onOptIn}>
+				<button
+					className={styles.preferencesButton}
+					type="button"
+					onClick={onOptIn}
+				>
 					opt-in
-				</Link>
+				</button>
 			)}
 		</footer>
 	);

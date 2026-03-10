@@ -21,15 +21,7 @@
 .inputGroup {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
     width: 100%;
-}
-
-.inputGroup label {
-    font-weight: 600;
-    font-size: 0.9rem;
-    color: var(--foreground);
-    opacity: 0.8;
 }
 
 .input {
@@ -62,6 +54,12 @@
     padding: 0.75rem;
     background: rgba(255, 68, 68, 0.1);
     border-radius: 8px;
+}
+
+.captcha {
+    display: flex;
+    justify-content: center;
+    width: 100%;
 }
 
 .helperText {

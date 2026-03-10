@@ -5,7 +5,6 @@ import './globals.css';
 import { AnalyticsConsentBanner } from '@/components/analytics-consent-banner';
 import { ConvexClientProvider } from '@/components/convex-provider';
 import { Footer } from '@/components/footer';
-import { ThemeToggle } from '@/components/theme-toggle';
 import styles from './page.module.css';
 
 const geistSans = Geist({
@@ -85,10 +84,9 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<html lang="en">
+		<html lang="en" data-theme="dark">
 			<body className={`${geistSans.variable} ${geistMono.variable}`}>
 				<ConvexClientProvider>
-					<ThemeToggle />
 					<div className={styles.page}>
 						<main className={styles.main}>{children}</main>
 						<Footer />

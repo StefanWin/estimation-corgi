@@ -31,14 +31,6 @@
 	color: color-mix(in srgb, var(--foreground) 82%, transparent);
 }
 
-.status {
-	font-size: 0.82rem;
-	font-weight: 700;
-	text-transform: uppercase;
-	letter-spacing: 0.06em;
-	color: var(--secondary);
-}
-
 .link {
 	color: var(--secondary);
 	font-weight: 600;

@@ -22,49 +22,8 @@
     min-width: 0;
 }
 
-.controls {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-}
-
-.unitSelector {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    font-size: 0.95rem;
-}
-
-.unitSelector label {
-    color: var(--foreground);
-    font-weight: 500;
-}
-
-.select {
-    padding: 8px 16px;
-    border: 2px solid var(--foreground);
-    border-radius: 8px;
-    background-color: var(--background);
-    color: var(--foreground);
-    font-size: 0.95rem;
-    cursor: pointer;
-    transition: all 0.2s ease;
-}
-
-.select:hover {
-    border-color: var(--accent);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.select:focus {
-    outline: none;
-    border-color: var(--accent);
-    box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.1);
-}
-
 .shortcutHint {
     width: 100%;
-    margin-top: -0.35rem;
     text-align: center;
     font-size: 0.8rem;
     color: var(--foreground);
@@ -108,49 +67,6 @@
     transform: scale(1.02);
 }
 
-.actions {
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 0.75rem;
-    margin-top: 0.35rem;
-}
-
-.actionButton {
-    border: 1px solid var(--border-subtle);
-    background: var(--background);
-    color: var(--foreground);
-    border-radius: 999px;
-    width: 2.75rem;
-    height: 2.75rem;
-    padding: 0;
-    font: inherit;
-    font-size: 0.9rem;
-    font-weight: 600;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
-}
-
-.actionButton:hover {
-    transform: translateY(-2px);
-    border-color: var(--secondary-light);
-    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.08);
-}
-
-.actionButton:focus-visible {
-    outline: 3px solid color-mix(in srgb, var(--secondary) 55%, transparent);
-    outline-offset: 3px;
-}
-
-.actionButton svg {
-    width: 1.15rem;
-    height: 1.15rem;
-}
-
 .messagePane {
     width: 100%;
     display: flex;
@@ -173,11 +89,5 @@
 @media (max-width: 640px) {
     .shortcutHint {
         display: none;
-    }
-
-    .unitSelector {
-        width: 100%;
-        justify-content: center;
-        flex-wrap: wrap;
     }
 }
