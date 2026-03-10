@@ -13,7 +13,7 @@ export default function PrivacyPage() {
 			<div>
 				<h1>Privacy Policy</h1>
 				<p>
-					<em>Last updated: January 2026</em>
+					<em>Last updated: March 2026</em>
 				</p>
 
 				<section>
@@ -45,54 +45,64 @@ export default function PrivacyPage() {
 				</section>
 
 				<section>
-					<h2>3. Analytics (Vercel Analytics)</h2>
+					<h2>3. Analytics (PostHog)</h2>
 					<p>
-						This website uses Vercel Analytics to collect anonymous usage data
-						such as page views, referrer information, and basic browser
-						information. This helps us understand how visitors use the site and
-						improve user experience.
+						This website uses PostHog to understand how visitors use the site
+						and to measure interactions with core features. This helps us
+						improve functionality, content, and overall user experience.
+						Analytics are only enabled after you give your consent.
 					</p>
 					<p>
-						<strong>Data collected:</strong> Page views, referrer URL, browser
-						type, device type, country (derived from IP address, which is not
-						stored), and visit timestamp.
+						<strong>Data collected:</strong> PostHog may collect page views,
+						referrer URL, browser and device information, approximate location,
+						timestamps, and event data generated when you interact with the
+						website, such as requesting a new message or suggesting a message.
+						If an error occurs while submitting a suggestion, technical error
+						details and the form values involved in that failed submission may
+						also be sent to PostHog for debugging purposes.
 					</p>
 					<p>
-						<strong>Privacy features:</strong> Vercel Analytics is
-						privacy-friendly and does not use cookies, does not track users
-						across sites, and does not collect personally identifiable
-						information. All data is anonymized and aggregated.
+						<strong>Storage and identifiers:</strong> PostHog may use cookies or
+						similar browser storage to recognize returning browsers and
+						associate events with a session. We do not use PostHog to directly
+						identify you by name.
 					</p>
 					<p>
-						<strong>Retention period:</strong> Analytics data is retained for a
-						maximum of 12 months.
+						<strong>Retention period:</strong> Analytics data is retained only
+						as long as necessary for analytics and debugging purposes or until
+						it is deleted in PostHog.
 					</p>
 					<p>
-						<strong>Provider:</strong> Vercel Inc., 340 S Lemon Ave #4133,
-						Walnut, CA 91789, USA
-						<br />
-						<strong>Legal basis:</strong> Article 6(1)(f) GDPR (legitimate
-						interest in analyzing and improving website usage). Our legitimate
-						interest is to understand how visitors use our website to improve
-						functionality and user experience. This processing does not override
-						your fundamental rights as the data is fully anonymized.
-						<br />
-						<strong>Data transfer:</strong> Data may be transferred to and
-						processed in the USA. Vercel participates in the EU–US Data Privacy
-						Framework and provides appropriate safeguards for international data
-						transfers under Article 46 GDPR.
-						<br />
-						<strong>Your rights:</strong> You can object to analytics processing
-						at any time by contacting us. Since the data is fully anonymized,
-						individual data cannot be identified or deleted.
-						<br />
-						<strong>More information:</strong>{' '}
+						<strong>Provider:</strong> PostHog. This website is configured to
+						send analytics data to PostHog&apos;s EU ingestion endpoint at{' '}
 						<a
-							href="https://vercel.com/docs/analytics/privacy-policy"
+							href="https://eu.i.posthog.com"
 							target="_blank"
 							rel="noopener noreferrer"
 						>
-							Vercel Analytics Privacy Policy
+							eu.i.posthog.com
+						</a>
+						<br />
+						<strong>Legal basis:</strong> Article 6(1)(a) GDPR (your consent).
+						You can give or refuse consent through the cookie banner and change
+						your choice later via cookie settings.
+						<br />
+						<strong>Data transfer:</strong> Although the data is sent to a
+						PostHog EU endpoint, processing by PostHog may involve international
+						data transfers depending on PostHog&apos;s infrastructure and
+						support arrangements.
+						<br />
+						<strong>Your rights:</strong> You can object to analytics processing
+						at any time by withdrawing your consent in cookie settings or by
+						contacting us.
+						<br />
+						<strong>More information:</strong>{' '}
+						<a
+							href="https://posthog.com/privacy"
+							target="_blank"
+							rel="noopener noreferrer"
+						>
+							PostHog Privacy Policy
 						</a>
 					</p>
 				</section>
@@ -100,11 +110,16 @@ export default function PrivacyPage() {
 				<section>
 					<h2>4. Cookies</h2>
 					<p>
-						Cookies may be used for essential functionality. You can delete or
-						block cookies through your browser settings at any time.
+						This website may use cookies and similar browser storage for
+						essential functionality and for PostHog analytics described in
+						Section 3. You can delete or block cookies through your browser
+						settings at any time and manage analytics consent through cookie
+						settings.
 					</p>
 					<p>
 						<strong>Legal basis:</strong> Essential cookies – Art. 6(1)(f) GDPR.
+						Analytics-related storage is based on your consent under Art.
+						6(1)(a) GDPR as described in Section 3.
 					</p>
 				</section>
 
@@ -146,7 +161,7 @@ export default function PrivacyPage() {
 							<em>
 								Landesbeauftragte für Datenschutz und Informationsfreiheit
 							</em>
-							.
+							{''}.
 						</li>
 					</ul>
 					<p>
@@ -154,13 +169,14 @@ export default function PrivacyPage() {
 						<a href="mailto:wintergerst.stefan@googlemail.com">
 							wintergerst.stefan@googlemail.com
 						</a>
-						.
+						{''}.
 					</p>
 					<p>
-						<strong>Note:</strong> For Vercel Analytics data, since all
-						information is fully anonymized and aggregated, it cannot be linked
-						to individual users. Therefore, rights such as access, deletion, and
-						portability do not apply to this anonymized data.
+						<strong>Note:</strong> PostHog analytics data is generally stored in
+						pseudonymous event form rather than as directly identifying profile
+						data. If you want to exercise rights related to analytics data,
+						please contact us and include any details that may help us locate
+						the relevant records.
 					</p>
 				</section>
 

@@ -3,6 +3,7 @@
 import { type Preloaded, usePreloadedQuery } from 'convex/react';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
+import { usePostHog } from 'posthog-js/react';
 import { type FC, useCallback, useEffect, useState } from 'react';
 import { Message } from '@/components/message';
 import { CORGI_IMAGES, ESTIMATION_UNITS } from '@/constants';
@@ -201,6 +202,7 @@ export const MessageContainer: FC<MessageContainerProps> = ({
 	approvedMessages,
 	initialEstimateState,
 }) => {
+	const posthog = usePostHog();
 	const pathname = usePathname();
 	const messages = usePreloadedQuery(approvedMessages);
 	const initialUnit =
@@ -248,6 +250,7 @@ export const MessageContainer: FC<MessageContainerProps> = ({
 	}, []);
 
 	const onNewMessage = useCallback(() => {
+		posthog.capture('new_message');
 		setMessageRotation((prevState) => {
 			const { nextIndex, nextQueue } = getNextQueuedIndex(
 				messages.length,
@@ -276,7 +279,7 @@ export const MessageContainer: FC<MessageContainerProps> = ({
 		});
 		setCopyFeedback('idle');
 		setShareFeedback('idle');
-	}, [messages.length, selectedUnit]);
+	}, [messages.length, selectedUnit, posthog]);
 
 	const copyEstimate = useCallback(async () => {
 		if (!message) {

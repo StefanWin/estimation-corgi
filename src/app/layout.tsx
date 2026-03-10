@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import type React from 'react';
 import './globals.css';
+import { AnalyticsConsentBanner } from '@/components/analytics-consent-banner';
 import { ConvexClientProvider } from '@/components/convex-provider';
 import { Footer } from '@/components/footer';
 import { ThemeToggle } from '@/components/theme-toggle';
@@ -92,6 +93,7 @@ export default function RootLayout({
 						<main className={styles.main}>{children}</main>
 						<Footer />
 					</div>
+					<AnalyticsConsentBanner />
 				</ConvexClientProvider>
 			</body>
 		</html>

@@ -4,6 +4,7 @@ import { Turnstile } from '@marsidev/react-turnstile';
 import { useMutation } from 'convex/react';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { captureAnalyticsEvent, captureAnalyticsException } from '@/analytics';
 import { verifyTurnstile } from '@/captcha';
 import { Button } from '@/components/button';
 import { Link as NextLink } from '@/components/link';
@@ -22,7 +23,7 @@ export function SuggestForm() {
 
 	const turnStileKey = env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
 	const requiresCaptcha = Boolean(turnStileKey);
-	const normalizedInput = input.trim().replace(/\s+/g, ' ');
+	const normalizedInput = input.trim().replaceAll(/\s+/g, ' ');
 
 	const onSubmit = async () => {
 		if (isSubmitting) return;
@@ -34,12 +35,17 @@ export function SuggestForm() {
 			setInput('');
 			setError(null);
 			setIsVerified(false);
+			captureAnalyticsEvent('message_suggested');
 			router.push('/');
 		} catch (error) {
 			console.error(error);
 			setError(
 				error instanceof Error ? error.message : 'failed to suggest a message',
 			);
+			captureAnalyticsException(error, {
+				input,
+				normalizedInput,
+			});
 		} finally {
 			setIsSubmitting(false);
 		}
