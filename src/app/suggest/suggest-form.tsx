@@ -3,8 +3,8 @@
 import { Turnstile } from '@marsidev/react-turnstile';
 import { useMutation } from 'convex/react';
 import { useRouter } from 'next/navigation';
+import { usePostHog } from 'posthog-js/react';
 import { useState } from 'react';
-import { captureAnalyticsEvent, captureAnalyticsException } from '@/analytics';
 import { verifyTurnstile } from '@/captcha';
 import { Button } from '@/components/button';
 import { Link as NextLink } from '@/components/link';
@@ -14,6 +14,7 @@ import styles from './suggest.module.css';
 
 export function SuggestForm() {
 	const router = useRouter();
+	const posthog = usePostHog();
 	const createMessage = useMutation(api.messages.createMessage);
 
 	const [input, setInput] = useState('');
@@ -35,14 +36,14 @@ export function SuggestForm() {
 			setInput('');
 			setError(null);
 			setIsVerified(false);
-			captureAnalyticsEvent('message_suggested');
+			posthog.capture('message_suggested');
 			router.push('/');
 		} catch (error) {
 			console.error(error);
 			setError(
 				error instanceof Error ? error.message : 'failed to suggest a message',
 			);
-			captureAnalyticsException(error, {
+			posthog.captureException(error, {
 				input,
 				normalizedInput,
 			});
