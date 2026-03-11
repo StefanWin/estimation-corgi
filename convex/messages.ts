@@ -1,10 +1,12 @@
+// noinspection JSUnusedGlobalSymbols
+
 import { ConvexError, v } from 'convex/values';
 import { mutation, query } from './_generated/server';
 
 const MAX_MESSAGE_LENGTH = 72;
 
 const normalizeMessage = (message: string) =>
-	message.trim().replace(/\s+/g, ' ');
+	message.trim().replaceAll(/\s+/g, ' ');
 
 export const createMessage = mutation({
 	args: {

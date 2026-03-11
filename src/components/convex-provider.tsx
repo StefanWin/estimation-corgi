@@ -6,6 +6,8 @@ import { env } from '@/env';
 
 const convex = new ConvexReactClient(env.NEXT_PUBLIC_CONVEX_URL);
 
-export function ConvexClientProvider({ children }: { children: ReactNode }) {
+export function ConvexClientProvider({
+	children,
+}: Readonly<{ children: ReactNode }>) {
 	return <ConvexProvider client={convex}>{children}</ConvexProvider>;
 }
