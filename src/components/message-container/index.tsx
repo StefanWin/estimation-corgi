@@ -87,13 +87,15 @@ export function MessageContainer({
 			return;
 		}
 
-		setMessageIndex((previousIndex) =>
-			isValidIndex(messages.length, previousIndex)
-				? previousIndex
-				: isValidIndex(messages.length, initialEstimateState.messageIndex)
-					? initialEstimateState.messageIndex
-					: getRandomIndex(messages.length),
-		);
+		setMessageIndex((previousIndex) => {
+			if (isValidIndex(messages.length, previousIndex)) {
+				return previousIndex;
+			}
+			if (isValidIndex(messages.length, initialEstimateState.messageIndex)) {
+				return initialEstimateState.messageIndex;
+			}
+			return getRandomIndex(messages.length);
+		});
 	}, [initialEstimateState.messageIndex, messages.length]);
 
 	useEffect(() => {

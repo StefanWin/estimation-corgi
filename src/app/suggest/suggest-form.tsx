@@ -4,7 +4,7 @@ import { Turnstile } from '@marsidev/react-turnstile';
 import { useMutation } from 'convex/react';
 import { useRouter } from 'next/navigation';
 import { usePostHog } from 'posthog-js/react';
-import { type FormEvent, useState } from 'react';
+import { type SubmitEventHandler, useState } from 'react';
 import { verifyTurnstile } from '@/captcha';
 import { Button } from '@/components/button';
 import { Link as NextLink } from '@/components/link';
@@ -44,7 +44,7 @@ export function SuggestForm() {
 		}
 	};
 
-	const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
+	const onSubmit: SubmitEventHandler<HTMLFormElement> = (event) => {
 		event.preventDefault();
 
 		if (!canSubmit) {
@@ -53,27 +53,31 @@ export function SuggestForm() {
 
 		setIsSubmitting(true);
 
-		try {
-			await createMessage({
-				message: normalizedInput,
+		createMessage({
+			message: normalizedInput,
+		})
+			.then(() => {
+				setInput('');
+				setError(null);
+				setIsVerified(false);
+				posthog.capture('message_suggested');
+				router.push('/');
+			})
+			.catch((error) => {
+				console.error(error);
+				setError(
+					error instanceof Error
+						? error.message
+						: 'failed to suggest a message',
+				);
+				posthog.captureException(error, {
+					input,
+					normalizedInput,
+				});
+			})
+			.finally(() => {
+				setIsSubmitting(false);
 			});
-			setInput('');
-			setError(null);
-			setIsVerified(false);
-			posthog.capture('message_suggested');
-			router.push('/');
-		} catch (error) {
-			console.error(error);
-			setError(
-				error instanceof Error ? error.message : 'failed to suggest a message',
-			);
-			posthog.captureException(error, {
-				input,
-				normalizedInput,
-			});
-		} finally {
-			setIsSubmitting(false);
-		}
 	};
 
 	return (
