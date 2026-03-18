@@ -19,14 +19,14 @@
     "@marsidev/react-turnstile": "1.4.2",
     "@t3-oss/env-nextjs": "0.13.10",
     "convex": "1.33.1",
-    "next": "16.1.6",
-    "posthog-js": "1.360.2",
+    "next": "16.2.0",
+    "posthog-js": "1.362.0",
     "react": "19.2.4",
     "react-dom": "19.2.4",
     "zod": "4.3.6"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.4.7",
+    "@biomejs/biome": "2.4.8",
     "@types/node": "25.5.0",
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",
