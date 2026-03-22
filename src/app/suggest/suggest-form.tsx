@@ -1,11 +1,10 @@
 'use client';
 
 import { Turnstile } from '@marsidev/react-turnstile';
-import { useMutation } from 'convex/react';
+import { useAction } from 'convex/react';
 import { useRouter } from 'next/navigation';
 import { usePostHog } from 'posthog-js/react';
 import { type SubmitEventHandler, useState } from 'react';
-import { verifyTurnstile } from '@/captcha';
 import { Button } from '@/components/button';
 import { Link as NextLink } from '@/components/link';
 import { env } from '@/env';
@@ -17,11 +16,12 @@ const MAX_MESSAGE_LENGTH = 72;
 export function SuggestForm() {
 	const router = useRouter();
 	const posthog = usePostHog();
-	const createMessage = useMutation(api.messages.createMessage);
+	const createMessage = useAction(api.messages.createMessage);
 
 	const [input, setInput] = useState('');
 	const [error, setError] = useState<string | null>(null);
-	const [isVerified, setIsVerified] = useState<boolean>(false);
+	const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+	const [captchaRenderKey, setCaptchaRenderKey] = useState(0);
 	const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
 	const turnStileKey = env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
@@ -30,18 +30,17 @@ export function SuggestForm() {
 	const canSubmit =
 		normalizedInput.length > 0 &&
 		normalizedInput.length <= MAX_MESSAGE_LENGTH &&
-		(!requiresCaptcha || isVerified) &&
+		(!requiresCaptcha || Boolean(turnstileToken)) &&
 		!isSubmitting;
 
-	const handleCaptchaSuccess = async (token: string) => {
-		try {
-			const verification = await verifyTurnstile(token);
-			setIsVerified(verification.success);
-			setError(verification.success ? null : 'failed to verify captcha');
-		} catch {
-			setIsVerified(false);
-			setError('failed to verify captcha');
-		}
+	const resetCaptcha = () => {
+		setTurnstileToken(null);
+		setCaptchaRenderKey((currentValue) => currentValue + 1);
+	};
+
+	const handleCaptchaSuccess = (token: string) => {
+		setTurnstileToken(token);
+		setError(null);
 	};
 
 	const onSubmit: SubmitEventHandler<HTMLFormElement> = (event) => {
@@ -55,11 +54,11 @@ export function SuggestForm() {
 
 		createMessage({
 			message: normalizedInput,
+			turnstileToken: turnstileToken ?? undefined,
 		})
 			.then(() => {
 				setInput('');
 				setError(null);
-				setIsVerified(false);
 				posthog.capture('message_suggested');
 				router.push('/');
 			})
@@ -76,6 +75,9 @@ export function SuggestForm() {
 				});
 			})
 			.finally(() => {
+				if (requiresCaptcha) {
+					resetCaptcha();
+				}
 				setIsSubmitting(false);
 			});
 	};
@@ -104,8 +106,14 @@ export function SuggestForm() {
 				{requiresCaptcha && (
 					<div className={styles.captcha}>
 						<Turnstile
+							key={captchaRenderKey}
 							siteKey={turnStileKey ?? ''}
 							onSuccess={handleCaptchaSuccess}
+							onExpire={resetCaptcha}
+							onError={() => {
+								resetCaptcha();
+								setError('failed to verify captcha');
+							}}
 						/>
 					</div>
 				)}

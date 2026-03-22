@@ -8,6 +8,7 @@
  * @module
  */
 
+import type * as message_submissions from "../message_submissions.js";
 import type * as messages from "../messages.js";
 import type * as migrations from "../migrations.js";
 
@@ -18,6 +19,7 @@ import type {
 } from "convex/server";
 
 declare const fullApi: ApiFromModules<{
+  message_submissions: typeof message_submissions;
   messages: typeof messages;
   migrations: typeof migrations;
 }>;

@@ -1,44 +1,64 @@
 // noinspection JSUnusedGlobalSymbols
 
 import { ConvexError, v } from 'convex/values';
-import { mutation, query } from './_generated/server';
+import { z } from 'zod';
+import { internal } from './_generated/api';
+import type { Id } from './_generated/dataModel';
+import { action, query } from './_generated/server';
 
-const MAX_MESSAGE_LENGTH = 72;
+const turnstileResponseSchema = z.object({
+	success: z.boolean(),
+});
 
-const normalizeMessage = (message: string) =>
-	message.trim().replaceAll(/\s+/g, ' ');
+const verifyTurnstileToken = async (token: string) => {
+	const endpoint = process.env.CF_TURNSTILE_VERIFY_ENDPOINT;
+	const secret = process.env.TURNSTILE_SECRET_KEY;
 
-export const createMessage = mutation({
+	if (!endpoint || !secret) {
+		return;
+	}
+
+	const response = await fetch(endpoint, {
+		method: 'POST',
+		body: `secret=${encodeURIComponent(secret)}&response=${encodeURIComponent(token)}`,
+		headers: {
+			'content-type': 'application/x-www-form-urlencoded',
+		},
+	});
+
+	if (!response.ok) {
+		throw new ConvexError('failed to verify captcha');
+	}
+
+	const responseData = await response.json();
+	const validation = turnstileResponseSchema.safeParse(responseData);
+
+	if (!validation.success || !validation.data.success) {
+		throw new ConvexError('failed to verify captcha');
+	}
+};
+
+export const createMessage: ReturnType<typeof action> = action({
 	args: {
 		message: v.string(),
+		turnstileToken: v.optional(v.string()),
 	},
-	handler: async (ctx, args) => {
-		const normalizedMessage = normalizeMessage(args.message);
-
-		if (normalizedMessage.length === 0) {
-			throw new ConvexError('message must not be empty');
-		}
-
-		if (normalizedMessage.length > MAX_MESSAGE_LENGTH) {
-			throw new ConvexError(
-				`message must be ${MAX_MESSAGE_LENGTH} characters or fewer`,
-			);
-		}
-
-		const existingMessages = await ctx.db.query('messages').collect();
-		const duplicateMessage = existingMessages.find(
-			(existingMessage) =>
-				normalizeMessage(existingMessage.message).toLowerCase() ===
-				normalizedMessage.toLowerCase(),
+	handler: async (ctx, args): Promise<Id<'messages'>> => {
+		const requiresCaptcha = Boolean(
+			process.env.CF_TURNSTILE_VERIFY_ENDPOINT &&
+				process.env.TURNSTILE_SECRET_KEY,
 		);
 
-		if (duplicateMessage) {
-			throw new ConvexError('that message already exists');
+		if (requiresCaptcha && !args.turnstileToken) {
+			throw new ConvexError('captcha is required');
 		}
 
-		return ctx.db.insert('messages', {
-			message: normalizedMessage,
-			isApproved: false,
+		if (args.turnstileToken) {
+			await verifyTurnstileToken(args.turnstileToken);
+		}
+
+		return ctx.runMutation(internal.message_submissions.createMessageInternal, {
+			message: args.message,
 		});
 	},
 });
