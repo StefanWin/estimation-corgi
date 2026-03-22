@@ -103,20 +103,25 @@ export function MessageContainer({
 			return;
 		}
 
+		posthog.capture('copy_estimate');
+
 		try {
 			await navigator.clipboard.writeText(
 				`${displayValue} - ${message.message}`,
 			);
 			toast.success('Estimate copied');
-		} catch {
+		} catch (error: unknown) {
 			toast.error('Failed to copy estimate');
+			posthog.captureException(error);
 		}
-	}, [displayValue, message]);
+	}, [displayValue, message, posthog]);
 
 	const onShareEstimate = useCallback(async () => {
 		if (!message) {
 			return;
 		}
+
+		posthog.capture('share_estimate');
 
 		const shareUrl = getShareUrl(globalThis.location.origin, {
 			imageIndex,
@@ -138,10 +143,11 @@ export function MessageContainer({
 
 			await navigator.clipboard.writeText(shareUrl);
 			toast.success('Share link copied');
-		} catch {
+		} catch (error: unknown) {
 			toast.error('Failed to share estimate');
+			posthog.captureException(error);
 		}
-	}, [displayValue, imageIndex, message, messageIndex, valueIndex]);
+	}, [displayValue, imageIndex, message, messageIndex, valueIndex, posthog]);
 
 	useEffect(() => {
 		if (messages.length === 0) {
