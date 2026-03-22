@@ -23,6 +23,19 @@ export const backfillNormalizedMessages = migrations.define({
 	},
 });
 
+export const backfillMessageLikes = migrations.define({
+	table: 'messages',
+	migrateOne: (_ctx, message) => {
+		if (message.likes !== undefined) {
+			return;
+		}
+		return {
+			likes: 0,
+		};
+	},
+});
+
 export const runAll = migrations.runner([
 	internal.migrations.backfillNormalizedMessages,
+	internal.migrations.backfillMessageLikes,
 ]);

@@ -38,7 +38,9 @@ export function MetaContent() {
 								onClick={() => copyMessage(m.message)}
 								aria-label={`Copy message: ${m.message}`}
 							>
-								<span className={styles.messageText}>{m.message}</span>
+								<span className={styles.messageText}>
+									{m.message} {m.likes ? `(${m.likes} likes)` : ''}
+								</span>
 								{''}
 								<BookCopyIcon />
 							</button>

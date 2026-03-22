@@ -22,14 +22,6 @@
     min-width: 0;
 }
 
-.shortcutHint {
-    width: 100%;
-    text-align: center;
-    font-size: 0.8rem;
-    color: var(--foreground);
-    opacity: 0.65;
-}
-
 .imageWrapper {
     display: flex;
     justify-content: center;

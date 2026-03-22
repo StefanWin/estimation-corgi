@@ -1,7 +1,7 @@
 'use client';
 
-import { type Preloaded, usePreloadedQuery } from 'convex/react';
-import { Copy, Share2 } from 'lucide-react';
+import { type Preloaded, useMutation, usePreloadedQuery } from 'convex/react';
+import { Copy, LucideThumbsUp, Share2 } from 'lucide-react';
 import Image from 'next/image';
 import { usePostHog } from 'posthog-js/react';
 import { useCallback, useEffect, useState } from 'react';
@@ -9,7 +9,7 @@ import { toast } from 'sonner';
 import { Message } from '@/components/message';
 import { CORGI_IMAGES, ESTIMATION_HOURS } from '@/constants';
 import { getRandomIndex, getRandomIndexExcluding } from '@/util';
-import type { api } from '../../../convex/_generated/api';
+import { api } from '../../../convex/_generated/api';
 import { Button } from '../button';
 import styles from './message-container.module.css';
 
@@ -67,6 +67,7 @@ export function MessageContainer({
 }: Readonly<MessageContainerProps>) {
 	const posthog = usePostHog();
 	const messages = usePreloadedQuery(approvedMessages);
+	const likeMessage = useMutation(api.messages.likeMessage);
 	const [imageIndex, setImageIndex] = useState(() =>
 		isValidIndex(CORGI_IMAGES.length, initialEstimateState.imageIndex)
 			? initialEstimateState.imageIndex
@@ -149,6 +150,21 @@ export function MessageContainer({
 		}
 	}, [displayValue, imageIndex, message, messageIndex, valueIndex, posthog]);
 
+	const onMessageLiked = useCallback(async () => {
+		if (!message) {
+			return;
+		}
+
+		posthog.capture('message_liked');
+		try {
+			await likeMessage({ id: message._id });
+			toast.success('Message liked');
+		} catch (err: unknown) {
+			toast.error('Failed to like message');
+			posthog.captureException(err);
+		}
+	}, [likeMessage, message, posthog]);
+
 	useEffect(() => {
 		if (messages.length === 0) {
 			setMessageIndex(-1);
@@ -228,6 +244,17 @@ export function MessageContainer({
 					<button
 						type="button"
 						className={styles.secondaryAction}
+						aria-label="Like message"
+						title="Like message"
+						onClick={() => {
+							void onMessageLiked();
+						}}
+					>
+						<LucideThumbsUp size={18} strokeWidth={2.25} />
+					</button>
+					<button
+						type="button"
+						className={styles.secondaryAction}
 						aria-label="Copy estimate"
 						title="Copy estimate"
 						onClick={() => {
@@ -248,7 +275,11 @@ export function MessageContainer({
 						<Share2 size={18} strokeWidth={2.25} />
 					</button>
 				</div>
-				<p className={styles.shortcutHint}>Space = next estimate</p>
+				{message?.likes ? (
+					<p>{message.likes} likes</p>
+				) : (
+					'be the first to like the message!'
+				)}
 			</div>
 		</div>
 	);

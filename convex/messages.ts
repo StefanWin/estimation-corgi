@@ -4,7 +4,7 @@ import { ConvexError, v } from 'convex/values';
 import { z } from 'zod';
 import { internal } from './_generated/api';
 import type { Id } from './_generated/dataModel';
-import { action, query } from './_generated/server';
+import { action, mutation, query } from './_generated/server';
 
 const turnstileResponseSchema = z.object({
 	success: z.boolean(),
@@ -71,5 +71,22 @@ export const getApprovedMessages = query({
 			.withIndex('by_is_approved', (q) => q.eq('isApproved', true))
 			.order('desc')
 			.collect();
+	},
+});
+
+export const likeMessage = mutation({
+	args: { id: v.id('messages') },
+	handler: async (ctx, args) => {
+		const message = await ctx.db
+			.query('messages')
+			.withIndex('by_id', (q) => q.eq('_id', args.id))
+			.first();
+		if (!message) {
+			throw new ConvexError('message not found');
+		}
+
+		await ctx.db.patch('messages', args.id, {
+			likes: (message.likes ?? 0) + 1,
+		});
 	},
 });
