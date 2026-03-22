@@ -1,8 +1,11 @@
-import blepCorgi from '../public/blep-corgi.png';
-import chillaxCorgi from '../public/ChillaxCorgi.png';
-import cuteCorgi from '../public/cute-corgi.png';
-import fatAssCorgi from '../public/phatasscorgi.png';
-import runningCorgi from '../public/running-corgi.png';
+import blepCorgi from '../public/blep-corgi.webp';
+import chillaxCorgi from '../public/ChillaxCorgi.webp';
+import cuteCorgi from '../public/cute-corgi.webp';
+import dabbingCorgi from '../public/dabbing-corgi.webp';
+import laptopCorgi from '../public/laptop-corgi.webp';
+import fatAssCorgi from '../public/phatasscorgi.webp';
+import runningCorgi from '../public/running-corgi.webp';
+import sadCorgi from '../public/sad-corgi.webp';
 
 export const ESTIMATION_HOURS = Array.from(
 	{ length: 40 },
@@ -47,6 +50,33 @@ export const CORGI_IMAGES = [
 		attribution: {
 			name: 'Blep Corgi PNG',
 			href: 'https://www.pngmart.com/image/169829/png/169828',
+		},
+	},
+	{
+		id: 'laptop-corgi',
+		src: laptopCorgi,
+		alt: 'A corgi sitting in front of a laptop',
+		attribution: {
+			name: 'generated with ChatGPT',
+			href: 'https://chatgpt.com',
+		},
+	},
+	{
+		id: 'sad-corgi',
+		src: sadCorgi,
+		alt: 'A corgi sitting at a desk looking at a monitor',
+		attribution: {
+			name: 'generated with ChatGPT',
+			href: 'https://chatgpt.com',
+		},
+	},
+	{
+		id: 'dabbing-corgi',
+		src: dabbingCorgi,
+		alt: 'A corgi dabbing',
+		attribution: {
+			name: 'generated with ChatGPT',
+			href: 'https://chatgpt.com',
 		},
 	},
 ];
