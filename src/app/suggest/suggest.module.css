@@ -18,6 +18,28 @@
     width: 100%;
 }
 
+.feedbackCard {
+    width: 100%;
+    padding: 1.25rem;
+    border-radius: 16px;
+    background: color-mix(in srgb, var(--accent) 12%, var(--card-bg));
+    border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+    text-align: center;
+}
+
+.successTitle {
+    margin: 0 0 0.5rem;
+    font-size: 1.1rem;
+    font-weight: 800;
+    text-transform: lowercase;
+}
+
+.successText {
+    margin: 0;
+    color: var(--foreground);
+    opacity: 0.8;
+}
+
 .inputGroup {
     display: flex;
     flex-direction: column;
@@ -70,7 +92,6 @@
 }
 
 .backLink {
-    margin-top: 0.5rem;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -96,4 +117,12 @@
 .backLink:focus-visible {
     outline: 3px solid color-mix(in srgb, var(--secondary) 55%, transparent);
     outline-offset: 3px;
+}
+
+.actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    width: 100%;
 }

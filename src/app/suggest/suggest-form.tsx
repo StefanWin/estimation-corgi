@@ -2,7 +2,6 @@
 
 import { Turnstile } from '@marsidev/react-turnstile';
 import { useAction } from 'convex/react';
-import { useRouter } from 'next/navigation';
 import { usePostHog } from 'posthog-js/react';
 import { type SubmitEventHandler, useState } from 'react';
 import { Button } from '@/components/button';
@@ -14,12 +13,12 @@ import styles from './suggest.module.css';
 const MAX_MESSAGE_LENGTH = 72;
 
 export function SuggestForm() {
-	const router = useRouter();
 	const posthog = usePostHog();
 	const createMessage = useAction(api.messages.createMessage);
 
 	const [input, setInput] = useState('');
 	const [error, setError] = useState<string | null>(null);
+	const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
 	const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
 	const [captchaRenderKey, setCaptchaRenderKey] = useState(0);
 	const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
@@ -59,8 +58,8 @@ export function SuggestForm() {
 			.then(() => {
 				setInput('');
 				setError(null);
+				setIsSubmitted(true);
 				posthog.capture('message_suggested');
-				router.push('/');
 			})
 			.catch((error) => {
 				console.error(error);
@@ -81,6 +80,30 @@ export function SuggestForm() {
 				setIsSubmitting(false);
 			});
 	};
+
+	if (isSubmitted) {
+		return (
+			<div className={styles.container}>
+				<NextLink href={`/`}>
+					<h1>estimation corgi</h1>
+				</NextLink>
+				<div className={styles.feedbackCard}>
+					<p className={styles.successTitle}>message received</p>
+					<p className={styles.successText}>
+						Thanks. Your suggestion is now waiting for approval.
+					</p>
+				</div>
+				<div className={styles.actions}>
+					<Button type="button" onClick={() => setIsSubmitted(false)}>
+						suggest another
+					</Button>
+					<NextLink href="/" className={styles.backLink}>
+						back home
+					</NextLink>
+				</div>
+			</div>
+		);
+	}
 
 	return (
 		<div className={styles.container}>
