@@ -1,6 +1,7 @@
 'use client';
 
 import { useQuery } from 'convex/react';
+import { BookCopyIcon } from 'lucide-react';
 import NextImage from 'next/image';
 import { Link } from '@/components/link';
 import { CORGI_IMAGES } from '@/constants';
@@ -37,7 +38,7 @@ export function MetaContent() {
 							>
 								<span className={styles.messageText}>{m.message}</span>
 								{''}
-								copy
+								<BookCopyIcon />
 							</button>
 						</li>
 					))}
