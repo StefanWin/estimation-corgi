@@ -12,7 +12,7 @@
     "lint": "biome check .",
     "format": "biome check --write",
     "convex:migrate": "convex run convex/migrations.ts:runAll",
-    "deploy:vercel": "convex deploy --cmd 'bun run build'"
+    "deploy:vercel": "convex deploy --cmd 'bun run build' && bun run convex:migrate"
   },
   "dependencies": {
     "@convex-dev/migrations": "0.3.1",
