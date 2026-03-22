@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import type React from 'react';
+import { Toaster } from 'sonner';
 import './globals.css';
 import { AnalyticsConsentBanner } from '@/components/analytics-consent-banner';
 import { ConvexClientProvider } from '@/components/convex-provider';
@@ -92,6 +93,17 @@ export default function RootLayout({
 						<Footer />
 					</div>
 					<AnalyticsConsentBanner />
+					<Toaster
+						position="bottom-center"
+						theme="dark"
+						toastOptions={{
+							style: {
+								background: 'var(--card-bg)',
+								border: '1px solid var(--border-subtle)',
+								color: 'var(--foreground)',
+							},
+						}}
+					/>
 				</ConvexClientProvider>
 			</body>
 		</html>

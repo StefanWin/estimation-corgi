@@ -1,9 +1,11 @@
 'use client';
 
 import { type Preloaded, usePreloadedQuery } from 'convex/react';
+import { Copy, Share2 } from 'lucide-react';
 import Image from 'next/image';
 import { usePostHog } from 'posthog-js/react';
 import { useCallback, useEffect, useState } from 'react';
+import { toast } from 'sonner';
 import { Message } from '@/components/message';
 import { CORGI_IMAGES, ESTIMATION_HOURS } from '@/constants';
 import { getRandomIndex, getRandomIndexExcluding } from '@/util';
@@ -29,6 +31,21 @@ const getInitialValueIndex = (index: number) =>
 	isValidIndex(ESTIMATION_HOURS.length, index)
 		? index
 		: getRandomIndex(ESTIMATION_HOURS.length);
+
+const getShareUrl = (
+	origin: string,
+	state: {
+		imageIndex: number;
+		messageIndex: number;
+		valueIndex: number;
+	},
+) => {
+	const url = new URL(origin);
+	url.searchParams.set('i', String(state.imageIndex));
+	url.searchParams.set('m', String(state.messageIndex));
+	url.searchParams.set('v', String(state.valueIndex));
+	return url.toString();
+};
 
 const isEditableTarget = (target: EventTarget | null) => {
 	if (!(target instanceof HTMLElement)) {
@@ -80,6 +97,51 @@ export function MessageContainer({
 		setValueIndex(getRandomIndex(ESTIMATION_HOURS.length));
 		setIsImageLoaded(false);
 	}, [messages.length, posthog]);
+
+	const onCopyEstimate = useCallback(async () => {
+		if (!message) {
+			return;
+		}
+
+		try {
+			await navigator.clipboard.writeText(
+				`${displayValue} - ${message.message}`,
+			);
+			toast.success('Estimate copied');
+		} catch {
+			toast.error('Failed to copy estimate');
+		}
+	}, [displayValue, message]);
+
+	const onShareEstimate = useCallback(async () => {
+		if (!message) {
+			return;
+		}
+
+		const shareUrl = getShareUrl(globalThis.location.origin, {
+			imageIndex,
+			messageIndex,
+			valueIndex,
+		});
+		const shareData = {
+			title: 'estimation corgi',
+			text: `${displayValue} - ${message.message}`,
+			url: shareUrl,
+		};
+
+		try {
+			if (navigator.share) {
+				await navigator.share(shareData);
+				toast.success('Estimate shared');
+				return;
+			}
+
+			await navigator.clipboard.writeText(shareUrl);
+			toast.success('Share link copied');
+		} catch {
+			toast.error('Failed to share estimate');
+		}
+	}, [displayValue, imageIndex, message, messageIndex, valueIndex]);
 
 	useEffect(() => {
 		if (messages.length === 0) {
@@ -155,6 +217,30 @@ export function MessageContainer({
 				)}
 				<div className={styles.primaryAction}>
 					<Button onClick={onNewMessage}>get another estimate</Button>
+				</div>
+				<div className={styles.secondaryActions}>
+					<button
+						type="button"
+						className={styles.secondaryAction}
+						aria-label="Copy estimate"
+						title="Copy estimate"
+						onClick={() => {
+							void onCopyEstimate();
+						}}
+					>
+						<Copy size={18} strokeWidth={2.25} />
+					</button>
+					<button
+						type="button"
+						className={styles.secondaryAction}
+						aria-label="Share estimate"
+						title="Share estimate"
+						onClick={() => {
+							void onShareEstimate();
+						}}
+					>
+						<Share2 size={18} strokeWidth={2.25} />
+					</button>
 				</div>
 				<p className={styles.shortcutHint}>Space = next estimate</p>
 			</div>

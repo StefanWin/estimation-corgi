@@ -3,6 +3,7 @@
 import { useQuery } from 'convex/react';
 import { BookCopyIcon } from 'lucide-react';
 import NextImage from 'next/image';
+import { toast } from 'sonner';
 import { Link } from '@/components/link';
 import { CORGI_IMAGES } from '@/constants';
 import { api } from '../../../convex/_generated/api';
@@ -11,8 +12,9 @@ import styles from './meta.module.css';
 async function copyMessage(message: string) {
 	try {
 		await navigator.clipboard.writeText(message);
+		toast.success('Message copied');
 	} catch {
-		console.error('failed to copy message');
+		toast.error('Failed to copy message');
 	}
 }
 
