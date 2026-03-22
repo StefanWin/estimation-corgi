@@ -73,19 +73,3 @@ export const getApprovedMessages = query({
 			.collect();
 	},
 });
-
-export const getMessageStats = query({
-	args: {},
-	handler: async (ctx) => {
-		const allMessages = await ctx.db.query('messages').collect();
-		const approvedMessages = await ctx.db
-			.query('messages')
-			.withIndex('by_is_approved', (q) => q.eq('isApproved', true))
-			.collect();
-
-		return {
-			approvedCount: approvedMessages.length,
-			submissionCount: allMessages.length,
-		};
-	},
-});
