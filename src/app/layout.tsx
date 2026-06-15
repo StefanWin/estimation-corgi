@@ -6,6 +6,7 @@ import './globals.css';
 import { AnalyticsConsentBanner } from '@/components/analytics-consent-banner';
 import { ConvexClientProvider } from '@/components/convex-provider';
 import { Footer } from '@/components/footer';
+import { siteDescription } from '@/site';
 import styles from './page.module.css';
 
 const geistSans = Geist({
@@ -23,7 +24,7 @@ export const metadata: Metadata = {
 		default: 'estimation corgi',
 		template: '%s | estimation corgi',
 	},
-	description: 'properly estimate your tasks with the help of a corgi',
+	description: siteDescription,
 	creator: 'stefanwintergerst.com',
 	keywords: [
 		'estimation',
@@ -55,7 +56,7 @@ export const metadata: Metadata = {
 		type: 'website',
 		siteName: 'estimation corgi',
 		title: 'estimation corgi',
-		description: 'properly estimate your tasks with the help of a corgi',
+		description: siteDescription,
 		url: 'https://estimation-corgi.com',
 		locale: 'en_US',
 		images: [
@@ -70,7 +71,7 @@ export const metadata: Metadata = {
 	twitter: {
 		card: 'summary_large_image',
 		title: 'estimation corgi',
-		description: 'properly estimate your tasks with the help of a corgi',
+		description: siteDescription,
 		images: ['/phatasscorgi.png'],
 	},
 	metadataBase: new URL('https://estimation-corgi.com'),

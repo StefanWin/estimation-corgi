@@ -2,6 +2,7 @@ import { preloadedQueryResult, preloadQuery } from 'convex/nextjs';
 import { Link as NextLink } from '@/components/link';
 import { MessageContainer } from '@/components/message-container';
 import { CORGI_IMAGES, ESTIMATION_HOURS } from '@/constants';
+import { siteDescription } from '@/site';
 import { getRandomIndex } from '@/util';
 import { api } from '../../convex/_generated/api';
 import styles from './page.module.css';
@@ -44,6 +45,7 @@ export default async function Home({ searchParams }: Readonly<HomeProps>) {
 			<NextLink href={`/`} className={styles.titleLink}>
 				<h1 className={styles.title}>estimation corgi</h1>
 			</NextLink>
+			<p className={styles.description}>{siteDescription}</p>
 			<MessageContainer
 				approvedMessages={preloadedMessages}
 				initialEstimateState={{

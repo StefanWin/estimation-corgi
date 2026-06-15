@@ -59,6 +59,15 @@
     text-align: center;
 }
 
+.description {
+    max-width: 36rem;
+    margin: -0.35rem 0 0;
+    color: var(--foreground-muted);
+    font-size: 0.95rem;
+    line-height: 1.45;
+    text-align: center;
+}
+
 .container:hover {
     box-shadow: var(--card-shadow-hover);
 }
