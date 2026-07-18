@@ -3,12 +3,9 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 2.5rem 2rem;
+    padding: 1rem 0;
     max-width: 700px;
     width: 100%;
-    background: var(--card-bg);
-    border-radius: 24px;
-    box-shadow: var(--card-shadow);
     line-height: 1.7;
 }
 
@@ -28,6 +25,8 @@
     margin-top: 1.5rem;
     margin-bottom: 0.75rem;
     color: var(--secondary);
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border-subtle);
 }
 
 .container p {
@@ -51,28 +50,23 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 0.85rem 1.5rem;
-    border-radius: 999px;
-    border: 1px solid transparent;
-    background: linear-gradient(135deg, var(--accent), var(--accent-dark));
-    color: #ffffff;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--border-subtle);
+    color: var(--secondary-light);
     text-decoration: none;
     font-weight: 700;
-    box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
-    transition: transform 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+    transition: color 0.2s ease, border-color 0.2s ease;
 }
 
 .container a.backLink {
-    color: #ffffff;
+    color: var(--secondary-light);
     text-decoration: none;
 }
 
 .container a.backLink:hover {
-    color: #ffffff;
+    color: var(--accent-light);
     text-decoration: none;
-    transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(255, 107, 53, 0.35);
-    background: linear-gradient(135deg, var(--accent-light), var(--accent));
+    border-color: var(--accent-light);
 }
 
 .container a.backLink:focus-visible {
