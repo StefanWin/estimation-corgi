@@ -3,7 +3,6 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "bun run --parallel dev:next dev:convex",
     "dev:next": "next dev",
     "dev:convex": "convex dev",
     "build": "next build",
@@ -12,26 +11,26 @@
     "lint": "biome check .",
     "format": "biome check --write",
     "convex:migrate": "convex run convex/migrations.ts:runAll",
-    "deploy:vercel": "convex deploy --cmd 'bun run build' && bun run convex:migrate"
+    "deploy:vercel": "convex deploy --cmd 'pnpm run build' && pnpm run convex:migrate"
   },
   "dependencies": {
     "@convex-dev/migrations": "0.3.5",
     "@marsidev/react-turnstile": "1.5.3",
     "@t3-oss/env-nextjs": "0.13.11",
-    "convex": "1.41.0",
+    "convex": "1.42.3",
     "lucide-react": "0.577.0",
-    "next": "16.2.9",
-    "posthog-js": "1.386.6",
+    "next": "16.2.10",
+    "posthog-js": "1.403.0",
     "react": "19.2.7",
     "react-dom": "19.2.7",
     "sonner": "2.0.7",
     "zod": "4.4.3"
   },
   "devDependencies": {
-    "@biomejs/biome": "2.5.0",
-    "@types/node": "25.9.3",
+    "@biomejs/biome": "2.5.4",
+    "@types/node": "26.1.1",
     "@types/react": "19.2.17",
     "@types/react-dom": "19.2.3",
-    "typescript": "6.0.3"
+    "typescript": "7.0.2"
   }
 }
