@@ -1,9 +1,20 @@
 'use client';
 
+import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
+import MuiLink from '@mui/material/Link';
 import { usePostHog } from 'posthog-js/react';
 import { type FC, useEffect, useState } from 'react';
 import { Link } from '@/components/link';
-import styles from './footer.module.css';
+
+const footerActionStyles = {
+	minWidth: 0,
+	p: 0,
+	color: 'primary.light',
+	fontSize: '0.85rem',
+	textDecoration: 'none',
+	'&:hover': { color: 'primary.main', textDecoration: 'none' },
+};
 
 export const Footer: FC = () => {
 	const posthog = usePostHog();
@@ -25,42 +36,52 @@ export const Footer: FC = () => {
 	};
 
 	return (
-		<footer className={styles.footer}>
-			<Link
+		<Box
+			component="footer"
+			sx={{
+				display: 'flex',
+				flexWrap: 'wrap',
+				justifyContent: 'center',
+				gap: 2,
+				mt: 0.5,
+				pt: 1.5,
+				borderTop: '1px solid rgba(255, 255, 255, 0.08)',
+				width: '100%',
+			}}
+		>
+			<MuiLink
+				component={Link}
 				prefetch={false}
 				href="https://stefanwintergerst.com"
 				target="_blank"
 				rel="noopener noreferrer"
+				sx={footerActionStyles}
 			>
 				made by stefanwintergerst.com
-			</Link>
-			<Link
+			</MuiLink>
+			<MuiLink
+				component={Link}
 				prefetch={false}
 				href="https://github.com/StefanWin/estimation-corgi"
 				target="_blank"
 				rel="noopener noreferrer"
+				sx={footerActionStyles}
 			>
 				github
-			</Link>
-			<Link href="/privacy">data privacy</Link>
+			</MuiLink>
+			<MuiLink component={Link} href="/privacy" sx={footerActionStyles}>
+				data privacy
+			</MuiLink>
 			{consentStatus === 'granted' && (
-				<button
-					className={styles.preferencesButton}
-					type="button"
-					onClick={onOptOut}
-				>
+				<Button sx={footerActionStyles} type="button" onClick={onOptOut}>
 					opt-out
-				</button>
+				</Button>
 			)}
 			{consentStatus === 'denied' && (
-				<button
-					className={styles.preferencesButton}
-					type="button"
-					onClick={onOptIn}
-				>
+				<Button sx={footerActionStyles} type="button" onClick={onOptIn}>
 					opt-in
-				</button>
+				</Button>
 			)}
-		</footer>
+		</Box>
 	);
 };

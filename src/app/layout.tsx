@@ -1,13 +1,14 @@
+import Box from '@mui/material/Box';
+import { AppRouterCacheProvider } from '@mui/material-nextjs/v16-appRouter';
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import type React from 'react';
 import { Toaster } from 'sonner';
-import './globals.css';
 import { AnalyticsConsentBanner } from '@/components/analytics-consent-banner';
 import { ConvexClientProvider } from '@/components/convex-provider';
 import { Footer } from '@/components/footer';
+import { MuiProvider } from '@/components/mui-provider';
 import { siteDescription } from '@/site';
-import styles from './page.module.css';
 
 const geistSans = Geist({
 	variable: '--font-geist-sans',
@@ -86,26 +87,51 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<html lang="en" data-theme="dark">
+		<html lang="en">
 			<body className={`${geistSans.variable} ${geistMono.variable}`}>
-				<ConvexClientProvider>
-					<div className={styles.page}>
-						<main className={styles.main}>{children}</main>
-						<Footer />
-					</div>
-					<AnalyticsConsentBanner />
-					<Toaster
-						position="bottom-center"
-						theme="dark"
-						toastOptions={{
-							style: {
-								background: 'var(--card-bg)',
-								border: '1px solid var(--border-subtle)',
-								color: 'var(--foreground)',
-							},
-						}}
-					/>
-				</ConvexClientProvider>
+				<AppRouterCacheProvider>
+					<MuiProvider>
+						<ConvexClientProvider>
+							<Box
+								sx={{
+									minHeight: '100svh',
+									px: { xs: 2, sm: 2.5 },
+									pt: 'clamp(1.5rem, 4vh, 3.5rem)',
+									pb: 2.5,
+									display: 'flex',
+									flexDirection: 'column',
+									alignItems: 'center',
+									justifyContent: 'center',
+									gap: 'clamp(1.5rem, 3vh, 2.5rem)',
+								}}
+							>
+								<Box
+									component="main"
+									sx={{
+										width: '100%',
+										display: 'flex',
+										justifyContent: 'center',
+									}}
+								>
+									{children}
+								</Box>
+								<Footer />
+							</Box>
+							<AnalyticsConsentBanner />
+							<Toaster
+								position="bottom-center"
+								theme="dark"
+								toastOptions={{
+									style: {
+										background: '#1a1a2e',
+										border: '1px solid rgba(255, 255, 255, 0.08)',
+										color: '#f0f0f5',
+									},
+								}}
+							/>
+						</ConvexClientProvider>
+					</MuiProvider>
+				</AppRouterCacheProvider>
 			</body>
 		</html>
 	);

@@ -1,6 +1,7 @@
+import Box from '@mui/material/Box';
+import MuiLink from '@mui/material/Link';
 import type { Metadata } from 'next';
 import { Link as NextLink } from '@/components/link';
-import s from './privacy.module.css';
 
 export const metadata: Metadata = {
 	title: 'Privacy Policy',
@@ -9,7 +10,42 @@ export const metadata: Metadata = {
 
 export default function PrivacyPage() {
 	return (
-		<main className={s.container}>
+		<Box
+			component="main"
+			sx={{
+				display: 'flex',
+				flexDirection: 'column',
+				alignItems: 'center',
+				py: 2,
+				maxWidth: 700,
+				width: '100%',
+				lineHeight: 1.7,
+				'& h1': {
+					fontSize: '1.75rem',
+					fontWeight: 700,
+					mb: 3,
+					backgroundImage: 'linear-gradient(135deg, #ff7b4a, #8b7cf7)',
+					backgroundClip: 'text',
+					WebkitBackgroundClip: 'text',
+					WebkitTextFillColor: 'transparent',
+				},
+				'& h2': {
+					fontSize: '1.2rem',
+					fontWeight: 600,
+					mt: 3,
+					mb: 1.5,
+					pt: 3,
+					color: 'primary.main',
+					borderTop: '1px solid rgba(255, 255, 255, 0.08)',
+				},
+				'& p': { mb: 2, opacity: 0.9 },
+				'& a': {
+					color: '#ff7b4a',
+					textDecoration: 'none',
+					'&:hover': { color: '#ff9a70', textDecoration: 'underline' },
+				},
+			}}
+		>
 			<div>
 				<h1>Privacy Policy</h1>
 				<p>
@@ -188,9 +224,25 @@ export default function PrivacyPage() {
 					</p>
 				</section>
 			</div>
-			<NextLink href="/" className={s.backLink}>
+			<MuiLink
+				component={NextLink}
+				href="/"
+				sx={{
+					mt: 4,
+					py: 1,
+					borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
+					color: 'primary.light',
+					fontWeight: 700,
+					textDecoration: 'none',
+					'&:hover': {
+						color: '#ff9a70',
+						borderColor: '#ff9a70',
+						textDecoration: 'none',
+					},
+				}}
+			>
 				go back
-			</NextLink>
-		</main>
+			</MuiLink>
+		</Box>
 	);
 }

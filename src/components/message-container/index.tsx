@@ -1,5 +1,9 @@
 'use client';
 
+import Box from '@mui/material/Box';
+import IconButton from '@mui/material/IconButton';
+import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
 import { type Preloaded, useMutation, usePreloadedQuery } from 'convex/react';
 import { Copy, LucideThumbsUp, Share2 } from 'lucide-react';
 import Image from 'next/image';
@@ -11,7 +15,6 @@ import { CORGI_IMAGES, ESTIMATION_HOURS } from '@/constants';
 import { getRandomIndex, getRandomIndexExcluding } from '@/util';
 import { api } from '../../../convex/_generated/api';
 import { Button } from '../button';
-import styles from './message-container.module.css';
 
 interface MessageContainerProps {
 	approvedMessages: Preloaded<typeof api.messages.getApprovedMessages>;
@@ -215,72 +218,150 @@ export function MessageContainer({
 	}
 
 	return (
-		<div className={styles.stage}>
-			<div className={styles.visualPane}>
-				<div className={styles.imageWrapper}>
-					<Image
+		<Box
+			sx={{
+				width: '100%',
+				display: 'grid',
+				gridTemplateColumns: 'minmax(0, 1fr) minmax(19rem, 1fr)',
+				alignItems: 'center',
+				py: 'clamp(1rem, 2vh, 1.5rem)',
+				borderBlock: '1px solid rgba(255, 255, 255, 0.08)',
+				'@media (max-width: 960px)': {
+					gridTemplateColumns: '1fr',
+					gap: 3,
+				},
+			}}
+		>
+			<Box
+				sx={{
+					display: 'flex',
+					alignItems: 'center',
+					justifyContent: 'center',
+					minWidth: 0,
+					minHeight: 0,
+					pr: 'clamp(1.5rem, 4vw, 3.5rem)',
+					'@media (max-width: 960px)': { pr: 0 },
+				}}
+			>
+				<Box
+					sx={{
+						display: 'flex',
+						justifyContent: 'center',
+						alignItems: 'center',
+						width: '100%',
+						height: 'clamp(13rem, 31vh, 19rem)',
+					}}
+				>
+					<Box
+						component={Image}
 						key={image.id}
 						suppressHydrationWarning
-						className={`${styles.image} ${isImageLoaded ? styles.imageLoaded : ''}`}
 						src={image.src}
 						alt={image.alt}
 						priority
 						placeholder="blur"
 						sizes="(max-width: 960px) 60vw, 34vw"
 						onLoad={() => setIsImageLoaded(true)}
+						sx={{
+							objectFit: 'contain',
+							maxWidth: '100%',
+							maxHeight: '100%',
+							borderRadius: 1.5,
+							filter: 'drop-shadow(0 4px 12px rgba(0, 0, 0, 0.1))',
+							opacity: isImageLoaded ? 1 : 0,
+							transform: isImageLoaded
+								? 'translateY(0) scale(1)'
+								: 'translateY(6px) scale(0.985)',
+							transition: 'opacity 0.2s ease, transform 0.3s ease',
+							'&:hover': { transform: 'scale(1.02)' },
+						}}
 					/>
-				</div>
-			</div>
-			<div className={styles.infoPane}>
+				</Box>
+			</Box>
+			<Stack
+				spacing={1.5}
+				sx={{
+					alignItems: 'center',
+					minWidth: 0,
+					pl: 'clamp(1.5rem, 4vw, 3.5rem)',
+					borderLeft: '1px solid rgba(255, 255, 255, 0.08)',
+					'@media (max-width: 960px)': {
+						width: 'min(100%, 34rem)',
+						justifySelf: 'center',
+						pt: 3,
+						pl: 0,
+						borderLeft: 0,
+						borderTop: '1px solid rgba(255, 255, 255, 0.08)',
+					},
+				}}
+			>
 				{message && (
-					<div className={styles.messagePane}>
+					<Stack sx={{ width: '100%', alignItems: 'center' }}>
 						<Message message={message.message} displayValue={displayValue} />
-					</div>
+					</Stack>
 				)}
-				<div className={styles.primaryAction}>
+				<Box sx={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
 					<Button onClick={onNewMessage}>get another estimate</Button>
-				</div>
-				<div className={styles.secondaryActions}>
-					<button
+				</Box>
+				<Stack
+					direction="row"
+					spacing={1.5}
+					sx={{ justifyContent: 'center', width: '100%' }}
+				>
+					<IconButton
 						type="button"
-						className={styles.secondaryAction}
 						aria-label="Like message"
 						title="Like message"
 						onClick={() => {
 							void onMessageLiked();
 						}}
+						sx={secondaryActionStyles}
 					>
 						<LucideThumbsUp size={18} strokeWidth={2.25} />
-					</button>
-					<button
+					</IconButton>
+					<IconButton
 						type="button"
-						className={styles.secondaryAction}
 						aria-label="Copy estimate"
 						title="Copy estimate"
 						onClick={() => {
 							void onCopyEstimate();
 						}}
+						sx={secondaryActionStyles}
 					>
 						<Copy size={18} strokeWidth={2.25} />
-					</button>
-					<button
+					</IconButton>
+					<IconButton
 						type="button"
-						className={styles.secondaryAction}
 						aria-label="Share estimate"
 						title="Share estimate"
 						onClick={() => {
 							void onShareEstimate();
 						}}
+						sx={secondaryActionStyles}
 					>
 						<Share2 size={18} strokeWidth={2.25} />
-					</button>
-				</div>
-				{message?.likes ? (
-					<p>{message.likes} likes</p>
-				) : (
-					'be the first to like the message!'
-				)}
-			</div>
-		</div>
+					</IconButton>
+				</Stack>
+				<Typography variant="body2">
+					{message?.likes
+						? `${message.likes} likes`
+						: 'be the first to like the message!'}
+				</Typography>
+			</Stack>
+		</Box>
 	);
 }
+
+const secondaryActionStyles = {
+	width: '2.9rem',
+	height: '2.9rem',
+	border: '1px solid rgba(255, 255, 255, 0.08)',
+	color: 'text.primary',
+	transition:
+		'transform 0.2s ease, background 0.2s ease, border-color 0.2s ease',
+	'&:hover': {
+		transform: 'translateY(-2px)',
+		backgroundColor: 'rgba(139, 124, 247, 0.14)',
+		borderColor: 'rgba(139, 124, 247, 0.4)',
+	},
+};

@@ -1,11 +1,14 @@
+import MuiLink from '@mui/material/Link';
+import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
 import { preloadedQueryResult, preloadQuery } from 'convex/nextjs';
 import { Link as NextLink } from '@/components/link';
 import { MessageContainer } from '@/components/message-container';
+import { NavigationActions } from '@/components/navigation-actions';
 import { CORGI_IMAGES, ESTIMATION_HOURS } from '@/constants';
 import { siteDescription } from '@/site';
 import { getRandomIndex } from '@/util';
 import { api } from '../../convex/_generated/api';
-import styles from './page.module.css';
 
 interface HomeProps {
 	searchParams: Promise<{
@@ -41,11 +44,45 @@ export default async function Home({ searchParams }: Readonly<HomeProps>) {
 	const valueIndex = getIndexFromSearchParam(params.v);
 
 	return (
-		<div className={styles.container}>
-			<NextLink href={`/`} className={styles.titleLink}>
-				<h1 className={styles.title}>estimation corgi</h1>
-			</NextLink>
-			<p className={styles.description}>{siteDescription}</p>
+		<Stack
+			sx={{
+				alignItems: 'center',
+				gap: 'clamp(1rem, 2.2vh, 1.5rem)',
+				width: { xs: 'min(100%, 560px)', md: 'min(1040px, 100%)' },
+			}}
+		>
+			<MuiLink
+				component={NextLink}
+				href="/"
+				underline="none"
+				color="text.primary"
+			>
+				<Typography
+					component="h1"
+					sx={{
+						fontSize: 'clamp(2rem, 2.5vw, 2.8rem)',
+						fontWeight: 700,
+						lineHeight: 1,
+						letterSpacing: '-0.055em',
+						textAlign: 'center',
+					}}
+				>
+					estimation corgi
+				</Typography>
+			</MuiLink>
+			<Typography
+				component="p"
+				variant="body2"
+				color="text.secondary"
+				sx={{
+					maxWidth: '36rem',
+					mt: -0.75,
+					lineHeight: 1.45,
+					textAlign: 'center',
+				}}
+			>
+				{siteDescription}
+			</Typography>
 			<MessageContainer
 				approvedMessages={preloadedMessages}
 				initialEstimateState={{
@@ -54,14 +91,7 @@ export default async function Home({ searchParams }: Readonly<HomeProps>) {
 					valueIndex: valueIndex ?? getRandomIndex(ESTIMATION_HOURS.length),
 				}}
 			/>
-			<div className={styles.links}>
-				<NextLink className={styles.link} href={'/suggest'}>
-					suggest a message
-				</NextLink>
-				<NextLink className={styles.link} href={'/meta'}>
-					show available messages &amp; images
-				</NextLink>
-			</div>
-		</div>
+			<NavigationActions />
+		</Stack>
 	);
 }

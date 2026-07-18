@@ -1,6 +1,12 @@
 'use client';
 
 import { Turnstile } from '@marsidev/react-turnstile';
+import Alert from '@mui/material/Alert';
+import Box from '@mui/material/Box';
+import MuiLink from '@mui/material/Link';
+import Stack from '@mui/material/Stack';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
 import { useAction } from 'convex/react';
 import { usePostHog } from 'posthog-js/react';
 import { type SubmitEventHandler, useState } from 'react';
@@ -8,7 +14,6 @@ import { Button } from '@/components/button';
 import { Link as NextLink } from '@/components/link';
 import { env } from '@/env';
 import { api } from '../../../convex/_generated/api';
-import styles from './suggest.module.css';
 
 const MAX_MESSAGE_LENGTH = 72;
 
@@ -83,51 +88,79 @@ export function SuggestForm() {
 
 	if (isSubmitted) {
 		return (
-			<div className={styles.container}>
-				<NextLink href={`/`}>
-					<h1>estimation corgi</h1>
-				</NextLink>
-				<div className={styles.feedbackCard}>
-					<p className={styles.successTitle}>message received</p>
-					<p className={styles.successText}>
+			<Stack sx={containerStyles}>
+				<MuiLink component={NextLink} href="/" color="text.primary">
+					<Typography component="h1" variant="h4" sx={{ fontWeight: 700 }}>
+						estimation corgi
+					</Typography>
+				</MuiLink>
+				<Box
+					sx={{
+						width: '100%',
+						py: 2.5,
+						borderBlock: '1px solid rgba(255, 123, 74, 0.3)',
+						textAlign: 'center',
+					}}
+				>
+					<Typography sx={{ fontSize: '1.1rem', fontWeight: 800, mb: 1 }}>
+						message received
+					</Typography>
+					<Typography color="text.secondary">
 						Thanks. Your suggestion is now waiting for approval.
-					</p>
-				</div>
-				<div className={styles.actions}>
+					</Typography>
+				</Box>
+				<Stack
+					direction={{ xs: 'column', sm: 'row' }}
+					spacing={2}
+					sx={{ alignItems: 'center' }}
+				>
 					<Button type="button" onClick={() => setIsSubmitted(false)}>
 						suggest another
 					</Button>
-					<NextLink href="/" className={styles.backLink}>
+					<MuiLink component={NextLink} href="/" sx={backLinkStyles}>
 						back home
-					</NextLink>
-				</div>
-			</div>
+					</MuiLink>
+				</Stack>
+			</Stack>
 		);
 	}
 
 	return (
-		<div className={styles.container}>
-			<NextLink href={`/`}>
-				<h1>estimation corgi</h1>
-			</NextLink>
-			<form className={styles.form} onSubmit={onSubmit}>
-				<div className={styles.inputGroup}>
-					<input
-						className={styles.input}
-						type="text"
-						name="message"
-						placeholder={`message (max ${MAX_MESSAGE_LENGTH} characters)`}
-						required
-						maxLength={MAX_MESSAGE_LENGTH}
-						value={input}
-						onChange={(e) => setInput(e.target.value)}
-					/>
-				</div>
-				<p className={styles.helperText}>
+		<Stack sx={containerStyles}>
+			<MuiLink component={NextLink} href="/" color="text.primary">
+				<Typography component="h1" variant="h4" sx={{ fontWeight: 700 }}>
+					estimation corgi
+				</Typography>
+			</MuiLink>
+			<Stack
+				component="form"
+				spacing={3}
+				sx={{ width: '100%' }}
+				onSubmit={onSubmit}
+			>
+				<TextField
+					variant="standard"
+					fullWidth
+					type="text"
+					name="message"
+					placeholder={`message (max ${MAX_MESSAGE_LENGTH} characters)`}
+					required
+					value={input}
+					onChange={(e) => setInput(e.target.value)}
+					slotProps={{ htmlInput: { maxLength: MAX_MESSAGE_LENGTH } }}
+					sx={{ '& .MuiInputBase-input': { px: 2.5, py: 2 } }}
+				/>
+				<Typography
+					variant="caption"
+					color="text.secondary"
+					sx={{ textAlign: 'right' }}
+				>
 					{normalizedInput.length}/{MAX_MESSAGE_LENGTH} characters
-				</p>
+				</Typography>
 				{requiresCaptcha && (
-					<div className={styles.captcha}>
+					<Box
+						sx={{ display: 'flex', justifyContent: 'center', width: '100%' }}
+					>
 						<Turnstile
 							key={captchaRenderKey}
 							siteKey={turnStileKey ?? ''}
@@ -138,16 +171,33 @@ export function SuggestForm() {
 								setError('failed to verify captcha');
 							}}
 						/>
-					</div>
+					</Box>
 				)}
-				{error && <p className={styles.error}>{error}</p>}
+				{error && <Alert severity="error">{error}</Alert>}
 				<Button disabled={!canSubmit} type="submit">
 					{isSubmitting ? 'suggesting...' : 'suggest'}
 				</Button>
-			</form>
-			<NextLink href="/" className={styles.backLink}>
+			</Stack>
+			<MuiLink component={NextLink} href="/" sx={backLinkStyles}>
 				go back
-			</NextLink>
-		</div>
+			</MuiLink>
+		</Stack>
 	);
 }
+
+const containerStyles = {
+	alignItems: 'center',
+	gap: 4.5,
+	width: '100%',
+	maxWidth: 560,
+	py: 2,
+};
+
+const backLinkStyles = {
+	py: 1,
+	borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
+	color: 'primary.light',
+	fontWeight: 700,
+	textDecoration: 'none',
+	'&:hover': { color: '#ff9a70', borderColor: '#ff9a70' },
+};
