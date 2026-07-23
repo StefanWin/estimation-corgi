@@ -8,12 +8,12 @@
     "dev:convex": "convex dev",
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
-    "deploy": "pnpm run build && wrangler deploy",
+    "deploy": "wrangler deploy",
     "types": "tsc --noEmit",
     "lint": "biome check .",
     "format": "biome check --write",
     "convex:migrate": "convex run convex/migrations.ts:runAll",
-    "deploy:convex": "convex deploy && pnpm run convex:migrate"
+    "deploy:convex": "convex deploy --cmd 'pnpm run deploy' && pnpm run convex:migrate"
   },
   "dependencies": {
     "@convex-dev/migrations": "0.3.5",
