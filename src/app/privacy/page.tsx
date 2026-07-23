@@ -60,16 +60,17 @@ export default function PrivacyPage() {
 				<section>
 					<h2>2. Hosting (Cloudflare)</h2>
 					<p>
-						This website is hosted by Cloudflare, Inc. Cloudflare processes server
-						log data, such as IP address, browser type, and time of access, to
-						ensure secure and reliable operation.
+						This website is hosted by Cloudflare, Inc. Cloudflare processes
+						server log data, such as IP address, browser type, and time of
+						access, to ensure secure and reliable operation.
 					</p>
 					<p>
 						<strong>Legal basis:</strong> Article 6(1)(f) GDPR (legitimate
 						interest in reliable and secure website delivery).
 						<br />
 						<strong>Data transfer:</strong> Data may be transferred to the USA.
-						Cloudflare may process this data as part of providing hosting services.
+						Cloudflare may process this data as part of providing hosting
+						services.
 					</p>
 				</section>
 

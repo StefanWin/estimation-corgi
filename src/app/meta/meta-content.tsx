@@ -94,7 +94,7 @@ export function MetaContent() {
 							}}
 						>
 							<Box
-							component="img"
+								component="img"
 								src={img.src}
 								alt={img.alt}
 								width={200}

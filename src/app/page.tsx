@@ -25,9 +25,15 @@ const getIndexFromSearchParam = (value?: string | string[]) => {
 
 export default function Home() {
 	const searchParams = new URLSearchParams(globalThis.location.search);
-	const imageIndex = getIndexFromSearchParam(searchParams.get('i') ?? undefined);
-	const messageIndex = getIndexFromSearchParam(searchParams.get('m') ?? undefined);
-	const valueIndex = getIndexFromSearchParam(searchParams.get('v') ?? undefined);
+	const imageIndex = getIndexFromSearchParam(
+		searchParams.get('i') ?? undefined,
+	);
+	const messageIndex = getIndexFromSearchParam(
+		searchParams.get('m') ?? undefined,
+	);
+	const valueIndex = getIndexFromSearchParam(
+		searchParams.get('v') ?? undefined,
+	);
 
 	return (
 		<Stack

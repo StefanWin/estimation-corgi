@@ -1,7 +1,4 @@
-import {
-	type AnchorHTMLAttributes,
-	forwardRef,
-} from 'react';
+import { type AnchorHTMLAttributes, forwardRef } from 'react';
 
 type Props = AnchorHTMLAttributes<HTMLAnchorElement> & {
 	prefetch?: boolean;
