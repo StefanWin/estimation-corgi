@@ -1,26 +1,10 @@
-import { createEnv } from '@t3-oss/env-nextjs';
 import { z } from 'zod';
 
-export const env = createEnv({
-	server: {
-		CF_TURNSTILE_VERIFY_ENDPOINT: z.url().optional(),
-		TURNSTILE_SECRET_KEY: z.string().optional(),
-	},
-	client: {
-		NEXT_PUBLIC_TURNSTILE_SITE_KEY: z.string().optional(),
-		NEXT_PUBLIC_CONVEX_URL: z.url(),
-		NEXT_PUBLIC_POSTHOG_KEY: z.string(),
-		NEXT_PUBLIC_POSTHOG_HOST: z.url(),
-	},
-	runtimeEnv: {
-		// server
-		CF_TURNSTILE_VERIFY_ENDPOINT: process.env.CF_TURNSTILE_VERIFY_ENDPOINT,
-		TURNSTILE_SECRET_KEY: process.env.TURNSTILE_SECRET_KEY,
-		// client
-		NEXT_PUBLIC_TURNSTILE_SITE_KEY: process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY,
-		NEXT_PUBLIC_CONVEX_URL: process.env.NEXT_PUBLIC_CONVEX_URL,
-		NEXT_PUBLIC_POSTHOG_HOST: process.env.NEXT_PUBLIC_POSTHOG_HOST,
-		NEXT_PUBLIC_POSTHOG_KEY: process.env.NEXT_PUBLIC_POSTHOG_KEY,
-	},
-	skipValidation: process.env.SKIP_ENV_VAR_VALIDATION === 'true',
+const clientEnv = z.object({
+	VITE_TURNSTILE_SITE_KEY: z.string().optional(),
+	VITE_CONVEX_URL: z.url(),
+	VITE_POSTHOG_KEY: z.string(),
+	VITE_POSTHOG_HOST: z.url(),
 });
+
+export const env = clientEnv.parse(import.meta.env);

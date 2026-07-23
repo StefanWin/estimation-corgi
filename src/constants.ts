@@ -1,11 +1,11 @@
-import blepCorgi from '../public/blep-corgi.webp';
-import chillaxCorgi from '../public/ChillaxCorgi.webp';
-import cuteCorgi from '../public/cute-corgi.webp';
-import dabbingCorgi from '../public/dabbing-corgi.webp';
-import laptopCorgi from '../public/laptop-corgi.webp';
-import fatAssCorgi from '../public/phatasscorgi.webp';
-import runningCorgi from '../public/running-corgi.webp';
-import sadCorgi from '../public/sad-corgi.webp';
+import blepCorgi from './assets/blep-corgi.webp';
+import chillaxCorgi from './assets/ChillaxCorgi.webp';
+import cuteCorgi from './assets/cute-corgi.webp';
+import dabbingCorgi from './assets/dabbing-corgi.webp';
+import laptopCorgi from './assets/laptop-corgi.webp';
+import fatAssCorgi from './assets/phatasscorgi.webp';
+import runningCorgi from './assets/running-corgi.webp';
+import sadCorgi from './assets/sad-corgi.webp';
 
 export const ESTIMATION_HOURS = Array.from(
 	{ length: 40 },

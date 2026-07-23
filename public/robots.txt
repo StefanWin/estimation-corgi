@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /convex/
+
+Sitemap: https://estimation-corgi.com/sitemap.xml

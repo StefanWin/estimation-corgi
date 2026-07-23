@@ -1,12 +1,6 @@
 import Box from '@mui/material/Box';
 import MuiLink from '@mui/material/Link';
-import type { Metadata } from 'next';
 import { Link as NextLink } from '@/components/link';
-
-export const metadata: Metadata = {
-	title: 'Privacy Policy',
-	description: 'Privacy Policy for estimation-corgi.com',
-};
 
 export default function PrivacyPage() {
 	return (
@@ -64,19 +58,18 @@ export default function PrivacyPage() {
 				</section>
 
 				<section>
-					<h2>2. Hosting (Vercel)</h2>
+					<h2>2. Hosting (Cloudflare)</h2>
 					<p>
-						This website is hosted by Vercel Inc., 340 S Lemon Ave #4133,
-						Walnut, CA 91789, USA. Vercel processes server log data (IP address,
-						browser type, and time of access) to ensure secure and reliable
-						operation.
+						This website is hosted by Cloudflare, Inc. Cloudflare processes server
+						log data, such as IP address, browser type, and time of access, to
+						ensure secure and reliable operation.
 					</p>
 					<p>
 						<strong>Legal basis:</strong> Article 6(1)(f) GDPR (legitimate
 						interest in reliable and secure website delivery).
 						<br />
 						<strong>Data transfer:</strong> Data may be transferred to the USA.
-						Vercel participates in the EU–US Data Privacy Framework.
+						Cloudflare may process this data as part of providing hosting services.
 					</p>
 				</section>
 

@@ -11,7 +11,6 @@
 		"includes": [
 			"**/*.ts",
 			"**/*.tsx",
-			"!.next/*",
 			"!convex/_generated/*",
 			"!node_modules/*"
 		]
@@ -27,7 +26,6 @@
 		},
 		"domains": {
 			"react": "recommended",
-			"next": "recommended",
 			"test": "recommended"
 		}
 	},

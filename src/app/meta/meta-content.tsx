@@ -1,5 +1,3 @@
-'use client';
-
 import Box from '@mui/material/Box';
 import ButtonBase from '@mui/material/ButtonBase';
 import MuiLink from '@mui/material/Link';
@@ -9,7 +7,6 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { useQuery } from 'convex/react';
 import { BookCopyIcon } from 'lucide-react';
-import NextImage from 'next/image';
 import { toast } from 'sonner';
 import { Link } from '@/components/link';
 import { CORGI_IMAGES } from '@/constants';
@@ -97,13 +94,11 @@ export function MetaContent() {
 							}}
 						>
 							<Box
-								component={NextImage}
+							component="img"
 								src={img.src}
 								alt={img.alt}
 								width={200}
 								height={200}
-								priority
-								sizes="200px"
 								sx={{ objectFit: 'contain' }}
 							/>
 							{img.attribution && (

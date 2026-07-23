@@ -28,7 +28,7 @@ export function SuggestForm() {
 	const [captchaRenderKey, setCaptchaRenderKey] = useState(0);
 	const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
-	const turnStileKey = env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
+	const turnStileKey = env.VITE_TURNSTILE_SITE_KEY;
 	const requiresCaptcha = Boolean(turnStileKey);
 	const normalizedInput = input.trim().replaceAll(/\s+/g, ' ');
 	const canSubmit =

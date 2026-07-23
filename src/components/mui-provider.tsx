@@ -28,7 +28,7 @@ const theme = createTheme({
 		borderRadius: 12,
 	},
 	typography: {
-		fontFamily: 'var(--font-geist-sans)',
+		fontFamily: '"Geist Variable", Arial, sans-serif',
 	},
 	components: {
 		MuiButton: {

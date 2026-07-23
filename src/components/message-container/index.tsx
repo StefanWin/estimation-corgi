@@ -1,12 +1,9 @@
-'use client';
-
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import { type Preloaded, useMutation, usePreloadedQuery } from 'convex/react';
+import { useMutation, useQuery } from 'convex/react';
 import { Copy, LucideThumbsUp, Share2 } from 'lucide-react';
-import Image from 'next/image';
 import { usePostHog } from 'posthog-js/react';
 import { useCallback, useEffect, useState } from 'react';
 import { toast } from 'sonner';
@@ -17,7 +14,6 @@ import { api } from '../../../convex/_generated/api';
 import { Button } from '../button';
 
 interface MessageContainerProps {
-	approvedMessages: Preloaded<typeof api.messages.getApprovedMessages>;
 	initialEstimateState: InitialEstimateState;
 }
 
@@ -65,11 +61,10 @@ const isEditableTarget = (target: EventTarget | null) => {
 };
 
 export function MessageContainer({
-	approvedMessages,
 	initialEstimateState,
 }: Readonly<MessageContainerProps>) {
 	const posthog = usePostHog();
-	const messages = usePreloadedQuery(approvedMessages);
+	const messages = useQuery(api.messages.getApprovedMessages) ?? [];
 	const likeMessage = useMutation(api.messages.likeMessage);
 	const [imageIndex, setImageIndex] = useState(() =>
 		isValidIndex(CORGI_IMAGES.length, initialEstimateState.imageIndex)
@@ -188,7 +183,7 @@ export function MessageContainer({
 	useEffect(() => {
 		for (const corgiImage of CORGI_IMAGES) {
 			const preloadImage = new globalThis.Image();
-			preloadImage.src = corgiImage.src.src;
+			preloadImage.src = corgiImage.src;
 		}
 	}, []);
 
@@ -253,14 +248,11 @@ export function MessageContainer({
 					}}
 				>
 					<Box
-						component={Image}
+						component="img"
 						key={image.id}
 						suppressHydrationWarning
 						src={image.src}
 						alt={image.alt}
-						priority
-						placeholder="blur"
-						sizes="(max-width: 960px) 60vw, 34vw"
 						onLoad={() => setIsImageLoaded(true)}
 						sx={{
 							objectFit: 'contain',

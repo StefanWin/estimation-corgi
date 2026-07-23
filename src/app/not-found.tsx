@@ -2,9 +2,8 @@ import Box from '@mui/material/Box';
 import MuiLink from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import Image from 'next/image';
+import notFoundImage from '@/assets/404.jpg';
 import { Link as NextLink } from '@/components/link';
-import notFoundImage from '../../public/404.jpg';
 
 export default function NotFound() {
 	return (
@@ -29,12 +28,9 @@ export default function NotFound() {
 				404 - not found
 			</Typography>
 			<Box
-				component={Image}
-				suppressHydrationWarning
+				component="img"
 				src={notFoundImage}
 				alt="corgi"
-				priority
-				sizes="(max-width: 768px) 50vw, (max-width: 1200px) 50vw, 33vw"
 				sx={{
 					objectFit: 'contain',
 					maxWidth: '100%',
