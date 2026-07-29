@@ -12,7 +12,8 @@
 			"**/*.ts",
 			"**/*.tsx",
 			"!convex/_generated/*",
-			"!node_modules/*"
+			"!node_modules/*",
+			"!worker-configuration.d.ts"
 		]
 	},
 	"formatter": {
