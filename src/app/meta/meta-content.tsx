@@ -3,6 +3,7 @@ import ButtonBase from '@mui/material/ButtonBase';
 import MuiLink from '@mui/material/Link';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
+import Skeleton from '@mui/material/Skeleton';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { useQuery } from 'convex/react';
@@ -11,6 +12,8 @@ import { toast } from 'sonner';
 import { Link } from '@/components/link';
 import { CORGI_IMAGES } from '@/constants';
 import { api } from '../../../convex/_generated/api';
+
+const MESSAGE_SKELETON_ROWS = Array.from({ length: 6 }, (_, index) => index);
 
 async function copyMessage(message: string) {
 	try {
@@ -38,35 +41,52 @@ export function MetaContent() {
 				<Typography component="h2" sx={headerStyles}>
 					available messages:
 				</Typography>
-				<List disablePadding sx={{ width: '100%' }}>
-					{messages?.map((m) => (
-						<ListItem key={m._id} disablePadding>
-							<ButtonBase
-								type="button"
-								onClick={() => copyMessage(m.message)}
-								aria-label={`Copy message: ${m.message}`}
-								sx={{
-									width: '100%',
-									justifyContent: 'space-between',
-									gap: 2,
-									py: 1.75,
-									borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
-									fontSize: '0.9rem',
-									textAlign: 'left',
-									transition: 'color 0.2s ease, border-color 0.2s ease',
-									'&:hover': {
-										color: 'primary.light',
-										borderColor: 'primary.light',
-									},
-								}}
-							>
-								<Box component="span" sx={{ flex: 1 }}>
-									{m.message} {m.likes ? `(${m.likes} likes)` : ''}
-								</Box>
-								<BookCopyIcon />
-							</ButtonBase>
-						</ListItem>
-					))}
+				<List
+					disablePadding
+					aria-busy={messages === undefined}
+					aria-label={
+						messages === undefined ? 'Loading available messages' : undefined
+					}
+					sx={{ width: '100%' }}
+				>
+					{messages === undefined
+						? MESSAGE_SKELETON_ROWS.map((row) => (
+								<ListItem key={row} disablePadding sx={messageRowStyles}>
+									<Skeleton
+										variant="text"
+										animation="wave"
+										width={`${72 - (row % 3) * 9}%`}
+									/>
+								</ListItem>
+							))
+						: messages.map((m) => (
+								<ListItem key={m._id} disablePadding>
+									<ButtonBase
+										type="button"
+										onClick={() => copyMessage(m.message)}
+										aria-label={`Copy message: ${m.message}`}
+										sx={{
+											width: '100%',
+											justifyContent: 'space-between',
+											gap: 2,
+											py: 1.75,
+											borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
+											fontSize: '0.9rem',
+											textAlign: 'left',
+											transition: 'color 0.2s ease, border-color 0.2s ease',
+											'&:hover': {
+												color: 'primary.light',
+												borderColor: 'primary.light',
+											},
+										}}
+									>
+										<Box component="span" sx={{ flex: 1 }}>
+											{m.message} {m.likes ? `(${m.likes} likes)` : ''}
+										</Box>
+										<BookCopyIcon />
+									</ButtonBase>
+								</ListItem>
+							))}
 				</List>
 			</Stack>
 
@@ -165,6 +185,11 @@ const headerStyles = {
 	backgroundClip: 'text',
 	WebkitBackgroundClip: 'text',
 	WebkitTextFillColor: 'transparent',
+};
+
+const messageRowStyles = {
+	height: '3.55rem',
+	borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
 };
 
 const imageWrapperStyles = {
