@@ -16,15 +16,15 @@ import { api } from '../../../convex/_generated/api';
 const MESSAGE_SKELETON_ROWS = Array.from({ length: 6 }, (_, index) => index);
 
 export function MetaContent() {
-    const notify = useNotification();
-    async function copyMessage(message: string) {
-        try {
-            await navigator.clipboard.writeText(message);
-            notify('Message copied', 'success');
-        } catch {
-            notify('Failed to copy message', 'error');
-        }
-    }
+	const notify = useNotification();
+	async function copyMessage(message: string) {
+		try {
+			await navigator.clipboard.writeText(message);
+			notify('Message copied', 'success');
+		} catch {
+			notify('Failed to copy message', 'error');
+		}
+	}
 
 	const messages = useQuery(api.messages.getApprovedMessages);
 
