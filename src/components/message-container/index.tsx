@@ -1,5 +1,6 @@
 import Box from '@mui/material/Box';
 import IconButton from '@mui/material/IconButton';
+import Skeleton from '@mui/material/Skeleton';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { useMutation, useQuery } from 'convex/react';
@@ -65,38 +66,45 @@ export function MessageContainer({
 }: Readonly<MessageContainerProps>) {
 	const posthog = usePostHog();
 	const notify = useNotification();
-	const messages = useQuery(api.messages.getApprovedMessages) ?? [];
+	const messages = useQuery(api.messages.getApprovedMessages);
 	const likeMessage = useMutation(api.messages.likeMessage);
 	const [imageIndex, setImageIndex] = useState(() =>
 		isValidIndex(CORGI_IMAGES.length, initialEstimateState.imageIndex)
 			? initialEstimateState.imageIndex
 			: getRandomIndex(CORGI_IMAGES.length),
 	);
-	const [messageIndex, setMessageIndex] = useState(() =>
-		isValidIndex(messages.length, initialEstimateState.messageIndex)
-			? initialEstimateState.messageIndex
-			: getRandomIndex(messages.length),
-	);
+	const [messageIndex, setMessageIndex] = useState<number | null>(null);
 	const [valueIndex, setValueIndex] = useState(() =>
 		getInitialValueIndex(initialEstimateState.valueIndex),
 	);
 	const [isImageLoaded, setIsImageLoaded] = useState(false);
 
 	const image = CORGI_IMAGES[imageIndex];
-	const message = messageIndex >= 0 ? messages[messageIndex] : undefined;
+	const message =
+		messages && messageIndex !== null && messageIndex >= 0
+			? messages[messageIndex]
+			: undefined;
+	const isEstimateLoading =
+		messages === undefined ||
+		(messages.length > 0 &&
+			(messageIndex === null || !isValidIndex(messages.length, messageIndex)));
 	const displayValue = `${ESTIMATION_HOURS[valueIndex]} hours`;
 
 	const onNewMessage = useCallback(() => {
+		if (!messages || messages.length === 0) {
+			return;
+		}
+
 		posthog.capture('new_message');
 		setMessageIndex((previousIndex) =>
-			getRandomIndexExcluding(messages.length, previousIndex),
+			getRandomIndexExcluding(messages.length, previousIndex ?? -1),
 		);
 		setImageIndex((previousIndex) =>
 			getRandomIndexExcluding(CORGI_IMAGES.length, previousIndex),
 		);
 		setValueIndex(getRandomIndex(ESTIMATION_HOURS.length));
 		setIsImageLoaded(false);
-	}, [messages.length, posthog]);
+	}, [messages, posthog]);
 
 	const onCopyEstimate = useCallback(async () => {
 		if (!message) {
@@ -117,7 +125,7 @@ export function MessageContainer({
 	}, [displayValue, message, posthog, notify]);
 
 	const onShareEstimate = useCallback(async () => {
-		if (!message) {
+		if (!message || messageIndex === null) {
 			return;
 		}
 
@@ -173,13 +181,20 @@ export function MessageContainer({
 	}, [likeMessage, message, posthog, notify]);
 
 	useEffect(() => {
+		if (messages === undefined) {
+			return;
+		}
+
 		if (messages.length === 0) {
 			setMessageIndex(-1);
 			return;
 		}
 
 		setMessageIndex((previousIndex) => {
-			if (isValidIndex(messages.length, previousIndex)) {
+			if (
+				previousIndex !== null &&
+				isValidIndex(messages.length, previousIndex)
+			) {
 				return previousIndex;
 			}
 			if (isValidIndex(messages.length, initialEstimateState.messageIndex)) {
@@ -187,7 +202,7 @@ export function MessageContainer({
 			}
 			return getRandomIndex(messages.length);
 		});
-	}, [initialEstimateState.messageIndex, messages.length]);
+	}, [initialEstimateState.messageIndex, messages]);
 
 	useEffect(() => {
 		for (const corgiImage of CORGI_IMAGES) {
@@ -208,6 +223,10 @@ export function MessageContainer({
 			}
 
 			if (event.code === 'Space') {
+				if (!message) {
+					return;
+				}
+
 				event.preventDefault();
 				onNewMessage();
 			}
@@ -215,7 +234,7 @@ export function MessageContainer({
 
 		globalThis.addEventListener('keydown', handleKeyDown);
 		return () => globalThis.removeEventListener('keydown', handleKeyDown);
-	}, [onNewMessage]);
+	}, [message, onNewMessage]);
 
 	if (!image) {
 		return null;
@@ -249,6 +268,7 @@ export function MessageContainer({
 			>
 				<Box
 					sx={{
+						position: 'relative',
 						display: 'flex',
 						justifyContent: 'center',
 						alignItems: 'center',
@@ -256,12 +276,27 @@ export function MessageContainer({
 						height: 'clamp(13rem, 31vh, 19rem)',
 					}}
 				>
+					{!isImageLoaded && (
+						<Skeleton
+							aria-label="Loading corgi image"
+							variant="rounded"
+							animation="wave"
+							sx={{
+								position: 'absolute',
+								width: 'min(100%, 19rem)',
+								height: '100%',
+								bgcolor: 'rgba(255, 255, 255, 0.06)',
+							}}
+						/>
+					)}
 					<Box
 						component="img"
 						key={image.id}
-						suppressHydrationWarning
 						src={image.src}
 						alt={image.alt}
+						loading="eager"
+						fetchPriority="high"
+						decoding="async"
 						onLoad={() => setIsImageLoaded(true)}
 						sx={{
 							objectFit: 'contain',
@@ -270,10 +305,7 @@ export function MessageContainer({
 							borderRadius: 1.5,
 							filter: 'drop-shadow(0 4px 12px rgba(0, 0, 0, 0.1))',
 							opacity: isImageLoaded ? 1 : 0,
-							transform: isImageLoaded
-								? 'translateY(0) scale(1)'
-								: 'translateY(6px) scale(0.985)',
-							transition: 'opacity 0.2s ease, transform 0.3s ease',
+							transition: 'opacity 0.15s ease, transform 0.2s ease',
 							'&:hover': { transform: 'scale(1.02)' },
 						}}
 					/>
@@ -296,13 +328,31 @@ export function MessageContainer({
 					},
 				}}
 			>
-				{message && (
-					<Stack sx={{ width: '100%', alignItems: 'center' }}>
+				<Stack
+					aria-busy={isEstimateLoading}
+					aria-label={isEstimateLoading ? 'Loading estimate' : undefined}
+					sx={{ width: '100%', alignItems: 'center' }}
+				>
+					{isEstimateLoading ? (
+						<EstimateSkeleton />
+					) : message ? (
 						<Message message={message.message} displayValue={displayValue} />
-					</Stack>
-				)}
+					) : (
+						<Typography
+							sx={{
+								minHeight: '5.75rem',
+								display: 'flex',
+								alignItems: 'center',
+							}}
+						>
+							No messages are available yet.
+						</Typography>
+					)}
+				</Stack>
 				<Box sx={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
-					<Button onClick={onNewMessage}>get another estimate</Button>
+					<Button disabled={!message} onClick={onNewMessage}>
+						get another estimate
+					</Button>
 				</Box>
 				<Stack
 					direction="row"
@@ -311,6 +361,7 @@ export function MessageContainer({
 				>
 					<IconButton
 						type="button"
+						disabled={!message}
 						aria-label="Like message"
 						title="Like message"
 						onClick={() => {
@@ -322,6 +373,7 @@ export function MessageContainer({
 					</IconButton>
 					<IconButton
 						type="button"
+						disabled={!message}
 						aria-label="Copy estimate"
 						title="Copy estimate"
 						onClick={() => {
@@ -333,6 +385,7 @@ export function MessageContainer({
 					</IconButton>
 					<IconButton
 						type="button"
+						disabled={!message}
 						aria-label="Share estimate"
 						title="Share estimate"
 						onClick={() => {
@@ -343,13 +396,31 @@ export function MessageContainer({
 						<Share2 size={18} strokeWidth={2.25} />
 					</IconButton>
 				</Stack>
-				<Typography variant="body2">
-					{message?.likes
-						? `${message.likes} likes`
-						: 'be the first to like the message!'}
-				</Typography>
+				{isEstimateLoading ? (
+					<Skeleton width="11rem" aria-label="Loading message likes" />
+				) : (
+					<Typography variant="body2">
+						{message?.likes
+							? `${message.likes} likes`
+							: 'be the first to like the message!'}
+					</Typography>
+				)}
 			</Stack>
 		</Box>
+	);
+}
+
+function EstimateSkeleton() {
+	return (
+		<Stack sx={{ width: '100%', minHeight: '5.75rem', alignItems: 'center' }}>
+			<Skeleton variant="text" animation="wave" width="8rem" height="2.75rem" />
+			<Skeleton
+				variant="text"
+				animation="wave"
+				width="min(80%, 22rem)"
+				height="2.5rem"
+			/>
+		</Stack>
 	);
 }
 

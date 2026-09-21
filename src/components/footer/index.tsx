@@ -72,6 +72,14 @@ export const Footer: FC = () => {
 			<MuiLink component={Link} href="/privacy" sx={footerActionStyles}>
 				data privacy
 			</MuiLink>
+			<MuiLink
+				href={`https://github.com/StefanWin/estimation-corgi/commit/${__COMMIT_SHA__}`}
+				target="_blank"
+				rel="noopener noreferrer"
+				sx={footerActionStyles}
+			>
+				built {__BUILD_DATE__} · {__COMMIT_SHA__}
+			</MuiLink>
 			{consentStatus === 'granted' && (
 				<Button sx={footerActionStyles} type="button" onClick={onOptOut}>
 					opt-out
