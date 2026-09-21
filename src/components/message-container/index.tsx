@@ -6,8 +6,8 @@ import { useMutation, useQuery } from 'convex/react';
 import { Copy, LucideThumbsUp, Share2 } from 'lucide-react';
 import { usePostHog } from 'posthog-js/react';
 import { useCallback, useEffect, useState } from 'react';
-import { toast } from 'sonner';
 import { Message } from '@/components/message';
+import { useNotification } from '@/components/notification-provider';
 import { CORGI_IMAGES, ESTIMATION_HOURS } from '@/constants';
 import { getRandomIndex, getRandomIndexExcluding } from '@/util';
 import { api } from '../../../convex/_generated/api';
@@ -64,6 +64,7 @@ export function MessageContainer({
 	initialEstimateState,
 }: Readonly<MessageContainerProps>) {
 	const posthog = usePostHog();
+	const notify = useNotification();
 	const messages = useQuery(api.messages.getApprovedMessages) ?? [];
 	const likeMessage = useMutation(api.messages.likeMessage);
 	const [imageIndex, setImageIndex] = useState(() =>
@@ -108,12 +109,12 @@ export function MessageContainer({
 			await navigator.clipboard.writeText(
 				`${displayValue} - ${message.message}`,
 			);
-			toast.success('Estimate copied');
+			notify('Estimate copied', 'success');
 		} catch (error: unknown) {
-			toast.error('Failed to copy estimate');
+			notify('Failed to copy estimate', 'error');
 			posthog.captureException(error);
 		}
-	}, [displayValue, message, posthog]);
+	}, [displayValue, message, posthog, notify]);
 
 	const onShareEstimate = useCallback(async () => {
 		if (!message) {
@@ -136,17 +137,25 @@ export function MessageContainer({
 		try {
 			if (navigator.share) {
 				await navigator.share(shareData);
-				toast.success('Estimate shared');
+				notify('Estimate shared', 'success');
 				return;
 			}
 
 			await navigator.clipboard.writeText(shareUrl);
-			toast.success('Share link copied');
+			notify('Share link copied', 'success');
 		} catch (error: unknown) {
-			toast.error('Failed to share estimate');
+			notify('Failed to share estimate', 'error');
 			posthog.captureException(error);
 		}
-	}, [displayValue, imageIndex, message, messageIndex, valueIndex, posthog]);
+	}, [
+		displayValue,
+		imageIndex,
+		message,
+		messageIndex,
+		valueIndex,
+		posthog,
+		notify,
+	]);
 
 	const onMessageLiked = useCallback(async () => {
 		if (!message) {
@@ -156,12 +165,12 @@ export function MessageContainer({
 		posthog.capture('message_liked');
 		try {
 			await likeMessage({ id: message._id });
-			toast.success('Message liked');
+			notify('Message liked', 'success');
 		} catch (err: unknown) {
-			toast.error('Failed to like message');
+			notify('Failed to like message', 'error');
 			posthog.captureException(err);
 		}
-	}, [likeMessage, message, posthog]);
+	}, [likeMessage, message, posthog, notify]);
 
 	useEffect(() => {
 		if (messages.length === 0) {

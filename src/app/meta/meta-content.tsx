@@ -7,21 +7,22 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { useQuery } from 'convex/react';
 import { BookCopyIcon } from 'lucide-react';
-import { toast } from 'sonner';
 import { Link } from '@/components/link';
+import { useNotification } from '@/components/notification-provider';
 import { CORGI_IMAGES } from '@/constants';
 import { api } from '../../../convex/_generated/api';
 
-async function copyMessage(message: string) {
-	try {
-		await navigator.clipboard.writeText(message);
-		toast.success('Message copied');
-	} catch {
-		toast.error('Failed to copy message');
-	}
-}
-
 export function MetaContent() {
+	const notify = useNotification();
+	async function copyMessage(message: string) {
+		try {
+			await navigator.clipboard.writeText(message);
+			notify('Message copied', 'success');
+		} catch {
+			notify('Failed to copy message', 'error');
+		}
+	}
+
 	const messages = useQuery(api.messages.getApprovedMessages);
 
 	return (

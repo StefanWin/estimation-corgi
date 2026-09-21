@@ -28,7 +28,6 @@
     "posthog-js": "1.433.10",
     "react": "19.3.0",
     "react-dom": "19.3.0",
-    "sonner": "2.0.8",
     "zod": "4.6.5"
   },
   "devDependencies": {
