@@ -3,8 +3,8 @@
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import MuiLink from '@mui/material/Link';
-import { usePostHog } from 'posthog-js/react';
-import { type FC, useEffect, useState } from 'react';
+import type { FC } from 'react';
+import { useAnalyticsConsent } from '@/components/analytics-consent-provider';
 import { Link } from '@/components/link';
 
 const footerActionStyles = {
@@ -17,23 +17,7 @@ const footerActionStyles = {
 };
 
 export const Footer: FC = () => {
-	const posthog = usePostHog();
-	const [consentStatus, setConsentStatus] = useState<
-		ReturnType<typeof posthog.get_explicit_consent_status> | ''
-	>('');
-	useEffect(() => {
-		setConsentStatus(posthog.get_explicit_consent_status());
-	}, [posthog]);
-
-	const onOptOut = () => {
-		posthog.opt_out_capturing();
-		globalThis.location.reload();
-	};
-
-	const onOptIn = () => {
-		posthog.opt_in_capturing();
-		globalThis.location.reload();
-	};
+	const { consentStatus, setConsent } = useAnalyticsConsent();
 
 	return (
 		<Box
@@ -81,12 +65,20 @@ export const Footer: FC = () => {
 				built {__BUILD_DATE__} · {__COMMIT_SHA__}
 			</MuiLink>
 			{consentStatus === 'granted' && (
-				<Button sx={footerActionStyles} type="button" onClick={onOptOut}>
+				<Button
+					sx={footerActionStyles}
+					type="button"
+					onClick={() => setConsent('denied')}
+				>
 					opt-out
 				</Button>
 			)}
 			{consentStatus === 'denied' && (
-				<Button sx={footerActionStyles} type="button" onClick={onOptIn}>
+				<Button
+					sx={footerActionStyles}
+					type="button"
+					onClick={() => setConsent('granted')}
+				>
 					opt-in
 				</Button>
 			)}

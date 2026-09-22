@@ -5,29 +5,13 @@ import MuiLink from '@mui/material/Link';
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import { usePostHog } from 'posthog-js/react';
-import { useEffect, useState } from 'react';
+import { useAnalyticsConsent } from '@/components/analytics-consent-provider';
 import { Link } from '@/components/link';
 
 export function AnalyticsConsentBanner() {
-	const posthog = usePostHog();
-	const [consentGiven, setConsentGiven] = useState('');
+	const { consentStatus, setConsent } = useAnalyticsConsent();
 
-	useEffect(() => {
-		setConsentGiven(posthog.get_explicit_consent_status());
-	}, [posthog]);
-
-	const handleAcceptCookies = () => {
-		posthog.opt_in_capturing();
-		setConsentGiven('granted');
-	};
-
-	const handleDeclineCookies = () => {
-		posthog.opt_out_capturing();
-		setConsentGiven('denied');
-	};
-
-	if (consentGiven !== 'pending') return null;
+	if (consentStatus !== 'pending') return null;
 
 	return (
 		<Paper
@@ -78,7 +62,7 @@ export function AnalyticsConsentBanner() {
 					variant="outlined"
 					fullWidth
 					type="button"
-					onClick={handleDeclineCookies}
+					onClick={() => setConsent('denied')}
 				>
 					decline
 				</Button>
@@ -87,7 +71,7 @@ export function AnalyticsConsentBanner() {
 					color="secondary"
 					fullWidth
 					type="button"
-					onClick={handleAcceptCookies}
+					onClick={() => setConsent('granted')}
 					sx={{ color: '#fff' }}
 				>
 					allow analytics
