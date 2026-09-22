@@ -42,16 +42,15 @@ Message submissions require Turnstile. Set `VITE_TURNSTILE_SITE_KEY` for the fro
 
 Before deploying the required `normalizedMessage` schema for the first time, run the already-deployed `migrations:runAll` function in the production Convex dashboard. Wait for `backfillNormalizedMessages` to finish in the migrations component. Migration runners return before their background work finishes. If any message still lacks a normalized key, schema validation will reject the deployment. New submissions always write the key, and duplicate detection uses only the `by_normalized_message` index.
 
-1. Log in once with `pnpm wrangler login`.
-2. Deploy the Convex functions and migrations with `pnpm deploy:convex`.
-3. Set the `VITE_*` values above in your CI environment (or `.env.production.local` for a local deployment).
-4. Run:
+Deployments run through Cloudflare's Git integration, never locally. Configure:
 
-   ```powershell
-   pnpm deploy
-   ```
+- Build command: `pnpm run build`
+- Deploy command: `pnpm run deploy:convex`
+- Build environment: the production `CONVEX_DEPLOY_KEY` and the `VITE_*` values above. `VITE_CONVEX_URL` must point to the same production deployment as the deploy key because Vite embeds it during the separate build step.
 
-`pnpm deploy` builds the SPA and calls Wrangler. The Cloudflare Vite plugin writes the deployable Worker configuration to `dist/wrangler.json`; do not commit `dist`.
+The build command creates the SPA assets and `dist/wrangler.json`. The deploy command deploys Convex first, invokes production migrations with `--prod`, then calls Wrangler to publish the already-built assets. A failed Convex deployment or migration invocation stops the chain before publishing the frontend. Migrations run in the background, so successful invocation does not mean their backfills have finished; schema-tightening changes require the completed backfill described above.
+
+`pnpm run deploy` only calls Wrangler; it does not build the SPA. Do not commit `dist`.
 
 `wrangler.jsonc` enables `single-page-application` fallback, so direct navigation to `/suggest`, `/meta`, and `/privacy` works on the Worker. Configure a custom domain or Workers route in Cloudflare after the first deploy.
 
@@ -61,5 +60,4 @@ Before deploying the required `normalizedMessage` schema for the first time, run
 pnpm types
 pnpm build
 pnpm preview
-pnpm deploy
 ```
