@@ -44,6 +44,22 @@ export function NotificationProvider({
 					<Alert
 						severity={notification.severity}
 						variant="filled"
+						sx={(theme) => {
+							const accent = {
+								error: theme.palette.error.main,
+								info: theme.palette.primary.light,
+								success: theme.palette.primary.main,
+								warning: theme.palette.secondary.main,
+							}[notification.severity];
+
+							return {
+								backgroundColor: theme.palette.background.paper,
+								border: '1px solid',
+								borderColor: accent,
+								color: theme.palette.text.primary,
+								'& .MuiAlert-icon': { color: accent },
+							};
+						}}
 						onClose={() => setOpen(false)}
 					>
 						{notification.message}
