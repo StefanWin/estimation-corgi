@@ -11,20 +11,22 @@ const turnstileResponseSchema = z.object({
 });
 
 const verifyTurnstileToken = async (token: string) => {
-	const endpoint = process.env.CF_TURNSTILE_VERIFY_ENDPOINT;
 	const secret = process.env.TURNSTILE_SECRET_KEY;
 
-	if (!endpoint || !secret) {
-		return;
+	if (!secret) {
+		throw new ConvexError('captcha is not configured');
 	}
 
-	const response = await fetch(endpoint, {
-		method: 'POST',
-		body: `secret=${encodeURIComponent(secret)}&response=${encodeURIComponent(token)}`,
-		headers: {
-			'content-type': 'application/x-www-form-urlencoded',
+	const response = await fetch(
+		'https://challenges.cloudflare.com/turnstile/v0/siteverify',
+		{
+			method: 'POST',
+			body: `secret=${encodeURIComponent(secret)}&response=${encodeURIComponent(token)}`,
+			headers: {
+				'content-type': 'application/x-www-form-urlencoded',
+			},
 		},
-	});
+	);
 
 	if (!response.ok) {
 		throw new ConvexError('failed to verify captcha');
@@ -41,21 +43,14 @@ const verifyTurnstileToken = async (token: string) => {
 export const createMessage: ReturnType<typeof action> = action({
 	args: {
 		message: v.string(),
-		turnstileToken: v.optional(v.string()),
+		turnstileToken: v.string(),
 	},
 	handler: async (ctx, args): Promise<Id<'messages'>> => {
-		const requiresCaptcha = Boolean(
-			process.env.CF_TURNSTILE_VERIFY_ENDPOINT &&
-				process.env.TURNSTILE_SECRET_KEY,
-		);
-
-		if (requiresCaptcha && !args.turnstileToken) {
+		if (!args.turnstileToken.trim()) {
 			throw new ConvexError('captcha is required');
 		}
 
-		if (args.turnstileToken) {
-			await verifyTurnstileToken(args.turnstileToken);
-		}
+		await verifyTurnstileToken(args.turnstileToken);
 
 		return ctx.runMutation(internal.message_submissions.createMessageInternal, {
 			message: args.message,

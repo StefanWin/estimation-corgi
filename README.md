@@ -36,6 +36,8 @@ VITE_POSTHOG_HOST=https://eu.i.posthog.com
 
 Convex secrets such as `TURNSTILE_SECRET_KEY` remain in the Convex deployment; they are not exposed to the browser or Worker.
 
+Message submissions require Turnstile. Set `VITE_TURNSTILE_SITE_KEY` for the frontend and `TURNSTILE_SECRET_KEY` in Convex. Use the test keys in `env.example` for development and real keys in production. Missing captcha configuration rejects submissions; there is no verification bypass.
+
 ## Deploy to Cloudflare Workers
 
 1. Log in once with `pnpm wrangler login`.

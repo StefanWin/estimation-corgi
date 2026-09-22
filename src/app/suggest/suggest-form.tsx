@@ -29,12 +29,11 @@ export function SuggestForm() {
 	const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
 	const turnStileKey = env.VITE_TURNSTILE_SITE_KEY;
-	const requiresCaptcha = Boolean(turnStileKey);
 	const normalizedInput = input.trim().replaceAll(/\s+/g, ' ');
 	const canSubmit =
 		normalizedInput.length > 0 &&
 		normalizedInput.length <= MAX_MESSAGE_LENGTH &&
-		(!requiresCaptcha || Boolean(turnstileToken)) &&
+		Boolean(turnstileToken) &&
 		!isSubmitting;
 
 	const resetCaptcha = () => {
@@ -50,7 +49,7 @@ export function SuggestForm() {
 	const onSubmit: SubmitEventHandler<HTMLFormElement> = (event) => {
 		event.preventDefault();
 
-		if (!canSubmit) {
+		if (!canSubmit || !turnstileToken) {
 			return;
 		}
 
@@ -58,7 +57,7 @@ export function SuggestForm() {
 
 		createMessage({
 			message: normalizedInput,
-			turnstileToken: turnstileToken ?? undefined,
+			turnstileToken,
 		})
 			.then(() => {
 				setInput('');
@@ -79,9 +78,7 @@ export function SuggestForm() {
 				});
 			})
 			.finally(() => {
-				if (requiresCaptcha) {
-					resetCaptcha();
-				}
+				resetCaptcha();
 				setIsSubmitting(false);
 			});
 	};
@@ -157,22 +154,18 @@ export function SuggestForm() {
 				>
 					{normalizedInput.length}/{MAX_MESSAGE_LENGTH} characters
 				</Typography>
-				{requiresCaptcha && (
-					<Box
-						sx={{ display: 'flex', justifyContent: 'center', width: '100%' }}
-					>
-						<Turnstile
-							key={captchaRenderKey}
-							siteKey={turnStileKey ?? ''}
-							onSuccess={handleCaptchaSuccess}
-							onExpire={resetCaptcha}
-							onError={() => {
-								resetCaptcha();
-								setError('failed to verify captcha');
-							}}
-						/>
-					</Box>
-				)}
+				<Box sx={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
+					<Turnstile
+						key={captchaRenderKey}
+						siteKey={turnStileKey}
+						onSuccess={handleCaptchaSuccess}
+						onExpire={resetCaptcha}
+						onError={() => {
+							resetCaptcha();
+							setError('failed to verify captcha');
+						}}
+					/>
+				</Box>
 				{error && <Alert severity="error">{error}</Alert>}
 				<Button disabled={!canSubmit} type="submit">
 					{isSubmitting ? 'suggesting...' : 'suggest'}
