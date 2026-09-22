@@ -12,6 +12,7 @@ import { useNotification } from '@/components/notification-provider';
 import { CORGI_IMAGES, ESTIMATION_HOURS } from '@/constants';
 import { getRandomIndex, getRandomIndexExcluding } from '@/util';
 import { api } from '../../../convex/_generated/api';
+import type { Id } from '../../../convex/_generated/dataModel';
 import { Button } from '../button';
 
 interface MessageContainerProps {
@@ -20,7 +21,7 @@ interface MessageContainerProps {
 
 export interface InitialEstimateState {
 	imageIndex: number;
-	messageIndex: number;
+	messageId: string | null;
 	valueIndex: number;
 }
 
@@ -36,13 +37,13 @@ const getShareUrl = (
 	origin: string,
 	state: {
 		imageIndex: number;
-		messageIndex: number;
+		messageId: Id<'messages'>;
 		valueIndex: number;
 	},
 ) => {
 	const url = new URL(origin);
 	url.searchParams.set('i', String(state.imageIndex));
-	url.searchParams.set('m', String(state.messageIndex));
+	url.searchParams.set('m', state.messageId);
 	url.searchParams.set('v', String(state.valueIndex));
 	return url.toString();
 };
@@ -73,21 +74,16 @@ export function MessageContainer({
 			? initialEstimateState.imageIndex
 			: getRandomIndex(CORGI_IMAGES.length),
 	);
-	const [messageIndex, setMessageIndex] = useState<number | null>(null);
+	const [messageId, setMessageId] = useState<Id<'messages'> | null>(null);
 	const [valueIndex, setValueIndex] = useState(() =>
 		getInitialValueIndex(initialEstimateState.valueIndex),
 	);
 	const [isImageLoaded, setIsImageLoaded] = useState(false);
 
 	const image = CORGI_IMAGES[imageIndex];
-	const message =
-		messages && messageIndex !== null && messageIndex >= 0
-			? messages[messageIndex]
-			: undefined;
+	const message = messages?.find((candidate) => candidate._id === messageId);
 	const isEstimateLoading =
-		messages === undefined ||
-		(messages.length > 0 &&
-			(messageIndex === null || !isValidIndex(messages.length, messageIndex)));
+		messages === undefined || (messages.length > 0 && !message);
 	const displayValue = `${ESTIMATION_HOURS[valueIndex]} hours`;
 
 	const onNewMessage = useCallback(() => {
@@ -96,9 +92,16 @@ export function MessageContainer({
 		}
 
 		posthog.capture('new_message');
-		setMessageIndex((previousIndex) =>
-			getRandomIndexExcluding(messages.length, previousIndex ?? -1),
-		);
+		setMessageId((previousId) => {
+			const previousIndex = messages.findIndex(
+				(candidate) => candidate._id === previousId,
+			);
+			const nextIndex =
+				previousIndex < 0
+					? getRandomIndex(messages.length)
+					: getRandomIndexExcluding(messages.length, previousIndex);
+			return messages[nextIndex]._id;
+		});
 		setImageIndex((previousIndex) =>
 			getRandomIndexExcluding(CORGI_IMAGES.length, previousIndex),
 		);
@@ -125,7 +128,7 @@ export function MessageContainer({
 	}, [displayValue, message, posthog, notify]);
 
 	const onShareEstimate = useCallback(async () => {
-		if (!message || messageIndex === null) {
+		if (!message) {
 			return;
 		}
 
@@ -133,7 +136,7 @@ export function MessageContainer({
 
 		const shareUrl = getShareUrl(globalThis.location.origin, {
 			imageIndex,
-			messageIndex,
+			messageId: message._id,
 			valueIndex,
 		});
 		const shareData = {
@@ -155,15 +158,7 @@ export function MessageContainer({
 			notify('Failed to share estimate', 'error');
 			posthog.captureException(error);
 		}
-	}, [
-		displayValue,
-		imageIndex,
-		message,
-		messageIndex,
-		valueIndex,
-		posthog,
-		notify,
-	]);
+	}, [displayValue, imageIndex, message, valueIndex, posthog, notify]);
 
 	const onMessageLiked = useCallback(async () => {
 		if (!message) {
@@ -186,23 +181,23 @@ export function MessageContainer({
 		}
 
 		if (messages.length === 0) {
-			setMessageIndex(-1);
+			setMessageId(null);
 			return;
 		}
 
-		setMessageIndex((previousIndex) => {
-			if (
-				previousIndex !== null &&
-				isValidIndex(messages.length, previousIndex)
-			) {
-				return previousIndex;
+		setMessageId((previousId) => {
+			if (messages.some((candidate) => candidate._id === previousId)) {
+				return previousId;
 			}
-			if (isValidIndex(messages.length, initialEstimateState.messageIndex)) {
-				return initialEstimateState.messageIndex;
+			const sharedMessage = messages.find(
+				(candidate) => candidate._id === initialEstimateState.messageId,
+			);
+			if (sharedMessage) {
+				return sharedMessage._id;
 			}
-			return getRandomIndex(messages.length);
+			return messages[getRandomIndex(messages.length)]._id;
 		});
-	}, [initialEstimateState.messageIndex, messages]);
+	}, [initialEstimateState.messageId, messages]);
 
 	useEffect(() => {
 		for (const corgiImage of CORGI_IMAGES) {

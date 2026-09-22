@@ -28,9 +28,7 @@ export default function Home() {
 	const imageIndex = getIndexFromSearchParam(
 		searchParams.get('i') ?? undefined,
 	);
-	const messageIndex = getIndexFromSearchParam(
-		searchParams.get('m') ?? undefined,
-	);
+	const messageId = searchParams.get('m');
 	const valueIndex = getIndexFromSearchParam(
 		searchParams.get('v') ?? undefined,
 	);
@@ -78,7 +76,7 @@ export default function Home() {
 			<MessageContainer
 				initialEstimateState={{
 					imageIndex: imageIndex ?? getRandomIndex(CORGI_IMAGES.length),
-					messageIndex: messageIndex ?? -1,
+					messageId,
 					valueIndex: valueIndex ?? getRandomIndex(ESTIMATION_HOURS.length),
 				}}
 			/>
