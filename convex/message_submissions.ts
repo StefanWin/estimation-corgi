@@ -33,18 +33,6 @@ export const createMessageInternal = internalMutation({
 			throw new ConvexError('that message already exists');
 		}
 
-		// Transitional fallback until older rows are backfilled with normalized keys.
-		const legacyMessages = await ctx.db.query('messages').collect();
-		const legacyMessage = legacyMessages.find(
-			(message) =>
-				message.normalizedMessage === undefined &&
-				normalizeMessageKey(message.message) === normalizedMessageKey,
-		);
-
-		if (legacyMessage) {
-			throw new ConvexError('that message already exists');
-		}
-
 		return ctx.db.insert('messages', {
 			message: normalizedMessage,
 			normalizedMessage: normalizedMessageKey,
