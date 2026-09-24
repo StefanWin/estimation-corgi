@@ -85,7 +85,7 @@ export function SuggestForm() {
 
 	if (isSubmitted) {
 		return (
-			<Stack sx={containerStyles}>
+			<Stack className="secondary-page" sx={containerStyles}>
 				<MuiLink component={NextLink} href="/" color="text.primary">
 					<Typography component="h1" variant="h4" sx={{ fontWeight: 700 }}>
 						estimation corgi
@@ -95,7 +95,7 @@ export function SuggestForm() {
 					sx={{
 						width: '100%',
 						py: 2.5,
-						borderBlock: '1px solid rgba(255, 123, 74, 0.3)',
+						borderBlock: '1px solid var(--line)',
 						textAlign: 'center',
 					}}
 				>
@@ -123,7 +123,7 @@ export function SuggestForm() {
 	}
 
 	return (
-		<Stack sx={containerStyles}>
+		<Stack className="secondary-page" sx={containerStyles}>
 			<MuiLink component={NextLink} href="/" color="text.primary">
 				<Typography component="h1" variant="h4" sx={{ fontWeight: 700 }}>
 					estimation corgi
@@ -188,9 +188,9 @@ const containerStyles = {
 
 const backLinkStyles = {
 	py: 1,
-	borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
-	color: 'primary.light',
+	borderBottom: '1px solid var(--line)',
+	color: 'primary.main',
 	fontWeight: 700,
 	textDecoration: 'none',
-	'&:hover': { color: '#ff9a70', borderColor: '#ff9a70' },
+	'&:hover': { color: 'var(--accent)', borderColor: 'var(--accent)' },
 };

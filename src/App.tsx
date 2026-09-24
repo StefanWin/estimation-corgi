@@ -10,6 +10,7 @@ import { ConvexClientProvider } from '@/components/convex-provider';
 import { Footer } from '@/components/footer';
 import { MuiProvider } from '@/components/mui-provider';
 import { NotificationProvider } from '@/components/notification-provider';
+import { ThemeToggle } from '@/components/theme-toggle';
 
 const pages = {
 	'/': { component: Home, title: 'estimation corgi' },
@@ -42,16 +43,20 @@ export default function App() {
 					<Box
 						sx={{
 							minHeight: '100svh',
-							px: { xs: 2, sm: 2.5 },
-							pt: 'clamp(1.5rem, 4vh, 3.5rem)',
-							pb: 2.5,
+							px: { xs: 2, sm: 3 },
+							pt: { xs: 2, sm: 3 },
+							pb: 3,
 							display: 'flex',
 							flexDirection: 'column',
 							alignItems: 'center',
-							justifyContent: 'center',
-							gap: 'clamp(1.5rem, 3vh, 2.5rem)',
+							gap: 4,
 						}}
 					>
+						{globalThis.location.pathname !== '/' && (
+							<Box className="secondary-theme-bar">
+								<ThemeToggle />
+							</Box>
+						)}
 						<Box
 							component="main"
 							sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}

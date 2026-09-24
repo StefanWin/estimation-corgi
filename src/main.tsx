@@ -4,6 +4,7 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { AnalyticsConsentProvider } from '@/components/analytics-consent-provider';
 import App from './App';
+import './styles.css';
 import './instrumentation-client';
 
 // biome-ignore lint/style/noNonNullAssertion: i know more than you

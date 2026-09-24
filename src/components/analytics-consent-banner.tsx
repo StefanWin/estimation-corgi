@@ -29,9 +29,8 @@ export function AnalyticsConsentBanner() {
 				display: 'grid',
 				gap: 2,
 				p: 2,
-				backgroundImage:
-					'linear-gradient(rgba(255, 123, 74, 0.08), rgba(255, 123, 74, 0.08))',
-				border: '1px solid rgba(255, 255, 255, 0.08)',
+				backgroundImage: 'none',
+				border: '1px solid var(--ink)',
 				borderRadius: 2.5,
 				backdropFilter: 'blur(14px)',
 			}}
@@ -72,7 +71,7 @@ export function AnalyticsConsentBanner() {
 					fullWidth
 					type="button"
 					onClick={() => setConsent('granted')}
-					sx={{ color: '#fff' }}
+					sx={{ color: '#24211d' }}
 				>
 					allow analytics
 				</Button>

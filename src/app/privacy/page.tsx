@@ -6,6 +6,7 @@ export default function PrivacyPage() {
 	return (
 		<Box
 			component="main"
+			className="secondary-page"
 			sx={{
 				display: 'flex',
 				flexDirection: 'column',
@@ -18,10 +19,7 @@ export default function PrivacyPage() {
 					fontSize: '1.75rem',
 					fontWeight: 700,
 					mb: 3,
-					backgroundImage: 'linear-gradient(135deg, #ff7b4a, #8b7cf7)',
-					backgroundClip: 'text',
-					WebkitBackgroundClip: 'text',
-					WebkitTextFillColor: 'transparent',
+					color: 'var(--ink)',
 				},
 				'& h2': {
 					fontSize: '1.2rem',
@@ -30,13 +28,13 @@ export default function PrivacyPage() {
 					mb: 1.5,
 					pt: 3,
 					color: 'primary.main',
-					borderTop: '1px solid rgba(255, 255, 255, 0.08)',
+					borderTop: '1px solid var(--line)',
 				},
 				'& p': { mb: 2, opacity: 0.9 },
 				'& a': {
-					color: '#ff7b4a',
+					color: 'var(--accent-deep)',
 					textDecoration: 'none',
-					'&:hover': { color: '#ff9a70', textDecoration: 'underline' },
+					'&:hover': { color: 'var(--accent)', textDecoration: 'underline' },
 				},
 			}}
 		>
@@ -224,13 +222,13 @@ export default function PrivacyPage() {
 				sx={{
 					mt: 4,
 					py: 1,
-					borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
+					borderBottom: '1px solid var(--line)',
 					color: 'primary.light',
 					fontWeight: 700,
 					textDecoration: 'none',
 					'&:hover': {
-						color: '#ff9a70',
-						borderColor: '#ff9a70',
+						color: 'var(--accent)',
+						borderColor: 'var(--accent)',
 						textDecoration: 'none',
 					},
 				}}

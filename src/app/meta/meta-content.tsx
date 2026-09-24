@@ -30,6 +30,7 @@ export function MetaContent() {
 
 	return (
 		<Stack
+			className="secondary-page"
 			sx={{ alignItems: 'center', gap: 7, width: '100%', maxWidth: 900, py: 2 }}
 		>
 			<MuiLink component={Link} href="/" color="text.primary">
@@ -71,13 +72,13 @@ export function MetaContent() {
 											justifyContent: 'space-between',
 											gap: 2,
 											py: 1.75,
-											borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
+											borderBottom: '1px solid var(--line)',
 											fontSize: '0.9rem',
 											textAlign: 'left',
 											transition: 'color 0.2s ease, border-color 0.2s ease',
 											'&:hover': {
-												color: 'primary.light',
-												borderColor: 'primary.light',
+												color: 'primary.main',
+												borderColor: 'primary.main',
 											},
 										}}
 									>
@@ -109,8 +110,7 @@ export function MetaContent() {
 								...imageWrapperStyles,
 								borderRight: {
 									xs: 0,
-									sm:
-										index % 2 === 0 ? '1px solid rgba(255, 255, 255, 0.08)' : 0,
+									sm: index % 2 === 0 ? '1px solid var(--line)' : 0,
 								},
 							}}
 						>
@@ -176,21 +176,18 @@ const sectionStyles = {
 	width: '100%',
 	gap: 3,
 	pt: 4,
-	borderTop: '1px solid rgba(255, 255, 255, 0.08)',
+	borderTop: '2px solid var(--ink)',
 };
 
 const headerStyles = {
 	fontSize: '1.5rem',
 	fontWeight: 700,
-	backgroundImage: 'linear-gradient(135deg, #ff7b4a, #8b7cf7)',
-	backgroundClip: 'text',
-	WebkitBackgroundClip: 'text',
-	WebkitTextFillColor: 'transparent',
+	color: 'var(--accent-deep)',
 };
 
 const messageRowStyles = {
 	height: '3.55rem',
-	borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
+	borderBottom: '1px solid var(--line)',
 };
 
 const imageWrapperStyles = {
@@ -198,14 +195,16 @@ const imageWrapperStyles = {
 	gap: 1.5,
 	py: 4,
 	px: 2,
-	borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
+	borderBottom: '1px solid var(--line)',
 	transition: 'background 0.2s ease',
-	'&:hover': { backgroundColor: 'rgba(255, 255, 255, 0.035)' },
+	'&:hover': {
+		backgroundColor: 'color-mix(in srgb, var(--mustard) 18%, transparent)',
+	},
 };
 
 const attributionStyles = {
 	fontSize: '0.75rem',
-	color: 'primary.light',
+	color: 'primary.main',
 	textAlign: 'center',
 	textDecoration: 'none',
 	'&:hover': { color: 'primary.main' },
@@ -214,9 +213,9 @@ const attributionStyles = {
 const backLinkStyles = {
 	mt: 2,
 	py: 1,
-	borderBottom: '1px solid rgba(255, 255, 255, 0.08)',
-	color: 'primary.light',
+	borderBottom: '1px solid var(--line)',
+	color: 'primary.main',
 	fontWeight: 700,
 	textDecoration: 'none',
-	'&:hover': { color: '#ff9a70', borderColor: '#ff9a70' },
+	'&:hover': { color: 'var(--accent)', borderColor: 'var(--accent)' },
 };

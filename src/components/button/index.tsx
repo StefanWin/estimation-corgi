@@ -13,17 +13,18 @@ export function Button({
 			color="secondary"
 			type={type}
 			sx={{
-				borderRadius: 999,
+				borderRadius: 1,
 				px: 4,
 				py: 1.25,
-				color: '#fff',
-				backgroundImage: 'linear-gradient(135deg, #ff7b4a, #e56a3a)',
-				boxShadow: '0 2px 8px rgba(255, 107, 53, 0.2)',
-				transition: 'transform 0.2s ease, background 0.2s ease',
+				color: '#24211d',
+				backgroundColor: 'var(--accent)',
+				border: '2px solid var(--ink)',
+				boxShadow: '4px 4px 0 var(--shadow)',
+				transition: 'transform 0.2s ease, box-shadow 0.2s ease',
 				'&:hover': {
-					transform: 'translateY(-2px)',
-					backgroundImage: 'linear-gradient(135deg, #ff9a70, #ff7b4a)',
-					boxShadow: '0 3px 10px rgba(255, 107, 53, 0.25)',
+					transform: 'translate(2px, 2px)',
+					backgroundColor: '#f07b52',
+					boxShadow: '2px 2px 0 var(--shadow)',
 				},
 			}}
 			{...props}

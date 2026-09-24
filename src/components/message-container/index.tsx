@@ -237,13 +237,14 @@ export function MessageContainer({
 
 	return (
 		<Box
+			className="estimate-ticket"
 			sx={{
 				width: '100%',
 				display: 'grid',
 				gridTemplateColumns: 'minmax(0, 1fr) minmax(19rem, 1fr)',
 				alignItems: 'center',
 				py: 'clamp(1rem, 2vh, 1.5rem)',
-				borderBlock: '1px solid rgba(255, 255, 255, 0.08)',
+				borderBlock: '1px solid var(--line)',
 				'@media (max-width: 960px)': {
 					gridTemplateColumns: '1fr',
 					gap: 3,
@@ -251,6 +252,7 @@ export function MessageContainer({
 			}}
 		>
 			<Box
+				className="portrait-panel"
 				sx={{
 					display: 'flex',
 					alignItems: 'center',
@@ -262,6 +264,7 @@ export function MessageContainer({
 				}}
 			>
 				<Box
+					className="portrait-frame"
 					sx={{
 						position: 'relative',
 						display: 'flex',
@@ -271,6 +274,9 @@ export function MessageContainer({
 						height: 'clamp(13rem, 31vh, 19rem)',
 					}}
 				>
+					<Box className="portrait-label">
+						MEET YOUR CONSULTANT <span>↘</span>
+					</Box>
 					{!isImageLoaded && (
 						<Skeleton
 							aria-label="Loading corgi image"
@@ -278,14 +284,17 @@ export function MessageContainer({
 							animation="wave"
 							sx={{
 								position: 'absolute',
-								width: 'min(100%, 19rem)',
+								inset: 0,
+								width: '100%',
 								height: '100%',
-								bgcolor: 'rgba(255, 255, 255, 0.06)',
+								borderRadius: 0,
+								bgcolor: 'var(--input)',
 							}}
 						/>
 					)}
 					<Box
 						component="img"
+						className="corgi-portrait"
 						key={image.id}
 						src={image.src}
 						alt={image.alt}
@@ -300,30 +309,40 @@ export function MessageContainer({
 							borderRadius: 1.5,
 							filter: 'drop-shadow(0 4px 12px rgba(0, 0, 0, 0.1))',
 							opacity: isImageLoaded ? 1 : 0,
-							transition: 'opacity 0.15s ease, transform 0.2s ease',
-							'&:hover': { transform: 'scale(1.02)' },
+							transition: 'opacity 0.15s ease',
 						}}
 					/>
+					<Box className="portrait-stamp" aria-hidden="true">
+						100%
+						<br />
+						CERTAIN
+					</Box>
 				</Box>
 			</Box>
 			<Stack
+				className="estimate-panel"
 				spacing={1.5}
 				sx={{
 					alignItems: 'center',
 					minWidth: 0,
 					pl: 'clamp(1.5rem, 4vw, 3.5rem)',
-					borderLeft: '1px solid rgba(255, 255, 255, 0.08)',
+					borderLeft: '1px solid var(--line)',
 					'@media (max-width: 960px)': {
 						width: 'min(100%, 34rem)',
 						justifySelf: 'center',
 						pt: 3,
 						pl: 0,
 						borderLeft: 0,
-						borderTop: '1px solid rgba(255, 255, 255, 0.08)',
+						borderTop: '1px solid var(--line)',
 					},
 				}}
 			>
+				<Box className="ticket-heading">
+					<span>OFFICIAL ESTIMATE</span>
+					<span>NO. {String(valueIndex + 1).padStart(3, '0')}</span>
+				</Box>
 				<Stack
+					className="estimate-result"
 					aria-busy={isEstimateLoading}
 					aria-label={isEstimateLoading ? 'Loading estimate' : undefined}
 					sx={{ width: '100%', alignItems: 'center' }}
@@ -344,12 +363,16 @@ export function MessageContainer({
 						</Typography>
 					)}
 				</Stack>
-				<Box sx={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
+				<Box
+					className="reroll-action"
+					sx={{ display: 'flex', justifyContent: 'center', width: '100%' }}
+				>
 					<Button disabled={!message} onClick={onNewMessage}>
-						get another estimate
+						<span aria-hidden="true">↻</span> Get another estimate
 					</Button>
 				</Box>
 				<Stack
+					className="ticket-actions"
 					direction="row"
 					spacing={1.5}
 					sx={{ justifyContent: 'center', width: '100%' }}
@@ -394,7 +417,7 @@ export function MessageContainer({
 				{isEstimateLoading ? (
 					<Skeleton width="11rem" aria-label="Loading message likes" />
 				) : (
-					<Typography variant="body2">
+					<Typography variant="body2" className="ticket-likes">
 						{message?.likes
 							? `${message.likes} likes`
 							: 'be the first to like the message!'}
@@ -422,13 +445,13 @@ function EstimateSkeleton() {
 const secondaryActionStyles = {
 	width: '2.9rem',
 	height: '2.9rem',
-	border: '1px solid rgba(255, 255, 255, 0.08)',
+	border: '1px solid var(--line)',
 	color: 'text.primary',
 	transition:
 		'transform 0.2s ease, background 0.2s ease, border-color 0.2s ease',
 	'&:hover': {
 		transform: 'translateY(-2px)',
-		backgroundColor: 'rgba(139, 124, 247, 0.14)',
-		borderColor: 'rgba(139, 124, 247, 0.4)',
+		backgroundColor: 'var(--mustard)',
+		borderColor: 'var(--ink)',
 	},
 };

@@ -11,6 +11,7 @@ export const Message: FC<MessageProps> = ({ message, displayValue }) => {
 		<>
 			<Typography
 				component="p"
+				className="estimate-hours"
 				sx={{
 					fontSize: 'clamp(2rem, 1.7rem + 1vw, 2.5rem)',
 					fontWeight: 800,
@@ -25,6 +26,7 @@ export const Message: FC<MessageProps> = ({ message, displayValue }) => {
 			</Typography>
 			<Typography
 				component="p"
+				className="estimate-message"
 				sx={{
 					mt: 1,
 					textAlign: 'center',

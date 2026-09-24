@@ -7,7 +7,10 @@ import { Link as NextLink } from '@/components/link';
 
 export default function NotFound() {
 	return (
-		<Stack sx={{ alignItems: 'center', gap: 3, py: 2, textAlign: 'center' }}>
+		<Stack
+			className="secondary-page"
+			sx={{ alignItems: 'center', gap: 3, py: 2, textAlign: 'center' }}
+		>
 			<MuiLink component={NextLink} href="/" underline="none">
 				<Typography
 					component="h1"

@@ -10,7 +10,7 @@ import { Link } from '@/components/link';
 const footerActionStyles = {
 	minWidth: 0,
 	p: 0,
-	color: 'primary.light',
+	color: 'text.secondary',
 	fontSize: '0.85rem',
 	textDecoration: 'none',
 	'&:hover': { color: 'primary.main', textDecoration: 'none' },
@@ -29,7 +29,7 @@ export const Footer: FC = () => {
 				gap: 2,
 				mt: 0.5,
 				pt: 1.5,
-				borderTop: '1px solid rgba(255, 255, 255, 0.08)',
+				borderTop: '1px solid var(--line)',
 				width: '100%',
 			}}
 		>
