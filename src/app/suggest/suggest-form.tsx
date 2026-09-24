@@ -140,7 +140,7 @@ export function SuggestForm() {
 					fullWidth
 					type="text"
 					name="message"
-					placeholder={`message (max ${MAX_MESSAGE_LENGTH} characters)`}
+					placeholder={`e.g. 'project managers aren't human' `}
 					required
 					value={input}
 					onChange={(e) => setInput(e.target.value)}
