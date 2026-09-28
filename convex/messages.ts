@@ -1,8 +1,9 @@
 // noinspection JSUnusedGlobalSymbols
 
+import { HOUR, MINUTE, RateLimiter } from '@convex-dev/rate-limiter';
 import { ConvexError, v } from 'convex/values';
 import { z } from 'zod';
-import { internal } from './_generated/api';
+import { components, internal } from './_generated/api';
 import type { Id } from './_generated/dataModel';
 import { action, mutation, query } from './_generated/server';
 
@@ -82,19 +83,83 @@ export const getApprovedMessage = query({
 	},
 });
 
-export const likeMessage = mutation({
-	args: { id: v.id('messages') },
+// Likes are anonymous, so a client id stored in the browser is all that
+// identifies a liker. It stops repeat likes from one browser; the rate limits
+// cap scripts that mint a fresh id per request.
+const rateLimiter = new RateLimiter(components.rateLimiter, {
+	likeByClient: { kind: 'token bucket', rate: 20, period: MINUTE, capacity: 5 },
+	likeByMessage: {
+		kind: 'token bucket',
+		rate: 60,
+		period: HOUR,
+		capacity: 20,
+	},
+});
+
+const CLIENT_ID_PATTERN =
+	/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/;
+
+const assertClientId = (clientId: string) => {
+	if (!CLIENT_ID_PATTERN.test(clientId)) {
+		throw new ConvexError('invalid client id');
+	}
+};
+
+export const getLikedMessageIds = query({
+	args: { clientId: v.string() },
 	handler: async (ctx, args) => {
-		const message = await ctx.db
-			.query('messages')
-			.withIndex('by_id', (q) => q.eq('_id', args.id))
-			.first();
-		if (!message) {
+		assertClientId(args.clientId);
+		const likes = await ctx.db
+			.query('likes')
+			.withIndex('by_client', (q) => q.eq('clientId', args.clientId))
+			.collect();
+		return likes.map((like) => like.messageId);
+	},
+});
+
+export const likeMessage = mutation({
+	args: { id: v.id('messages'), clientId: v.string() },
+	handler: async (
+		ctx,
+		args,
+	): Promise<'liked' | 'already_liked' | 'rate_limited'> => {
+		assertClientId(args.clientId);
+
+		const message = await ctx.db.get(args.id);
+		if (!message?.isApproved) {
 			throw new ConvexError('message not found');
 		}
 
+		const existingLike = await ctx.db
+			.query('likes')
+			.withIndex('by_message_and_client', (q) =>
+				q.eq('messageId', args.id).eq('clientId', args.clientId),
+			)
+			.first();
+		if (existingLike) {
+			return 'already_liked';
+		}
+
+		const byClient = await rateLimiter.limit(ctx, 'likeByClient', {
+			key: args.clientId,
+		});
+		if (!byClient.ok) {
+			return 'rate_limited';
+		}
+		const byMessage = await rateLimiter.limit(ctx, 'likeByMessage', {
+			key: args.id,
+		});
+		if (!byMessage.ok) {
+			return 'rate_limited';
+		}
+
+		await ctx.db.insert('likes', {
+			messageId: args.id,
+			clientId: args.clientId,
+		});
 		await ctx.db.patch('messages', args.id, {
 			likes: (message.likes ?? 0) + 1,
 		});
+		return 'liked';
 	},
 });

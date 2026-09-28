@@ -10,4 +10,12 @@ export default defineSchema({
 	})
 		.index('by_is_approved', ['isApproved'])
 		.index('by_normalized_message', ['normalizedMessage']),
+	// One row per anonymous browser that liked a message, so a like only
+	// counts once.
+	likes: defineTable({
+		messageId: v.id('messages'),
+		clientId: v.string(),
+	})
+		.index('by_message_and_client', ['messageId', 'clientId'])
+		.index('by_client', ['clientId']),
 });

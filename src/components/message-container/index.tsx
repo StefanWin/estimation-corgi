@@ -16,6 +16,7 @@ import {
 	MAX_TASK_LENGTH,
 	normalizeTask,
 } from '@/estimate';
+import { getOrCreateLikeClientId, readLikeClientId } from '@/like-client';
 import { getRandomIndex, getRandomIndexExcluding } from '@/util';
 import { api } from '../../../convex/_generated/api';
 import type { Id } from '../../../convex/_generated/dataModel';
@@ -80,6 +81,11 @@ export function MessageContainer({
 	const notify = useNotification();
 	const messages = useQuery(api.messages.getApprovedMessages);
 	const likeMessage = useMutation(api.messages.likeMessage);
+	const [likeClientId, setLikeClientId] = useState(readLikeClientId);
+	const likedMessageIds = useQuery(
+		api.messages.getLikedMessageIds,
+		likeClientId ? { clientId: likeClientId } : 'skip',
+	);
 	const [imageIndex, setImageIndex] = useState(() =>
 		isValidIndex(CORGI_IMAGES.length, initialEstimateState.imageIndex)
 			? initialEstimateState.imageIndex
@@ -102,6 +108,7 @@ export function MessageContainer({
 	const isEstimateLoading =
 		messages === undefined || (messages.length > 0 && !message);
 	const displayValue = formatHours(valueIndex);
+	const isLiked = Boolean(message && likedMessageIds?.includes(message._id));
 	const normalizedTask = normalizeTask(task);
 
 	const onNewMessage = useCallback(() => {
@@ -193,15 +200,31 @@ export function MessageContainer({
 			return;
 		}
 
-		posthog.capture('message_liked');
+		if (isLiked) {
+			notify('You already liked this message', 'info');
+			return;
+		}
+
+		const clientId = likeClientId ?? getOrCreateLikeClientId();
+		setLikeClientId(clientId);
+
 		try {
-			await likeMessage({ id: message._id });
+			const result = await likeMessage({ id: message._id, clientId });
+			if (result === 'rate_limited') {
+				notify('Too many likes, try again in a bit', 'warning');
+				return;
+			}
+			if (result === 'already_liked') {
+				notify('You already liked this message', 'info');
+				return;
+			}
+			posthog.capture('message_liked');
 			notify('Message liked', 'success');
 		} catch (err: unknown) {
 			notify('Failed to like message', 'error');
 			posthog.captureException(err);
 		}
-	}, [likeMessage, message, posthog, notify]);
+	}, [isLiked, likeClientId, likeMessage, message, posthog, notify]);
 
 	useEffect(() => {
 		if (messages === undefined) {
@@ -431,13 +454,18 @@ export function MessageContainer({
 						type="button"
 						disabled={!message}
 						aria-label="Like message"
-						title="Like message"
+						aria-pressed={isLiked}
+						title={isLiked ? 'You liked this message' : 'Like message'}
 						onClick={() => {
 							void onMessageLiked();
 						}}
 						sx={secondaryActionStyles}
 					>
-						<LucideThumbsUp size={18} strokeWidth={2.25} />
+						<LucideThumbsUp
+							size={18}
+							strokeWidth={2.25}
+							fill={isLiked ? 'currentColor' : 'none'}
+						/>
 					</IconButton>
 					<IconButton
 						type="button"
