@@ -1,11 +1,11 @@
 import blepCorgi from './assets/blep-corgi.webp';
 import chillaxCorgi from './assets/ChillaxCorgi.webp';
-import deadlineSmirkCorgi from './assets/corgi-deadline-smirk.jpg';
-import homeOfficeCorgi from './assets/corgi-home-office.jpg';
-import meetingDeadpanCorgi from './assets/corgi-meeting-deadpan.jpg';
-import meetingTimerCorgi from './assets/corgi-meeting-timer.jpg';
-import paperworkSideEyeCorgi from './assets/corgi-paperwork-side-eye.jpg';
-import planningDeskCorgi from './assets/corgi-planning-desk.jpg';
+import deadlineSmirkCorgi from './assets/corgi-deadline-smirk.webp';
+import homeOfficeCorgi from './assets/corgi-home-office.webp';
+import meetingDeadpanCorgi from './assets/corgi-meeting-deadpan.webp';
+import meetingTimerCorgi from './assets/corgi-meeting-timer.webp';
+import paperworkSideEyeCorgi from './assets/corgi-paperwork-side-eye.webp';
+import planningDeskCorgi from './assets/corgi-planning-desk.webp';
 import cuteCorgi from './assets/cute-corgi.webp';
 import dabCorgi1 from './assets/dab-corgi-1.webp';
 import dabCorgi2 from './assets/dab-corgi-2.webp';
@@ -24,6 +24,11 @@ export const ESTIMATION_HOURS = Array.from(
 	{ length: 40 },
 	(_, index) => index + 1,
 );
+
+const CHATGPT_ATTRIBUTION = {
+	name: 'generated with ChatGPT',
+	href: 'https://chatgpt.com',
+};
 
 export const CORGI_IMAGES = [
 	{
@@ -69,144 +74,96 @@ export const CORGI_IMAGES = [
 		id: 'laptop-corgi',
 		src: laptopCorgi,
 		alt: 'A smiling corgi wearing glasses and using a laptop',
-		attribution: {
-			name: 'generated with ChatGPT',
-			href: 'https://chatgpt.com',
-		},
+		attribution: CHATGPT_ATTRIBUTION,
 	},
 	{
 		id: 'office-corgi-1',
 		src: officeCorgi1,
 		alt: 'A corgi standing on a conference room table',
-		attribution: {
-			name: 'generated with ChatGPT',
-			href: 'https://chatgpt.com',
-		},
+		attribution: CHATGPT_ATTRIBUTION,
 	},
 	{
 		id: 'office-corgi-2',
 		src: officeCorgi2,
 		alt: 'A corgi working on a laptop in an office',
-		attribution: {
-			name: 'generated with ChatGPT',
-			href: 'https://chatgpt.com',
-		},
+		attribution: CHATGPT_ATTRIBUTION,
 	},
 	{
 		id: 'office-corgi-3',
 		src: officeCorgi3,
 		alt: 'A corgi reviewing color swatches at a desk',
-		attribution: {
-			name: 'generated with ChatGPT',
-			href: 'https://chatgpt.com',
-		},
+		attribution: CHATGPT_ATTRIBUTION,
 	},
 	{
 		id: 'office-corgi-4',
 		src: officeCorgi4,
 		alt: 'A corgi presenting charts in a boardroom',
-		attribution: {
-			name: 'generated with ChatGPT',
-			href: 'https://chatgpt.com',
-		},
+		attribution: CHATGPT_ATTRIBUTION,
 	},
 	{
 		id: 'office-corgi-5',
 		src: officeCorgi5,
 		alt: 'A corgi monitoring dashboards in a control room',
-		attribution: {
-			name: 'generated with ChatGPT',
-			href: 'https://chatgpt.com',
-		},
+		attribution: CHATGPT_ATTRIBUTION,
 	},
 	{
 		id: 'office-corgi-6',
 		src: officeCorgi6,
 		alt: 'A corgi working at multiple monitors in a server room',
-		attribution: {
-			name: 'generated with ChatGPT',
-			href: 'https://chatgpt.com',
-		},
+		attribution: CHATGPT_ATTRIBUTION,
 	},
 	{
 		id: 'dab-corgi-1',
 		src: dabCorgi1,
 		alt: 'A corgi dabbing in a modern office lobby',
-		attribution: {
-			name: 'generated with ChatGPT',
-			href: 'https://chatgpt.com',
-		},
+		attribution: CHATGPT_ATTRIBUTION,
 	},
 	{
 		id: 'dab-corgi-2',
 		src: dabCorgi2,
 		alt: 'A corgi in a vest dabbing in a conference room',
-		attribution: {
-			name: 'generated with ChatGPT',
-			href: 'https://chatgpt.com',
-		},
+		attribution: CHATGPT_ATTRIBUTION,
 	},
 	{
 		id: 'dab-corgi-3',
 		src: dabCorgi3,
 		alt: 'A corgi dabbing in a high-tech control room',
-		attribution: {
-			name: 'generated with ChatGPT',
-			href: 'https://chatgpt.com',
-		},
+		attribution: CHATGPT_ATTRIBUTION,
 	},
 	{
 		id: 'planning-desk-corgi',
 		src: planningDeskCorgi,
 		alt: 'A smiling corgi at a desk with a blank project plan',
-		attribution: {
-			name: 'generated with ChatGPT',
-			href: 'https://chatgpt.com',
-		},
+		attribution: CHATGPT_ATTRIBUTION,
 	},
 	{
 		id: 'meeting-timer-corgi',
 		src: meetingTimerCorgi,
 		alt: 'A corgi beside a meeting table with planning cards and a timer',
-		attribution: {
-			name: 'generated with ChatGPT',
-			href: 'https://chatgpt.com',
-		},
+		attribution: CHATGPT_ATTRIBUTION,
 	},
 	{
 		id: 'home-office-corgi',
 		src: homeOfficeCorgi,
 		alt: 'A corgi at a home office desk with a notebook and laptop',
-		attribution: {
-			name: 'generated with ChatGPT',
-			href: 'https://chatgpt.com',
-		},
+		attribution: CHATGPT_ATTRIBUTION,
 	},
 	{
 		id: 'paperwork-side-eye-corgi',
 		src: paperworkSideEyeCorgi,
 		alt: 'A corgi giving a towering stack of paperwork a skeptical side-eye',
-		attribution: {
-			name: 'generated with ChatGPT',
-			href: 'https://chatgpt.com',
-		},
+		attribution: CHATGPT_ATTRIBUTION,
 	},
 	{
 		id: 'meeting-deadpan-corgi',
 		src: meetingDeadpanCorgi,
 		alt: 'An unimpressed corgi sitting beside a meeting room whiteboard',
-		attribution: {
-			name: 'generated with ChatGPT',
-			href: 'https://chatgpt.com',
-		},
+		attribution: CHATGPT_ATTRIBUTION,
 	},
 	{
 		id: 'deadline-smirk-corgi',
 		src: deadlineSmirkCorgi,
 		alt: 'A corgi reclining in an office chair with a knowing side glance',
-		attribution: {
-			name: 'generated with ChatGPT',
-			href: 'https://chatgpt.com',
-		},
+		attribution: CHATGPT_ATTRIBUTION,
 	},
 ];

@@ -2,7 +2,7 @@ import Box from '@mui/material/Box';
 import MuiLink from '@mui/material/Link';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import notFoundImage from '@/assets/404.jpg';
+import notFoundImage from '@/assets/404.webp';
 import { Link as NextLink } from '@/components/link';
 
 export default function NotFound() {

@@ -74,6 +74,9 @@ export function MessageContainer({
 			? initialEstimateState.imageIndex
 			: getRandomIndex(CORGI_IMAGES.length),
 	);
+	const [nextImageIndex, setNextImageIndex] = useState(() =>
+		getRandomIndexExcluding(CORGI_IMAGES.length, imageIndex),
+	);
 	const [messageId, setMessageId] = useState<Id<'messages'> | null>(null);
 	const [valueIndex, setValueIndex] = useState(() =>
 		getInitialValueIndex(initialEstimateState.valueIndex),
@@ -102,12 +105,13 @@ export function MessageContainer({
 					: getRandomIndexExcluding(messages.length, previousIndex);
 			return messages[nextIndex]._id;
 		});
-		setImageIndex((previousIndex) =>
-			getRandomIndexExcluding(CORGI_IMAGES.length, previousIndex),
+		setImageIndex(nextImageIndex);
+		setNextImageIndex(
+			getRandomIndexExcluding(CORGI_IMAGES.length, nextImageIndex),
 		);
 		setValueIndex(getRandomIndex(ESTIMATION_HOURS.length));
 		setIsImageLoaded(false);
-	}, [messages, posthog]);
+	}, [messages, nextImageIndex, posthog]);
 
 	const onCopyEstimate = useCallback(async () => {
 		if (!message) {
@@ -199,12 +203,16 @@ export function MessageContainer({
 		});
 	}, [initialEstimateState.messageId, messages]);
 
+	// Preload only the image the next reroll will show, once the current one is
+	// on screen, so it never competes with the visible image.
 	useEffect(() => {
-		for (const corgiImage of CORGI_IMAGES) {
-			const preloadImage = new globalThis.Image();
-			preloadImage.src = corgiImage.src;
+		if (!isImageLoaded) {
+			return;
 		}
-	}, []);
+
+		const preloadImage = new globalThis.Image();
+		preloadImage.src = CORGI_IMAGES[nextImageIndex].src;
+	}, [isImageLoaded, nextImageIndex]);
 
 	useEffect(() => {
 		const handleKeyDown = (event: KeyboardEvent) => {
