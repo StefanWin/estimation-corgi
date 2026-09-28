@@ -63,6 +63,14 @@ export default function PrivacyPage() {
 						access, to ensure secure and reliable operation.
 					</p>
 					<p>
+						<strong>Request logs:</strong> We use Cloudflare Workers Logs to
+						monitor errors and performance. For requests to the home page and to
+						estimate preview images, these logs contain the full address that
+						was requested. For shared estimate links, that includes the estimate
+						and any task text entered for it. The logs are kept only for a
+						limited period set by Cloudflare.
+					</p>
+					<p>
 						<strong>Legal basis:</strong> Article 6(1)(f) GDPR (legitimate
 						interest in reliable and secure website delivery).
 						<br />

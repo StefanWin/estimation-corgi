@@ -70,6 +70,22 @@ export const getApprovedMessages = query({
 	},
 });
 
+const TOP_MESSAGES_LIMIT = 10;
+
+export const getTopMessages = query({
+	args: {},
+	handler: async (ctx) => {
+		const messages = await ctx.db
+			.query('messages')
+			.withIndex('by_is_approved_and_likes', (q) => q.eq('isApproved', true))
+			.order('desc')
+			.take(TOP_MESSAGES_LIMIT);
+		return messages
+			.filter((message) => (message.likes ?? 0) > 0)
+			.map(({ _id, message, likes }) => ({ _id, message, likes: likes ?? 0 }));
+	},
+});
+
 export const getApprovedMessage = query({
 	args: { id: v.string() },
 	handler: async (ctx, args) => {
