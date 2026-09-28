@@ -9,6 +9,7 @@ export default defineSchema({
 		isApproved: v.boolean(),
 	})
 		.index('by_is_approved', ['isApproved'])
+		.index('by_is_approved_and_likes', ['isApproved', 'likes'])
 		.index('by_normalized_message', ['normalizedMessage']),
 	// One row per anonymous browser that liked a message, so a like only
 	// counts once.

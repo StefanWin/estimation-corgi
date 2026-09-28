@@ -15,6 +15,9 @@ export function NavigationActions() {
 				<Link href="/suggest">
 					Suggest a message <span aria-hidden="true">↗</span>
 				</Link>
+				<Link href="/meta#top-hot-takes">
+					See the top hot takes <span aria-hidden="true">↗</span>
+				</Link>
 				<Link href="/meta">
 					Meet the whole crew <span aria-hidden="true">↗</span>
 				</Link>

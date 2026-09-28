@@ -14,6 +14,7 @@ import { CORGI_IMAGES } from '@/constants';
 import { api } from '../../../convex/_generated/api';
 
 const MESSAGE_SKELETON_ROWS = Array.from({ length: 6 }, (_, index) => index);
+const TOP_SKELETON_ROWS = Array.from({ length: 3 }, (_, index) => index);
 
 export function MetaContent() {
 	const notify = useNotification();
@@ -38,6 +39,8 @@ export function MetaContent() {
 					estimation corgi
 				</Typography>
 			</MuiLink>
+
+			<TopMessages />
 
 			<Stack component="section" sx={sectionStyles}>
 				<Typography component="h2" sx={headerStyles}>
@@ -171,6 +174,90 @@ export function MetaContent() {
 		</Stack>
 	);
 }
+
+function TopMessages() {
+	const topMessages = useQuery(api.messages.getTopMessages);
+
+	return (
+		<Stack
+			component="section"
+			id="top-hot-takes"
+			aria-labelledby="top-hot-takes-title"
+			sx={sectionStyles}
+		>
+			<Typography id="top-hot-takes-title" component="h2" sx={headerStyles}>
+				top hot takes:
+			</Typography>
+			{topMessages === undefined ? (
+				<List
+					disablePadding
+					aria-busy
+					aria-label="Loading top hot takes"
+					sx={{ width: '100%' }}
+				>
+					{TOP_SKELETON_ROWS.map((row) => (
+						<ListItem key={row} disablePadding sx={messageRowStyles}>
+							<Skeleton
+								variant="text"
+								animation="wave"
+								width={`${64 - row * 10}%`}
+							/>
+						</ListItem>
+					))}
+				</List>
+			) : topMessages.length === 0 ? (
+				<Typography color="text.secondary">
+					No likes yet.{' '}
+					<MuiLink component={Link} href="/" sx={{ color: 'primary.main' }}>
+						Go like an estimate
+					</MuiLink>{' '}
+					and it will show up here.
+				</Typography>
+			) : (
+				<Box component="ol" sx={{ width: '100%', m: 0, p: 0 }}>
+					{topMessages.map((m, index) => (
+						<Box
+							component="li"
+							key={m._id}
+							sx={{
+								display: 'flex',
+								alignItems: 'baseline',
+								gap: 2,
+								py: 1.75,
+								borderBottom: '1px solid var(--line)',
+								listStyle: 'none',
+							}}
+						>
+							<Box component="span" aria-hidden="true" sx={rankStyles}>
+								{String(index + 1).padStart(2, '0')}
+							</Box>
+							<Box component="span" sx={{ flex: 1, fontWeight: 650 }}>
+								{m.message}
+							</Box>
+							<Box component="span" sx={likeCountStyles}>
+								{m.likes} {m.likes === 1 ? 'like' : 'likes'}
+							</Box>
+						</Box>
+					))}
+				</Box>
+			)}
+		</Stack>
+	);
+}
+
+const rankStyles = {
+	minWidth: '2ch',
+	color: 'var(--accent-deep)',
+	fontFamily: "'Geist Mono Variable', monospace",
+	fontWeight: 700,
+};
+
+const likeCountStyles = {
+	color: 'var(--muted)',
+	fontFamily: "'Geist Mono Variable', monospace",
+	fontSize: '0.75rem',
+	whiteSpace: 'nowrap',
+};
 
 const sectionStyles = {
 	width: '100%',
