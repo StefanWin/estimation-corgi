@@ -1,0 +1,4 @@
+# Check out text files with LF everywhere, matching the repo and Biome.
+# Without this, Git for Windows' default core.autocrlf=true converts them
+# to CRLF and `pnpm lint` fails locally.
+* text=auto eol=lf
