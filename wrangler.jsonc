@@ -10,6 +10,12 @@
 		// the preview image. Everything else is served straight from assets.
 		"run_worker_first": ["/", "/og"]
 	},
+	// Workers Logs for the invocations above. Plain asset requests don't run
+	// the Worker, so they aren't logged.
+	"observability": {
+		"enabled": true,
+		"head_sampling_rate": 1
+	},
 	"routes": [
 		{
 			"pattern": "estimation-corgi.com",
