@@ -2,8 +2,13 @@
 	"$schema": "./node_modules/wrangler/config-schema.json",
 	"name": "estimation-corgi",
 	"compatibility_date": "2026-07-23",
+	"main": "./worker/index.tsx",
 	"assets": {
-		"not_found_handling": "single-page-application"
+		"binding": "ASSETS",
+		"not_found_handling": "single-page-application",
+		// The home page gets per-estimate link preview tags, and /og renders
+		// the preview image. Everything else is served straight from assets.
+		"run_worker_first": ["/", "/og"]
 	},
 	"routes": [
 		{

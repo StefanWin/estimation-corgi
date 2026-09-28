@@ -69,6 +69,19 @@ export const getApprovedMessages = query({
 	},
 });
 
+export const getApprovedMessage = query({
+	args: { id: v.string() },
+	handler: async (ctx, args) => {
+		const id = ctx.db.normalizeId('messages', args.id);
+		if (!id) {
+			return null;
+		}
+
+		const message = await ctx.db.get(id);
+		return message?.isApproved ? message.message : null;
+	},
+});
+
 export const likeMessage = mutation({
 	args: { id: v.id('messages') },
 	handler: async (ctx, args) => {
