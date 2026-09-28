@@ -16,6 +16,7 @@ export default function Home() {
 	const imageIndex = getIndexFromSearchParam(searchParams.get('i'));
 	const messageId = searchParams.get('m');
 	const valueIndex = getIndexFromSearchParam(searchParams.get('v'));
+	const task = searchParams.get('t') ?? '';
 
 	return (
 		<div className="home-page">
@@ -61,6 +62,7 @@ export default function Home() {
 				initialEstimateState={{
 					imageIndex: imageIndex ?? getRandomIndex(CORGI_IMAGES.length),
 					messageId,
+					task,
 					valueIndex: valueIndex ?? getRandomIndex(ESTIMATION_HOURS.length),
 				}}
 			/>
