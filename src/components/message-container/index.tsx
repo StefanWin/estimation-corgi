@@ -99,6 +99,11 @@ export function MessageContainer({
 		getInitialValueIndex(initialEstimateState.valueIndex),
 	);
 	const [isImageLoaded, setIsImageLoaded] = useState(false);
+	// A plain visit keeps its clean URL until the first reroll; a share link
+	// already points at an estimate.
+	const [isUrlSynced, setIsUrlSynced] = useState(
+		initialEstimateState.messageId !== null,
+	);
 	const [task, setTask] = useState(() =>
 		initialEstimateState.task.slice(0, MAX_TASK_LENGTH),
 	);
@@ -133,6 +138,7 @@ export function MessageContainer({
 		);
 		setValueIndex(getRandomIndex(ESTIMATION_HOURS.length));
 		setIsImageLoaded(false);
+		setIsUrlSynced(true);
 	}, [messages, nextImageIndex, posthog]);
 
 	const onCopyEstimate = useCallback(async () => {
@@ -249,6 +255,24 @@ export function MessageContainer({
 			return messages[getRandomIndex(messages.length)]._id;
 		});
 	}, [initialEstimateState.messageId, messages]);
+
+	// Keep the address bar pointing at exactly the estimate on screen. It is
+	// replaced rather than pushed so rerolls don't flood the back button.
+	useEffect(() => {
+		if (!isUrlSynced || !message) {
+			return;
+		}
+
+		const url = getShareUrl(globalThis.location.origin, {
+			imageIndex,
+			messageId: message._id,
+			task: normalizedTask,
+			valueIndex,
+		});
+		if (url !== globalThis.location.href) {
+			globalThis.history.replaceState(null, '', url);
+		}
+	}, [imageIndex, isUrlSynced, message, normalizedTask, valueIndex]);
 
 	// Preload only the image the next reroll will show, once the current one is
 	// on screen, so it never competes with the visible image.
