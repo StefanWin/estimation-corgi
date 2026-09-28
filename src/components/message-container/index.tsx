@@ -22,8 +22,19 @@ interface MessageContainerProps {
 export interface InitialEstimateState {
 	imageIndex: number;
 	messageId: string | null;
+	task: string;
 	valueIndex: number;
 }
+
+const MAX_TASK_LENGTH = 80;
+
+const normalizeTask = (value: string) =>
+	value.trim().replaceAll(/\s+/g, ' ').slice(0, MAX_TASK_LENGTH);
+
+const formatEstimate = (task: string, displayValue: string, message: string) =>
+	task
+		? `${task}: ${displayValue} - ${message}`
+		: `${displayValue} - ${message}`;
 
 const isValidIndex = (length: number, index: number) =>
 	index >= 0 && index < length;
@@ -38,6 +49,7 @@ const getShareUrl = (
 	state: {
 		imageIndex: number;
 		messageId: Id<'messages'>;
+		task: string;
 		valueIndex: number;
 	},
 ) => {
@@ -45,6 +57,9 @@ const getShareUrl = (
 	url.searchParams.set('i', String(state.imageIndex));
 	url.searchParams.set('m', state.messageId);
 	url.searchParams.set('v', String(state.valueIndex));
+	if (state.task) {
+		url.searchParams.set('t', state.task);
+	}
 	return url.toString();
 };
 
@@ -82,12 +97,16 @@ export function MessageContainer({
 		getInitialValueIndex(initialEstimateState.valueIndex),
 	);
 	const [isImageLoaded, setIsImageLoaded] = useState(false);
+	const [task, setTask] = useState(() =>
+		initialEstimateState.task.slice(0, MAX_TASK_LENGTH),
+	);
 
 	const image = CORGI_IMAGES[imageIndex];
 	const message = messages?.find((candidate) => candidate._id === messageId);
 	const isEstimateLoading =
 		messages === undefined || (messages.length > 0 && !message);
 	const displayValue = `${ESTIMATION_HOURS[valueIndex]} hours`;
+	const normalizedTask = normalizeTask(task);
 
 	const onNewMessage = useCallback(() => {
 		if (!messages || messages.length === 0) {
@@ -118,34 +137,35 @@ export function MessageContainer({
 			return;
 		}
 
-		posthog.capture('copy_estimate');
+		posthog.capture('copy_estimate', { has_task: normalizedTask.length > 0 });
 
 		try {
 			await navigator.clipboard.writeText(
-				`${displayValue} - ${message.message}`,
+				formatEstimate(normalizedTask, displayValue, message.message),
 			);
 			notify('Estimate copied', 'success');
 		} catch (error: unknown) {
 			notify('Failed to copy estimate', 'error');
 			posthog.captureException(error);
 		}
-	}, [displayValue, message, posthog, notify]);
+	}, [displayValue, message, normalizedTask, posthog, notify]);
 
 	const onShareEstimate = useCallback(async () => {
 		if (!message) {
 			return;
 		}
 
-		posthog.capture('share_estimate');
+		posthog.capture('share_estimate', { has_task: normalizedTask.length > 0 });
 
 		const shareUrl = getShareUrl(globalThis.location.origin, {
 			imageIndex,
 			messageId: message._id,
+			task: normalizedTask,
 			valueIndex,
 		});
 		const shareData = {
 			title: 'estimation corgi',
-			text: `${displayValue} - ${message.message}`,
+			text: formatEstimate(normalizedTask, displayValue, message.message),
 			url: shareUrl,
 		};
 
@@ -162,7 +182,15 @@ export function MessageContainer({
 			notify('Failed to share estimate', 'error');
 			posthog.captureException(error);
 		}
-	}, [displayValue, imageIndex, message, valueIndex, posthog, notify]);
+	}, [
+		displayValue,
+		imageIndex,
+		message,
+		normalizedTask,
+		valueIndex,
+		posthog,
+		notify,
+	]);
 
 	const onMessageLiked = useCallback(async () => {
 		if (!message) {
@@ -348,6 +376,24 @@ export function MessageContainer({
 				<Box className="ticket-heading">
 					<span>OFFICIAL ESTIMATE</span>
 					<span>NO. {String(valueIndex + 1).padStart(3, '0')}</span>
+				</Box>
+				<Box component="label" className="task-field">
+					<span className="task-field-label">TASK</span>
+					<input
+						type="text"
+						name="task"
+						value={task}
+						maxLength={MAX_TASK_LENGTH}
+						placeholder="what are we estimating?"
+						autoComplete="off"
+						onChange={(event) => setTask(event.target.value)}
+						onKeyDown={(event) => {
+							if (event.key === 'Enter' && message) {
+								event.preventDefault();
+								onNewMessage();
+							}
+						}}
+					/>
 				</Box>
 				<Stack
 					className="estimate-result"
