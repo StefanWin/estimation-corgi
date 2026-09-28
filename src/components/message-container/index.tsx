@@ -10,6 +10,12 @@ import { useCallback, useEffect, useState } from 'react';
 import { Message } from '@/components/message';
 import { useNotification } from '@/components/notification-provider';
 import { CORGI_IMAGES, ESTIMATION_HOURS } from '@/constants';
+import {
+	formatEstimate,
+	formatHours,
+	MAX_TASK_LENGTH,
+	normalizeTask,
+} from '@/estimate';
 import { getRandomIndex, getRandomIndexExcluding } from '@/util';
 import { api } from '../../../convex/_generated/api';
 import type { Id } from '../../../convex/_generated/dataModel';
@@ -25,16 +31,6 @@ export interface InitialEstimateState {
 	task: string;
 	valueIndex: number;
 }
-
-const MAX_TASK_LENGTH = 80;
-
-const normalizeTask = (value: string) =>
-	value.trim().replaceAll(/\s+/g, ' ').slice(0, MAX_TASK_LENGTH);
-
-const formatEstimate = (task: string, displayValue: string, message: string) =>
-	task
-		? `${task}: ${displayValue} - ${message}`
-		: `${displayValue} - ${message}`;
 
 const isValidIndex = (length: number, index: number) =>
 	index >= 0 && index < length;
@@ -105,7 +101,7 @@ export function MessageContainer({
 	const message = messages?.find((candidate) => candidate._id === messageId);
 	const isEstimateLoading =
 		messages === undefined || (messages.length > 0 && !message);
-	const displayValue = `${ESTIMATION_HOURS[valueIndex]} hours`;
+	const displayValue = formatHours(valueIndex);
 	const normalizedTask = normalizeTask(task);
 
 	const onNewMessage = useCallback(() => {

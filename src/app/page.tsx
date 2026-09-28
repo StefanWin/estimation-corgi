@@ -3,20 +3,13 @@ import { MessageContainer } from '@/components/message-container';
 import { NavigationActions } from '@/components/navigation-actions';
 import { ThemeToggle } from '@/components/theme-toggle';
 import { CORGI_IMAGES, ESTIMATION_HOURS } from '@/constants';
+import { parseSharedEstimate } from '@/estimate';
 import { getRandomIndex } from '@/util';
 
-const getIndexFromSearchParam = (value: string | null) => {
-	if (value === null) return undefined;
-	const parsedValue = Number.parseInt(value, 10);
-	return Number.isNaN(parsedValue) ? undefined : parsedValue;
-};
-
 export default function Home() {
-	const searchParams = new URLSearchParams(globalThis.location.search);
-	const imageIndex = getIndexFromSearchParam(searchParams.get('i'));
-	const messageId = searchParams.get('m');
-	const valueIndex = getIndexFromSearchParam(searchParams.get('v'));
-	const task = searchParams.get('t') ?? '';
+	const { imageIndex, messageId, task, valueIndex } = parseSharedEstimate(
+		new URLSearchParams(globalThis.location.search),
+	);
 
 	return (
 		<div className="home-page">

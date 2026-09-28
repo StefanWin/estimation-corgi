@@ -9,6 +9,10 @@ Properly estimate your tasks with the help of a corgi.
 - Convex for the message data and submissions
 - Material UI and TypeScript
 
+## Link previews
+
+The Worker in `worker/` runs before static assets for `/` and `/og`. For share links (`/?i=&m=&v=&t=`) it adds Open Graph tags to the page, and `/og` renders the matching 1200×630 preview card as a PNG with satori and resvg. resvg can't decode WebP, so the corgi portrait is converted to PNG first. Rendered cards are cached in the Workers cache.
+
 ## Local development
 
 Use Node.js 22 and pnpm 11.
