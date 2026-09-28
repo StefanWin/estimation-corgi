@@ -145,6 +145,14 @@ export default function PrivacyPage() {
 						settings.
 					</p>
 					<p>
+						<strong>Likes:</strong> The first time you like a message, a random
+						identifier is created and kept in your browser's local storage. It
+						is sent with your likes and stored with them so that each browser
+						can like a message only once. It contains no personal information
+						and is not used for analytics. Clearing your browser storage removes
+						it.
+					</p>
+					<p>
 						<strong>Legal basis:</strong> Essential cookies – Art. 6(1)(f) GDPR.
 						Analytics-related storage is based on your consent under Art.
 						6(1)(a) GDPR as described in Section 3.
