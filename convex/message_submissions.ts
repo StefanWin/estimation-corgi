@@ -1,8 +1,10 @@
 import { ConvexError, v } from 'convex/values';
 import { internalMutation } from './_generated/server';
-import { normalizeMessage, normalizeMessageKey } from './message_normalization';
-
-const MAX_MESSAGE_LENGTH = 72;
+import {
+	MAX_MESSAGE_LENGTH,
+	normalizeMessage,
+	normalizeMessageKey,
+} from './message_normalization';
 
 export const createMessageInternal = internalMutation({
 	args: {
