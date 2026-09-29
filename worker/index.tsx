@@ -14,15 +14,17 @@ import { EstimateCard, OG_IMAGE_SIZE } from './og-image';
 import { webpToPng } from './webp-to-png';
 
 const OG_IMAGE_PATH = '/og';
+const OG_IMAGE_CACHE_VERSION = '2';
 const SITE_NAME = 'estimation corgi';
 const DEFAULT_IMAGE_INDEX = Math.max(
 	CORGI_IMAGES.findIndex((image) => image.id === 'laptop-corgi'),
 	0,
 );
-// Shared estimates never change, so their images can be cached for good. A
-// link we could not resolve (e.g. Convex was unreachable) is retried sooner.
-const RESOLVED_CACHE_CONTROL = 'public, max-age=31536000, immutable';
-const UNRESOLVED_CACHE_CONTROL = 'public, max-age=300';
+// Message content and approval can change even when share parameters do not.
+// Cache renders for five minutes only inside the Worker; downstream caches
+// must not extend the moderation window by storing the returned image.
+const WORKER_CACHE_CONTROL = 'public, max-age=300';
+const DOWNSTREAM_CACHE_CONTROL = 'no-store';
 
 const convex = new ConvexHttpClient(import.meta.env.VITE_CONVEX_URL);
 
@@ -51,9 +53,6 @@ const resolveEstimate = async (
 	return message ? { imageIndex, message, task, valueIndex } : null;
 };
 
-const hasShareParams = (searchParams: URLSearchParams) =>
-	['i', 'm', 'v', 't'].some((key) => searchParams.has(key));
-
 const escapeAttribute = (value: string) =>
 	value
 		.replaceAll('&', '&amp;')
@@ -71,6 +70,7 @@ const handlePage = async (request: Request, env: Env) => {
 	const shared = parseSharedEstimate(url.searchParams);
 	const estimate = await resolveEstimate(shared);
 	const imageUrl = new URL(OG_IMAGE_PATH, url.origin);
+	imageUrl.searchParams.set('rev', OG_IMAGE_CACHE_VERSION);
 	let title = SITE_NAME;
 	let description = siteDescription;
 
@@ -143,12 +143,18 @@ const handleImage = async (
 	// The shared tsconfig's DOM lib types `caches` without the Workers-only
 	// default cache.
 	const cache = (caches as CacheStorage & { default: Cache }).default;
-	const cached = await cache.match(request);
+	const url = new URL(request.url);
+	// Bypass previously immutable entries, including for old unversioned links.
+	const cacheUrl = new URL(url);
+	cacheUrl.searchParams.set('rev', OG_IMAGE_CACHE_VERSION);
+	const cacheKey = new Request(cacheUrl, request);
+	const cached = await cache.match(cacheKey);
 	if (cached) {
-		return cached;
+		const response = new Response(cached.body, cached);
+		response.headers.set('cache-control', DOWNSTREAM_CACHE_CONTROL);
+		return response;
 	}
 
-	const url = new URL(request.url);
 	const estimate = await resolveEstimate(parseSharedEstimate(url.searchParams));
 	const image = CORGI_IMAGES[estimate?.imageIndex ?? DEFAULT_IMAGE_INDEX];
 	const [portrait, semiBold, black] = await Promise.all([
@@ -157,7 +163,6 @@ const handleImage = async (
 		loadAsset(env, url.origin, geistBlack),
 	]);
 
-	const isResolved = estimate !== null || !hasShareParams(url.searchParams);
 	const response = await ImageResponse.async(
 		<EstimateCard
 			imageSrc={toDataUri(portrait, 'image/png')}
@@ -173,14 +178,14 @@ const handleImage = async (
 				{ name: 'Geist', data: black, weight: 900, style: 'normal' },
 			],
 			headers: {
-				'cache-control': isResolved
-					? RESOLVED_CACHE_CONTROL
-					: UNRESOLVED_CACHE_CONTROL,
+				'cache-control': DOWNSTREAM_CACHE_CONTROL,
 			},
 		},
 	);
 
-	ctx.waitUntil(cache.put(request, response.clone()));
+	const cacheResponse = response.clone();
+	cacheResponse.headers.set('cache-control', WORKER_CACHE_CONTROL);
+	ctx.waitUntil(cache.put(cacheKey, cacheResponse));
 	return response;
 };
 

@@ -13,6 +13,10 @@ Properly estimate your tasks with the help of a corgi.
 
 The Worker in `worker/` runs before static assets for `/` and `/og`. For share links (`/?i=&m=&v=&t=`) it adds Open Graph tags to the page, and `/og` renders the matching 1200×630 preview card as a PNG with satori and resvg. resvg can't decode WebP, so the corgi portrait is converted to PNG first. Rendered cards are cached in the Workers cache.
 
+All rendered previews (including defaults and unresolved links) have a five-minute Worker cache lifetime. After expiry, the next request checks the current message content and approval in Convex before rendering; an unapproved, deleted, or unavailable message produces the generic card. Edits and moderation changes can therefore take up to five minutes to appear on requests reaching the Worker. Image responses use `Cache-Control: no-store` on both cache hits and misses so browser and downstream CDN caches do not add another cache window.
+
+Generated image URLs include `rev=2`, and the Worker uses that version in its internal cache key even for older URLs, bypassing the previous one-year immutable Worker entries. Already-downloaded images at old URLs cannot be revoked from browser caches. Social platforms may also retain their own preview snapshots regardless of HTTP cache headers; refreshing those requires the platform's recrawl mechanism. Existing share links and saved estimates remain valid.
+
 ## Local development
 
 Use Node.js 22 and pnpm 11.
