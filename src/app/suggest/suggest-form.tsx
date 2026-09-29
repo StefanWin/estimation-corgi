@@ -14,8 +14,10 @@ import { Button } from '@/components/button';
 import { Link as NextLink } from '@/components/link';
 import { env } from '@/env';
 import { api } from '../../../convex/_generated/api';
-
-const MAX_MESSAGE_LENGTH = 72;
+import {
+	MAX_MESSAGE_LENGTH,
+	normalizeMessage,
+} from '../../../convex/message_normalization';
 
 export function SuggestForm() {
 	const posthog = usePostHog();
@@ -29,10 +31,11 @@ export function SuggestForm() {
 	const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
 	const turnStileKey = env.VITE_TURNSTILE_SITE_KEY;
-	const normalizedInput = input.trim().replaceAll(/\s+/g, ' ');
+	const normalizedInput = normalizeMessage(input);
+	const isTooLong = normalizedInput.length > MAX_MESSAGE_LENGTH;
 	const canSubmit =
 		normalizedInput.length > 0 &&
-		normalizedInput.length <= MAX_MESSAGE_LENGTH &&
+		!isTooLong &&
 		Boolean(turnstileToken) &&
 		!isSubmitting;
 
@@ -144,12 +147,12 @@ export function SuggestForm() {
 					required
 					value={input}
 					onChange={(e) => setInput(e.target.value)}
-					slotProps={{ htmlInput: { maxLength: MAX_MESSAGE_LENGTH } }}
+					error={isTooLong}
 					sx={{ '& .MuiInputBase-input': { px: 2.5, py: 2 } }}
 				/>
 				<Typography
 					variant="caption"
-					color="text.secondary"
+					color={isTooLong ? 'error' : 'text.secondary'}
 					sx={{ textAlign: 'right' }}
 				>
 					{normalizedInput.length}/{MAX_MESSAGE_LENGTH} characters
