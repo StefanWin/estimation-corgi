@@ -164,7 +164,8 @@ export function SuggestForm() {
 						onSuccess={handleCaptchaSuccess}
 						onExpire={resetCaptcha}
 						onError={() => {
-							resetCaptcha();
+							// Keep the widget mounted so Turnstile can apply its retry delay.
+							setTurnstileToken(null);
 							setError('failed to verify captcha');
 						}}
 					/>
