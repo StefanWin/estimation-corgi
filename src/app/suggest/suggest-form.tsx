@@ -28,6 +28,7 @@ export function SuggestForm() {
 	const [isSubmitted, setIsSubmitted] = useState<boolean>(false);
 	const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
 	const [captchaRenderKey, setCaptchaRenderKey] = useState(0);
+	const [isCaptchaInteractive, setIsCaptchaInteractive] = useState(false);
 	const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
 	const turnStileKey = env.VITE_TURNSTILE_SITE_KEY;
@@ -41,6 +42,7 @@ export function SuggestForm() {
 
 	const resetCaptcha = () => {
 		setTurnstileToken(null);
+		setIsCaptchaInteractive(false);
 		setCaptchaRenderKey((currentValue) => currentValue + 1);
 	};
 
@@ -157,10 +159,21 @@ export function SuggestForm() {
 				>
 					{normalizedInput.length}/{MAX_MESSAGE_LENGTH} characters
 				</Typography>
-				<Box sx={{ display: 'flex', justifyContent: 'center', width: '100%' }}>
+				<Box
+					sx={{
+						display: 'flex',
+						justifyContent: 'center',
+						width: '100%',
+						// Avoid an extra form gap while the challenge is hidden.
+						mt: isCaptchaInteractive ? undefined : '0 !important',
+					}}
+				>
 					<Turnstile
 						key={captchaRenderKey}
 						siteKey={turnStileKey}
+						options={{ appearance: 'interaction-only', size: 'normal' }}
+						onBeforeInteractive={() => setIsCaptchaInteractive(true)}
+						onAfterInteractive={() => setIsCaptchaInteractive(false)}
 						onSuccess={handleCaptchaSuccess}
 						onExpire={resetCaptcha}
 						onError={() => {
