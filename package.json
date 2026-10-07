@@ -4,11 +4,11 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "convex dev --start \"vite dev\"",
-    "build": "tsc --noEmit && vite build",
+    "dev": "convex dev --start \"cf dev\"",
+    "build": "pnpm run types && cf build",
     "preview": "vite preview",
-    "deploy": "wrangler deploy",
-    "types": "tsc --noEmit",
+    "deploy": "cf deploy --prebuilt",
+    "types": "cf workers types && tsc --noEmit",
     "lint": "biome check .",
     "format": "biome check --write",
     "convex:migrate": "convex run --prod convex/migrations.ts:runAll",
@@ -36,15 +36,15 @@
   },
   "devDependencies": {
     "@biomejs/biome": "2.5.15",
-    "@cloudflare/vite-plugin": "1.62.5",
+    "@cloudflare/vite-plugin": "2.0.0-beta.sha-52b0dc0e9",
     "@cloudflare/workers-types": "5.20261005.1",
     "@types/node": "26.6.4",
     "@types/react": "19.3.0",
     "@types/react-dom": "19.3.0",
     "@vitejs/plugin-react": "6.1.1",
+    "cf": "1.0.0-beta.12",
     "typescript": "7.0.2",
-    "vite": "8.3.2",
-    "wrangler": "4.147.0"
+    "vite": "8.3.2"
   },
   "packageManager": "pnpm@12.10.1",
   "engines": {
