@@ -5,7 +5,7 @@ Properly estimate your tasks with the help of a corgi.
 ## Stack
 
 - React 19 + Vite
-- Cloudflare Workers via the Cloudflare Vite plugin
+- Cloudflare Workers via the `cf` CLI and the Cloudflare Vite plugin
 - Convex for the message data and submissions
 - Material UI and TypeScript
 
@@ -19,7 +19,7 @@ Generated image URLs include `rev=2`, and the Worker uses that version in its in
 
 ## Local development
 
-Use Node.js 22 and pnpm 11.
+Use Node.js 22.18 or later and pnpm 11.
 
 ```powershell
 pnpm install
@@ -33,7 +33,7 @@ In a second terminal, run:
 pnpm dev
 ```
 
-The Vite development server uses the Workers runtime integration. Set the client-side variables in `.env.local`:
+`pnpm dev` runs `cf dev`, which starts the Vite development server with the Workers runtime integration. The Worker is configured in `cloudflare.config.ts`. Set the client-side variables in `.env.local`:
 
 ```dotenv
 VITE_CONVEX_URL=https://your-deployment.convex.cloud
@@ -56,11 +56,11 @@ Deployments run through Cloudflare's Git integration, never locally. Configure:
 - Deploy command: `pnpm run deploy:convex`
 - Build environment: the production `CONVEX_DEPLOY_KEY` and the `VITE_*` values above. `VITE_CONVEX_URL` must point to the same production deployment as the deploy key because Vite embeds it during the separate build step.
 
-The build command creates the SPA assets and `dist/wrangler.json`. The deploy command deploys Convex first, invokes production migrations with `--prod`, then calls Wrangler to publish the already-built assets. A failed Convex deployment or migration invocation stops the chain before publishing the frontend. Migrations run in the background, so successful invocation does not mean their backfills have finished; schema-tightening changes require the completed backfill described above.
+The build command generates the Worker types, type-checks, and runs `cf build`, which writes the SPA assets and Worker to `.cloudflare/output`. The deploy command deploys Convex first, invokes production migrations with `--prod`, then calls `cf deploy --prebuilt` to publish the already-built output. A failed Convex deployment or migration invocation stops the chain before publishing the frontend. Migrations run in the background, so successful invocation does not mean their backfills have finished; schema-tightening changes require the completed backfill described above.
 
-`pnpm run deploy` only calls Wrangler; it does not build the SPA. Do not commit `dist`.
+`pnpm run deploy` only calls `cf deploy --prebuilt`; it does not build the SPA. Do not commit `.cloudflare`.
 
-`wrangler.jsonc` enables `single-page-application` fallback, so direct navigation to `/suggest`, `/meta`, and `/privacy` works on the Worker. Configure a custom domain or Workers route in Cloudflare after the first deploy.
+`cloudflare.config.ts` enables `single-page-application` fallback, so direct navigation to `/suggest`, `/meta`, and `/privacy` works on the Worker. Configure a custom domain or Workers route in Cloudflare after the first deploy.
 
 ## Useful commands
 

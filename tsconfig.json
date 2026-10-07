@@ -25,6 +25,7 @@
     "types": ["vite/client", "node"]
   },
   "include": [
+    ".cloudflare/types",
     "**/*.ts",
     "**/*.tsx"
   ],
