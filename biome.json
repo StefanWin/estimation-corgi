@@ -13,7 +13,7 @@
 			"**/*.tsx",
 			"!convex/_generated/*",
 			"!node_modules/*",
-			"!worker-configuration.d.ts"
+			"!.cloudflare"
 		]
 	},
 	"formatter": {

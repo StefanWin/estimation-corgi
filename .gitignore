@@ -47,6 +47,7 @@ next-env.d.ts
 # webstorm
 .idea/
 .wrangler/
+.cloudflare/
 
 .dev.vars
 
