@@ -15,7 +15,7 @@ updates:
     assignees:
       - StefanWin
     ignore:
-      # Keep in step with the Node 22 runtime (engines + CI); bump the major
+      # Keep in step with the Node 24 runtime (engines + CI); bump the major
       # together with the runtime.
       - dependency-name: "@types/node"
         update-types:

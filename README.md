@@ -19,7 +19,7 @@ Generated image URLs include `rev=2`, and the Worker uses that version in its in
 
 ## Local development
 
-Use Node.js 22.18 or later and pnpm 11.
+Use Node.js 24 and pnpm 12.
 
 ```powershell
 pnpm install
