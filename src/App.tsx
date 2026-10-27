@@ -5,7 +5,6 @@ import NotFound from '@/app/not-found';
 import Home from '@/app/page';
 import PrivacyPage from '@/app/privacy/page';
 import SuggestPage from '@/app/suggest/page';
-import { AnalyticsConsentBanner } from '@/components/analytics-consent-banner';
 import { ConvexClientProvider } from '@/components/convex-provider';
 import { Footer } from '@/components/footer';
 import { MuiProvider } from '@/components/mui-provider';
@@ -65,7 +64,6 @@ export default function App() {
 						</Box>
 						<Footer />
 					</Box>
-					<AnalyticsConsentBanner />
 				</ConvexClientProvider>
 			</NotificationProvider>
 		</MuiProvider>
