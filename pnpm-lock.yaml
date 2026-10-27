@@ -251,13 +251,13 @@ importers:
         version: 2.6.2
       '@cloudflare/vite-plugin':
         specifier: 2.0.0-beta.v.4
-        version: 2.0.0-beta.v.4(@types/node@26.6.5)(vite@8.3.5(@types/node@26.6.5)(esbuild@0.27.0))(workerd@1.20261019.1)
+        version: 2.0.0-beta.v.4(@types/node@22.20.5)(vite@8.3.5(@types/node@22.20.5)(esbuild@0.27.0))(workerd@1.20261019.1)
       '@cloudflare/workers-types':
         specifier: 5.20261023.1
         version: 5.20261023.1
       '@types/node':
-        specifier: 26.6.5
-        version: 26.6.5
+        specifier: 22.20.5
+        version: 22.20.5
       '@types/react':
         specifier: 19.3.0
         version: 19.3.0
@@ -266,16 +266,16 @@ importers:
         version: 19.3.0(@types/react@19.3.0)
       '@vitejs/plugin-react':
         specifier: 6.1.2
-        version: 6.1.2(vite@8.3.5(@types/node@26.6.5)(esbuild@0.27.0))
+        version: 6.1.2(vite@8.3.5(@types/node@22.20.5)(esbuild@0.27.0))
       cf:
         specifier: 1.0.0-beta.21
-        version: 1.0.0-beta.21(@types/node@26.6.5)
+        version: 1.0.0-beta.21(@types/node@22.20.5)
       typescript:
         specifier: 7.0.2
         version: 7.0.2
       vite:
         specifier: 8.3.5
-        version: 8.3.5(@types/node@26.6.5)(esbuild@0.27.0)
+        version: 8.3.5(@types/node@22.20.5)(esbuild@0.27.0)
 
 packages:
 
@@ -1121,8 +1121,8 @@ packages:
   '@speed-highlight/core@1.2.17':
     resolution: {integrity: sha512-Z92FwKpCtfaW1V0jTU/fh3QzYEZN8wDwrzRIBoADCJfn4mJCNcJN/XegifX7BDrQ8/h9Xh/JnbyMchL0FqXrkg==}
 
-  '@types/node@26.6.5':
-    resolution: {integrity: sha512-uMzsv9stDdofIZBx4UGh4Z9ZgXnGC9seRDscilBcTHAeOFk67MZg/k9bWVfO+bk4qZmG+l52hRnLwUiH2LnJTg==}
+  '@types/node@22.20.5':
+    resolution: {integrity: sha512-U2+DNr+wSjpsTS/wZGYHq7GcwfuSmKiKvoPvK22zwTlRhU91yOniN4qRR5KhIjvif7ysw/dz/hKmfDH0Ris4aA==}
 
   '@types/parse-json@4.0.2':
     resolution: {integrity: sha512-dISoDXWWQwUquiKsyZ4Ng+HX2KsPL7LyHKHQwgGFEA3IaKac4Obd+h2a/a6waisAoepJlBcx9paWqjA8/HVjCw==}
@@ -1785,8 +1785,8 @@ packages:
     engines: {node: '>=16.20.0'}
     hasBin: true
 
-  undici-types@8.9.0:
-    resolution: {integrity: sha512-KTDyRTYX8sWmKXAikPHHSyc63CRPETMctyjKFupcC6OBLXT3xsN0e9aF7m+mIXutFWpUXuedtowG7iLOzp0kQg==}
+  undici-types@6.21.0:
+    resolution: {integrity: sha512-iwDZqg0QAGrg9Rav5H4n0M64c3mkR59cJ6wQp+7C4nI0gsmExaedaYLNO44eT4AtBBwjbTiGPMlt2Md0T9H9JQ==}
 
   undici@7.29.1:
     resolution: {integrity: sha512-RYONW2MeafgYlkVOKYKkA/Ag7BmXqgIWCa8t1m0JcxrQg9pI9lEqRhAOruOBCbAohOa/gkCF+iPi9hrgvTzu6Q==}
@@ -2012,9 +2012,9 @@ snapshots:
     dependencies:
       zod: 4.6.5
 
-  '@cloudflare/runtime-types@0.1.15(@types/node@26.6.5)':
+  '@cloudflare/runtime-types@0.1.15(@types/node@22.20.5)':
     dependencies:
-      miniflare: 5.20261019.2-beta(@types/node@26.6.5)
+      miniflare: 5.20261019.2-beta(@types/node@22.20.5)
       workerd: 1.20261019.1
     transitivePeerDependencies:
       - '@types/node'
@@ -2027,15 +2027,15 @@ snapshots:
     optionalDependencies:
       workerd: 1.20261019.1
 
-  '@cloudflare/vite-plugin@2.0.0-beta.v.4(@types/node@26.6.5)(vite@8.3.5(@types/node@26.6.5)(esbuild@0.27.0))(workerd@1.20261019.1)':
+  '@cloudflare/vite-plugin@2.0.0-beta.v.4(@types/node@22.20.5)(vite@8.3.5(@types/node@22.20.5)(esbuild@0.27.0))(workerd@1.20261019.1)':
     dependencies:
       '@cloudflare/build-output-utils': 0.9.4
       '@cloudflare/config': 0.28.0
-      '@cloudflare/runtime-types': 0.1.15(@types/node@26.6.5)
+      '@cloudflare/runtime-types': 0.1.15(@types/node@22.20.5)
       '@cloudflare/unenv-preset': 2.16.2(unenv@2.0.0-rc.24)(workerd@1.20261019.1)
-      miniflare: 5.20261019.2-beta(@types/node@26.6.5)
+      miniflare: 5.20261019.2-beta(@types/node@22.20.5)
       unenv: 2.0.0-rc.24
-      vite: 8.3.5(@types/node@26.6.5)(esbuild@0.27.0)
+      vite: 8.3.5(@types/node@22.20.5)(esbuild@0.27.0)
       ws: 8.21.0
     transitivePeerDependencies:
       - '@types/node'
@@ -2574,9 +2574,9 @@ snapshots:
 
   '@speed-highlight/core@1.2.17': {}
 
-  '@types/node@26.6.5':
+  '@types/node@22.20.5':
     dependencies:
-      undici-types: 8.9.0
+      undici-types: 6.21.0
 
   '@types/parse-json@4.0.2': {}
 
@@ -2657,10 +2657,10 @@ snapshots:
   '@typescript/typescript-win32-x64@7.0.2':
     optional: true
 
-  '@vitejs/plugin-react@6.1.2(vite@8.3.5(@types/node@26.6.5)(esbuild@0.27.0))':
+  '@vitejs/plugin-react@6.1.2(vite@8.3.5(@types/node@22.20.5)(esbuild@0.27.0))':
     dependencies:
       '@rolldown/pluginutils': 1.0.1
-      vite: 8.3.5(@types/node@26.6.5)(esbuild@0.27.0)
+      vite: 8.3.5(@types/node@22.20.5)(esbuild@0.27.0)
 
   babel-plugin-macros@3.1.0:
     dependencies:
@@ -2676,13 +2676,13 @@ snapshots:
 
   camelize@1.0.1: {}
 
-  cf@1.0.0-beta.21(@types/node@26.6.5):
+  cf@1.0.0-beta.21(@types/node@22.20.5):
     dependencies:
       '@cloudflare/build-output-utils': 0.9.4
       '@cloudflare/config': 0.28.0
-      '@cloudflare/runtime-types': 0.1.15(@types/node@26.6.5)
+      '@cloudflare/runtime-types': 0.1.15(@types/node@22.20.5)
       blake3-wasm: 2.1.5
-      miniflare: 5.20261019.2-beta(@types/node@26.6.5)
+      miniflare: 5.20261019.2-beta(@types/node@22.20.5)
     transitivePeerDependencies:
       - '@types/node'
       - bufferutil
@@ -2938,10 +2938,10 @@ snapshots:
     optionalDependencies:
       '@types/react': 19.3.0
 
-  miniflare@5.20261019.2-beta(@types/node@26.6.5):
+  miniflare@5.20261019.2-beta(@types/node@22.20.5):
     dependencies:
       '@cspotcode/source-map-support': 0.8.1
-      sharp: 0.35.5(@types/node@26.6.5)
+      sharp: 0.35.5(@types/node@22.20.5)
       undici: 7.29.1
       workerd: 1.20261019.1
       ws: 8.21.0
@@ -3091,7 +3091,7 @@ snapshots:
 
   semver@7.8.5: {}
 
-  sharp@0.35.5(@types/node@26.6.5):
+  sharp@0.35.5(@types/node@22.20.5):
     dependencies:
       '@img/colour': 1.1.0
       detect-libc: 2.1.2
@@ -3122,7 +3122,7 @@ snapshots:
       '@img/sharp-win32-arm64': 0.35.5
       '@img/sharp-win32-ia32': 0.35.5
       '@img/sharp-win32-x64': 0.35.5
-      '@types/node': 26.6.5
+      '@types/node': 22.20.5
 
   source-map-js@1.2.2: {}
 
@@ -3169,7 +3169,7 @@ snapshots:
       '@typescript/typescript-win32-arm64': 7.0.2
       '@typescript/typescript-win32-x64': 7.0.2
 
-  undici-types@8.9.0: {}
+  undici-types@6.21.0: {}
 
   undici@7.29.1: {}
 
@@ -3182,7 +3182,7 @@ snapshots:
       pako: 0.2.9
       tiny-inflate: 1.0.3
 
-  vite@8.3.5(@types/node@26.6.5)(esbuild@0.27.0):
+  vite@8.3.5(@types/node@22.20.5)(esbuild@0.27.0):
     dependencies:
       lightningcss: 1.33.0
       picomatch: 4.0.7
@@ -3190,7 +3190,7 @@ snapshots:
       rolldown: 1.2.15
       tinyglobby: 0.2.17
     optionalDependencies:
-      '@types/node': 26.6.5
+      '@types/node': 22.20.5
       esbuild: 0.27.0
       fsevents: 2.3.3
 
