@@ -6,13 +6,22 @@ updates:
     schedule:
       interval: weekly
       day: monday
-    # Matches minimumReleaseAge in pnpm-workspace.yaml (2.5 days).
+    # Covers minimumReleaseAge in pnpm-workspace.yaml (3600 min = 2.5 days).
     cooldown:
       default-days: 3
     commit-message:
       prefix: chore
       include: scope
+    assignees:
+      - StefanWin
     groups:
+      # cf and the Vite plugin ship as prereleases, which don't count as
+      # minor/patch and would otherwise each get their own PR. Listed first
+      # because a dependency goes into the first group it matches.
+      cloudflare:
+        patterns:
+          - cf
+          - "@cloudflare/*"
       dependencies:
         update-types:
           - minor
@@ -29,6 +38,8 @@ updates:
     commit-message:
       prefix: chore
       include: scope
+    assignees:
+      - StefanWin
     groups:
       actions:
         patterns:
