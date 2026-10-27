@@ -14,6 +14,12 @@ updates:
       include: scope
     assignees:
       - StefanWin
+    ignore:
+      # Keep in step with the Node 22 runtime (engines + CI); bump the major
+      # together with the runtime.
+      - dependency-name: "@types/node"
+        update-types:
+          - version-update:semver-major
     groups:
       # cf and the Vite plugin ship as prereleases, which don't count as
       # minor/patch and would otherwise each get their own PR. Listed first
