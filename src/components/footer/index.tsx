@@ -1,10 +1,8 @@
 'use client';
 
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import MuiLink from '@mui/material/Link';
 import type { FC } from 'react';
-import { useAnalyticsConsent } from '@/components/analytics-consent-provider';
 import { Link } from '@/components/link';
 
 const footerActionStyles = {
@@ -17,8 +15,6 @@ const footerActionStyles = {
 };
 
 export const Footer: FC = () => {
-	const { consentStatus, setConsent } = useAnalyticsConsent();
-
 	return (
 		<Box
 			component="footer"
@@ -64,24 +60,6 @@ export const Footer: FC = () => {
 			>
 				built {__BUILD_DATE__} · {__COMMIT_SHA__}
 			</MuiLink>
-			{consentStatus === 'granted' && (
-				<Button
-					sx={footerActionStyles}
-					type="button"
-					onClick={() => setConsent('denied')}
-				>
-					opt-out
-				</Button>
-			)}
-			{consentStatus === 'denied' && (
-				<Button
-					sx={footerActionStyles}
-					type="button"
-					onClick={() => setConsent('granted')}
-				>
-					opt-in
-				</Button>
-			)}
 		</Box>
 	);
 };

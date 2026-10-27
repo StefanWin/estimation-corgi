@@ -38,8 +38,6 @@ pnpm dev
 ```dotenv
 VITE_CONVEX_URL=https://your-deployment.convex.cloud
 VITE_TURNSTILE_SITE_KEY=
-VITE_POSTHOG_KEY=
-VITE_POSTHOG_HOST=https://eu.i.posthog.com
 ```
 
 Convex secrets such as `TURNSTILE_SECRET_KEY` remain in the Convex deployment; they are not exposed to the browser or Worker.

@@ -8,7 +8,6 @@ import Stack from '@mui/material/Stack';
 import TextField from '@mui/material/TextField';
 import Typography from '@mui/material/Typography';
 import { useAction } from 'convex/react';
-import { usePostHog } from 'posthog-js/react';
 import { type SubmitEventHandler, useState } from 'react';
 import { Button } from '@/components/button';
 import { Link as NextLink } from '@/components/link';
@@ -20,7 +19,6 @@ import {
 } from '../../../convex/message_normalization';
 
 export function SuggestForm() {
-	const posthog = usePostHog();
 	const createMessage = useAction(api.messages.createMessage);
 
 	const [input, setInput] = useState('');
@@ -68,7 +66,6 @@ export function SuggestForm() {
 				setInput('');
 				setError(null);
 				setIsSubmitted(true);
-				posthog.capture('message_suggested');
 			})
 			.catch((error) => {
 				console.error(error);
@@ -77,10 +74,6 @@ export function SuggestForm() {
 						? error.message
 						: 'failed to suggest a message',
 				);
-				posthog.captureException(error, {
-					input,
-					normalizedInput,
-				});
 			})
 			.finally(() => {
 				resetCaptcha();

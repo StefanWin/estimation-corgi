@@ -5,7 +5,6 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { useMutation, useQuery } from 'convex/react';
 import { Copy, LucideThumbsUp, Share2 } from 'lucide-react';
-import { usePostHog } from 'posthog-js/react';
 import { useCallback, useEffect, useState } from 'react';
 import { Message } from '@/components/message';
 import { useNotification } from '@/components/notification-provider';
@@ -77,7 +76,6 @@ const isEditableTarget = (target: EventTarget | null) => {
 export function MessageContainer({
 	initialEstimateState,
 }: Readonly<MessageContainerProps>) {
-	const posthog = usePostHog();
 	const notify = useNotification();
 	const messages = useQuery(api.messages.getApprovedMessages);
 	const likeMessage = useMutation(api.messages.likeMessage);
@@ -121,7 +119,6 @@ export function MessageContainer({
 			return;
 		}
 
-		posthog.capture('new_message');
 		setMessageId((previousId) => {
 			const previousIndex = messages.findIndex(
 				(candidate) => candidate._id === previousId,
@@ -139,14 +136,12 @@ export function MessageContainer({
 		setValueIndex(getRandomIndex(ESTIMATION_HOURS.length));
 		setIsImageLoaded(false);
 		setIsUrlSynced(true);
-	}, [messages, nextImageIndex, posthog]);
+	}, [messages, nextImageIndex]);
 
 	const onCopyEstimate = useCallback(async () => {
 		if (!message) {
 			return;
 		}
-
-		posthog.capture('copy_estimate', { has_task: normalizedTask.length > 0 });
 
 		try {
 			await navigator.clipboard.writeText(
@@ -154,17 +149,15 @@ export function MessageContainer({
 			);
 			notify('Estimate copied', 'success');
 		} catch (error: unknown) {
+			console.error(error);
 			notify('Failed to copy estimate', 'error');
-			posthog.captureException(error);
 		}
-	}, [displayValue, message, normalizedTask, posthog, notify]);
+	}, [displayValue, message, normalizedTask, notify]);
 
 	const onShareEstimate = useCallback(async () => {
 		if (!message) {
 			return;
 		}
-
-		posthog.capture('share_estimate', { has_task: normalizedTask.length > 0 });
 
 		const shareUrl = getShareUrl(globalThis.location.origin, {
 			imageIndex,
@@ -188,18 +181,10 @@ export function MessageContainer({
 			await navigator.clipboard.writeText(shareUrl);
 			notify('Share link copied', 'success');
 		} catch (error: unknown) {
+			console.error(error);
 			notify('Failed to share estimate', 'error');
-			posthog.captureException(error);
 		}
-	}, [
-		displayValue,
-		imageIndex,
-		message,
-		normalizedTask,
-		valueIndex,
-		posthog,
-		notify,
-	]);
+	}, [displayValue, imageIndex, message, normalizedTask, valueIndex, notify]);
 
 	const onMessageLiked = useCallback(async () => {
 		if (!message) {
@@ -224,13 +209,12 @@ export function MessageContainer({
 				notify('You already liked this message', 'info');
 				return;
 			}
-			posthog.capture('message_liked');
 			notify('Message liked', 'success');
 		} catch (err: unknown) {
+			console.error(err);
 			notify('Failed to like message', 'error');
-			posthog.captureException(err);
 		}
-	}, [isLiked, likeClientId, likeMessage, message, posthog, notify]);
+	}, [isLiked, likeClientId, likeMessage, message, notify]);
 
 	useEffect(() => {
 		if (messages === undefined) {
