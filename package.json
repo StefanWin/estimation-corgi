@@ -35,13 +35,13 @@
   },
   "devDependencies": {
     "@biomejs/biome": "2.6.8",
-    "@cloudflare/vite-plugin": "2.0.0-beta.v.17",
+    "@cloudflare/vite-plugin": "2.0.0-rc.3",
     "@cloudflare/workers-types": "5.20261120.1",
     "@types/node": "24.19.2",
     "@types/react": "19.3.0",
     "@types/react-dom": "19.3.0",
     "@vitejs/plugin-react": "6.3.0",
-    "cf": "1.0.0-beta.31",
+    "cf": "1.0.0-rc.2",
     "typescript": "7.0.2",
     "vite": "8.3.8"
   },
