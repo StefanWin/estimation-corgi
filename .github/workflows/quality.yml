@@ -33,3 +33,6 @@ jobs:
 
       - name: Run lint
         run: pnpm run lint
+
+      - name: Run build
+        run: pnpm run build
